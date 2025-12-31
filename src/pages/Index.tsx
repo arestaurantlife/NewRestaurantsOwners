@@ -1,13 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from "react-helmet-async";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import Pricing from "@/components/Pricing";
+import Testimonials from "@/components/Testimonials";
+import FAQ from "@/components/FAQ";
+import CTA from "@/components/CTA";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <>
+      <Helmet>
+        <title>NewRestaurantOwners.com | Master Your Restaurant's Financial Success</title>
+        <meta 
+          name="description" 
+          content="Get expert guidance on financial operations, labor & food costs, employee training, and essential operational forms. Everything you need to run a profitable restaurant." 
+        />
+        <meta name="keywords" content="restaurant management, restaurant training, food cost control, labor cost management, restaurant operations, new restaurant owner" />
+        <link rel="canonical" href="https://newrestaurantowners.com" />
+      </Helmet>
+      
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main>
+          <Hero />
+          <Features />
+          <Pricing />
+          <Testimonials />
+          <FAQ />
+          <CTA />
+        </main>
+        <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
