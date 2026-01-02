@@ -34,7 +34,7 @@ const Pricing = () => {
             Invest in Your{" "}
             <span className="text-primary">Restaurant's Success</span>
           </h2>
-          <p className="text-lg text-muted-foreground">Choose the plan that fits your needs. All plans include a 7-day free trial—no credit card required.</p>
+          <p className="text-lg text-muted-foreground">Choose the plan that fits your needs. All plans include a 14-day free trial—no credit card required.</p>
         </div>
 
         {/* Pricing Cards */}
