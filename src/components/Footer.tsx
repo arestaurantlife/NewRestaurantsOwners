@@ -1,5 +1,7 @@
-import { Mail, Phone, MapPin } from "lucide-react";
-const Footer = () => {
+import { forwardRef } from "react";
+import { Mail, Phone } from "lucide-react";
+
+const Footer = forwardRef<HTMLElement>((props, ref) => {
   const footerLinks = {
     product: [{
       label: "Features",
@@ -51,7 +53,7 @@ const Footer = () => {
       href: "#"
     }]
   };
-  return <footer className="bg-charcoal text-primary-foreground">
+  return <footer ref={ref} className="bg-charcoal text-primary-foreground" {...props}>
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12">
           {/* Brand Column */}
@@ -67,11 +69,13 @@ const Footer = () => {
               community they need to build profitable businesses.
             </p>
             <div className="space-y-3">
-              <a href="mailto:hello@newrestaurantowners.com" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">Support@newrestaurantowners.com<Mail className="w-5 h-5" />
-                hello@newrestaurantowners.com
+              <a href="mailto:support@newrestaurantowners.com" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
+                <Mail className="w-5 h-5" />
+                support@newrestaurantowners.com
               </a>
-              <a href="tel:+1234567890" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">(720) 755-9008<Phone className="w-5 h-5" />
-                (123) 456-7890
+              <a href="tel:+17207559008" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
+                <Phone className="w-5 h-5" />
+                (720) 755-9008
               </a>
             </div>
           </div>
@@ -171,5 +175,8 @@ const Footer = () => {
         </div>
       </div>
     </footer>;
-};
+});
+
+Footer.displayName = "Footer";
+
 export default Footer;
