@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import { Mail, Phone } from "lucide-react";
-
 const Footer = forwardRef<HTMLElement>((props, ref) => {
   const footerLinks = {
     product: [{
@@ -59,9 +58,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <a href="/" className="inline-block mb-4">
-              <span className="font-display text-2xl font-bold text-primary-foreground">
-                NewRestaurantOwners
-              </span>
+              <span className="font-display text-2xl font-bold text-primary-foreground">NewRestaurantsOwners</span>
               <span className="text-gold font-display text-2xl">.com</span>
             </a>
             <p className="text-primary-foreground/70 mb-6 max-w-sm">
@@ -69,8 +66,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
               community they need to build profitable businesses.
             </p>
             <div className="space-y-3">
-              <a href="mailto:support@newrestaurantowners.com" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
-                <Mail className="w-5 h-5" />
+              <a href="mailto:support@newrestaurantowners.com" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">support@newrestaurantsowners.com<Mail className="w-5 h-5" />
                 support@newrestaurantowners.com
               </a>
               <a href="tel:+17207559008" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
@@ -176,7 +172,5 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
       </div>
     </footer>;
 });
-
 Footer.displayName = "Footer";
-
 export default Footer;
