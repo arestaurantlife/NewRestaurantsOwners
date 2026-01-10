@@ -1,19 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import heroVideo from "@/assets/hero-restaurant-video.mp4";
-
 const Hero = () => {
   return <section className="relative min-h-screen flex items-center pt-20">
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <video 
-          src={heroVideo} 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="w-full h-full object-cover"
-        />
+        <video src={heroVideo} autoPlay loop muted playsInline className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40" />
       </div>
 
@@ -59,9 +51,7 @@ const Hero = () => {
           animationDelay: "0.5s"
         }}>
             <div className="flex -space-x-3">
-              {[1, 2, 3, 4, 5].map(i => <div key={i} className="w-10 h-10 rounded-full bg-cream border-2 border-charcoal flex items-center justify-center text-sm font-semibold text-charcoal">
-                  {String.fromCharCode(64 + i)}
-                </div>)}
+              {[1, 2, 3, 4, 5].map(i => {})}
             </div>
             <div className="text-primary-foreground/80">
               <div className="flex items-center gap-1">
