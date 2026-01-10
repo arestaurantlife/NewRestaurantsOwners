@@ -37,7 +37,11 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{
           animationDelay: "0.4s"
         }}>
-            <Button variant="hero" size="xl">
+            <Button 
+              variant="hero" 
+              size="xl"
+              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Start Your Free Trial
               <ArrowRight className="w-5 h-5" />
             </Button>
@@ -51,7 +55,7 @@ const Hero = () => {
           animationDelay: "0.5s"
         }}>
             <div className="flex -space-x-3">
-              {[1, 2, 3, 4, 5].map(i => {})}
+              {[1, 2, 3, 4, 5].map(i => null)}
             </div>
             <div className="text-primary-foreground/80">
               <div className="flex items-center gap-1">
