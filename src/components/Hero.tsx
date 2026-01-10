@@ -1,11 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
-import heroImage from "@/assets/hero-restaurant.jpg";
+import heroVideo from "@/assets/hero-restaurant-video.mp4";
+
 const Hero = () => {
   return <section className="relative min-h-screen flex items-center pt-20">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <img src={heroImage} alt="Elegant restaurant interior" className="w-full h-full object-cover" />
+        <video 
+          src={heroVideo} 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="w-full h-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40" />
       </div>
 
