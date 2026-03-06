@@ -39,9 +39,21 @@ serve(async (req) => {
     if (!user?.email) throw new Error("User not authenticated or email not available");
     logStep("User authenticated", { userId: user.id, email: user.email });
 
+    const ALLOWED_PRICE_IDS = new Set([
+      "price_1SnFjL7hlrnyTBF1Yy2TWm9C", // starter
+      "price_1SnFjg7hlrnyTBF1ZJ5this6", // professional
+      "price_1SnFkL7hlrnyTBF1VP2iYmm3", // enterprise
+    ]);
+
     const { priceId } = await req.json();
-    if (!priceId) throw new Error("Price ID is required");
-    logStep("Price ID received", { priceId });
+    if (!priceId || !ALLOWED_PRICE_IDS.has(priceId)) {
+      logStep("Invalid price ID rejected", { priceId });
+      return new Response(JSON.stringify({ error: "Invalid price ID" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      });
+    }
+    logStep("Price ID validated", { priceId });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
     
