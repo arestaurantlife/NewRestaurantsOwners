@@ -76,7 +76,15 @@ serve(async (req) => {
       }
     }
 
-    const origin = req.headers.get("origin") || "http://localhost:5173";
+    const ALLOWED_ORIGINS = new Set([
+      "https://newrestaurantsowners.lovable.app",
+      "http://localhost:5173",
+      "http://localhost:8080",
+    ]);
+    const requestOrigin = req.headers.get("origin") ?? "";
+    const origin = ALLOWED_ORIGINS.has(requestOrigin)
+      ? requestOrigin
+      : "https://newrestaurantsowners.lovable.app";
     
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
