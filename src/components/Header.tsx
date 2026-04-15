@@ -26,11 +26,10 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <span className="font-display text-xl md:text-2xl font-bold text-primary">
-              NewRestaurantsOwners
+          <a href="/" className="flex items-center">
+            <span className="font-display text-xl md:text-2xl font-bold text-foreground">
+              NewRestaurantsOwners.com
             </span>
-            <span className="text-gold font-display text-xl md:text-2xl">.com</span>
           </a>
 
           {/* Desktop Navigation */}
