@@ -144,9 +144,8 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <a href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="font-display text-2xl font-bold text-primary">NewRestaurantsOwners</span>
-            <span className="text-gold font-display text-2xl">.com</span>
+          <a href="/" className="inline-flex items-center mb-6">
+            <span className="font-display text-2xl font-bold text-foreground">NewRestaurantsOwners.com</span>
           </a>
         </div>
 

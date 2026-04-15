@@ -58,8 +58,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <a href="/" className="inline-block mb-4">
-              <span className="font-display text-2xl font-bold text-primary-foreground">NewRestaurantsOwners</span>
-              <span className="text-gold font-display text-2xl">.com</span>
+              <span className="font-display text-2xl font-bold text-primary-foreground">NewRestaurantsOwners.com</span>
             </a>
             <p className="text-primary-foreground/70 mb-6 max-w-sm">
               Empowering new restaurant owners with the tools, training, and 
