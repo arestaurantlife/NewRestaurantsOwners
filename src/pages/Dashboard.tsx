@@ -84,9 +84,8 @@ const Dashboard = () => {
       {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2">
-            <span className="font-display text-xl font-bold text-primary">NewRestaurantsOwners</span>
-            <span className="text-gold font-display text-xl">.com</span>
+          <a href="/" className="flex items-center">
+            <span className="font-display text-xl font-bold text-foreground">NewRestaurantsOwners.com</span>
           </a>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
