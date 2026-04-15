@@ -72,8 +72,8 @@ const Auth = () => {
             });
           } else {
             toast({
-              title: "Login failed",
-              description: error.message,
+              title: "Something went wrong",
+              description: "Please try again later.",
               variant: "destructive",
             });
           }
@@ -108,8 +108,8 @@ const Auth = () => {
             });
           } else {
             toast({
-              title: "Sign up failed",
-              description: error.message,
+              title: "Something went wrong",
+              description: "Please try again later.",
               variant: "destructive",
             });
           }
