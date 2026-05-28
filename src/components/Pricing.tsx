@@ -84,7 +84,7 @@ const Pricing = () => {
             Invest in Your{" "}
             <span className="text-primary">Restaurant's Success</span>
           </h2>
-          <p className="text-lg text-muted-foreground">Choose the plan that fits your needs. All plans include a 14-day free trial—credit card required.</p>
+          <p className="text-lg text-muted-foreground">Choose the plan that fits your needs. All plans include a 7-day free trial—credit card required.</p>
         </div>
 
         {/* Pricing Cards */}
@@ -146,7 +146,7 @@ const Pricing = () => {
 
         {/* Money-back guarantee */}
         <p className="text-center text-muted-foreground mt-10">
-          💰 30-day money-back guarantee.
+          💰 14-day money-back guarantee.
         </p>
       </div>
     </section>;

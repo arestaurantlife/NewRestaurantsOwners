@@ -7,7 +7,7 @@ const faqs = [{
   answer: "While free content can be helpful, it's often scattered, outdated, or comes from people without real restaurant experience. Our platform provides a structured, comprehensive system with downloadable templates, calculators, and forms you can immediately implement—all created by industry professionals."
 }, {
   question: "Can I cancel my subscription at any time?",
-  answer: "Yes, you can cancel your subscription at any time with no penalties or hidden fees. You'll continue to have access until the end of your current billing period. Plus, we offer a 30-day money-back guarantee."
+  answer: "Yes, you can cancel your subscription at any time with no penalties or hidden fees. You'll continue to have access until the end of your current billing period. Plus, we offer a 14-day money-back guarantee."
 }, {
   question: "How quickly will I see results?",
   answer: "Most members start seeing improvements within the first 2-4 weeks. Whether it's reduced food waste, better labor scheduling, or improved financial clarity—the impact is often immediate when you implement our proven systems."
@@ -16,7 +16,7 @@ const faqs = [{
   answer: "Yes! All plans include email support. Professional and Enterprise members get priority support plus access to weekly live Q&A sessions where you can get your specific questions answered by our experts."
 }, {
   question: "Is there a free trial available?",
-  answer: "Yes! We offer a 14-day free trial on all plans with no credit card required. This gives you full access to explore the platform and see the value before committing."
+  answer: "Yes! We offer a 7-day free trial on all plans—credit card required. This gives you full access to explore the platform and see the value before committing."
 }, {
   question: "What types of restaurants is this designed for?",
   answer: "Our content is designed to work for all restaurant types—full service, quick service, cafes, bars, food trucks, and more. The fundamental principles of financial management, labor optimization, and operations apply across all formats."
