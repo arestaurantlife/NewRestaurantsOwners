@@ -1,0 +1,1 @@
+In `src/components/HowItWorks.tsx`, change the title classes from `text-4xl md:text-5xl` to `text-3xl md:text-4xl` (mobile: 30px, desktop: 36px). One-line edit, no other changes.
