@@ -77,9 +77,9 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
 
           {/* Product Links */}
           <div>
-            <h4 className="font-semibold text-primary-foreground mb-4">Product</h4>
+            <h4 className="font-semibold text-primary-foreground mb-4 text-center">Product</h4>
             <ul className="space-y-3">
-              {footerLinks.product.map(link => <li key={link.label}>
+              {footerLinks.product.map(link => <li key={link.label} className="text-center">
                   <a href={link.href} className="text-primary-foreground/70 hover:text-gold transition-colors">
                     {link.label}
                   </a>
@@ -89,9 +89,9 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
 
           {/* Resources Links */}
           <div>
-            <h4 className="font-semibold text-primary-foreground mb-4">Resources</h4>
+            <h4 className="font-semibold text-primary-foreground mb-4 text-center">Resources</h4>
             <ul className="space-y-3">
-              {footerLinks.resources.map(link => <li key={link.label}>
+              {footerLinks.resources.map(link => <li key={link.label} className="text-center">
                   <a href={link.href} className="text-primary-foreground/70 hover:text-gold transition-colors">
                     {link.label}
                   </a>
@@ -101,9 +101,9 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
 
           {/* Company Links */}
           <div>
-            <h4 className="font-semibold text-primary-foreground mb-4">Company</h4>
+            <h4 className="font-semibold text-primary-foreground mb-4 text-center">Company</h4>
             <ul className="space-y-3">
-              {footerLinks.company.map(link => <li key={link.label}>
+              {footerLinks.company.map(link => <li key={link.label} className="text-center">
                   <a href={link.href} className="text-primary-foreground/70 hover:text-gold transition-colors">
                     {link.label}
                   </a>
@@ -113,7 +113,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
 
           {/* Legal Links */}
           <div>
-            <h4 className="font-semibold text-primary-foreground mb-4">Legal</h4>
+            <h4 className="font-semibold text-primary-foreground mb-4 text-center">Legal</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map(link => <li key={link.label}>
                   <a href={link.href} className="text-primary-foreground/70 hover:text-gold transition-colors">
