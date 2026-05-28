@@ -43,7 +43,7 @@ const HowItWorks = () => {
             <span className="text-gold font-semibold tracking-wider uppercase text-sm">
               See It In Action
             </span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mt-4 mb-6">How NewRestaurantsOwners.com Works</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-4 mb-6">How NewRestaurantsOwners.com Works</h2>
             <p className="text-lg text-white/70 mb-8">
               Watch this quick video to see how our platform helps you build a profitable, 
               well-managed restaurant from the very beginning. No guesswork, no expensive 
