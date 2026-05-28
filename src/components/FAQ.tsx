@@ -16,7 +16,7 @@ const faqs = [{
   answer: "Yes! All plans include email support. Professional and Enterprise members get priority support plus access to weekly live Q&A sessions where you can get your specific questions answered by our experts."
 }, {
   question: "Is there a free trial available?",
-  answer: "Yes! We offer a 7-day free trial on all plans—credit card required. This gives you full access to explore the platform and see the value before committing."
+  answer: "Yes! We offer a 7-day free trial on the Starter plan—credit card required. This gives you access to explore the platform and see the value before committing."
 }, {
   question: "What types of restaurants is this designed for?",
   answer: "Our content is designed to work for all restaurant types—full service, quick service, cafes, bars, food trucks, and more. The fundamental principles of financial management, labor optimization, and operations apply across all formats."
