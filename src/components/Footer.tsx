@@ -115,7 +115,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
           <div>
             <h4 className="font-semibold text-primary-foreground mb-4 text-center">Legal</h4>
             <ul className="space-y-3">
-              {footerLinks.legal.map(link => <li key={link.label}>
+              {footerLinks.legal.map(link => <li key={link.label} className="text-center">
                   <a href={link.href} className="text-primary-foreground/70 hover:text-gold transition-colors">
                     {link.label}
                   </a>
@@ -131,12 +131,12 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
               A platform by
             </p>
             <p className="font-display text-lg font-semibold text-gold">
-              Corporate Shield Hospitality Solutions
+              Corporate Shield Hospitality Solutions LLC
             </p>
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-primary-foreground/60 text-sm">
-              © {new Date().getFullYear()} Corporate Shield Hospitality Solutions. All rights reserved.
+            <p className="text-primary-foreground/60 text-sm text-center">
+              © {new Date().getFullYear()} Corporate Shield Hospitality Solutions LLC. All rights reserved.
             </p>
           <div className="flex items-center gap-6">
             {/* Social Icons */}
