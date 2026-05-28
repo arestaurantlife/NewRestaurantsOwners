@@ -18,12 +18,12 @@ const CTA = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="hero" size="xl">
-              Start Your 14-Day Free Trial
+              Start Your 7-Day Free Trial
               <ArrowRight className="w-5 h-5" />
             </Button>
           </div>
 
-          <p className="text-primary-foreground/60 mt-6 text-sm">Credit card required • Cancel anytime • 30-day money-back guarantee</p>
+          <p className="text-primary-foreground/60 mt-6 text-sm">Credit card required • Cancel anytime • 14-day money-back guarantee</p>
         </div>
       </div>
     </section>;
