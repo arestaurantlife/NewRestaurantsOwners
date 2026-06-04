@@ -3,6 +3,7 @@ import FeaturePageLayout from "./FeaturePageLayout";
 
 const LaborCostManagement = () => (
   <FeaturePageLayout
+    featureSlug="labor-cost-management"
     icon={BarChart3}
     title="Labor Cost Management"
     intro="Optimize your staffing schedules and reduce labor costs while maintaining excellent service standards."
@@ -19,11 +20,6 @@ const LaborCostManagement = () => (
       "Overtime and compliance",
       "Productivity metrics",
       "Performance reviews",
-    ]}
-    pdfResources={[
-      { title: "Scheduling Template", description: "Placeholder — upload your scheduling template.", url: "#" },
-      { title: "Labor Cost Calculator", description: "Placeholder — upload your labor cost calculator.", url: "#" },
-      { title: "Staff Metrics Dashboard", description: "Placeholder — upload your metrics doc.", url: "#" },
     ]}
   />
 );
