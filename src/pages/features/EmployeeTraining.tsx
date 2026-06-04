@@ -3,6 +3,7 @@ import FeaturePageLayout from "./FeaturePageLayout";
 
 const EmployeeTraining = () => (
   <FeaturePageLayout
+    featureSlug="employee-training"
     icon={GraduationCap}
     title="Employee Training"
     intro="Access comprehensive training modules and materials to develop a skilled, efficient team."
@@ -19,11 +20,6 @@ const EmployeeTraining = () => (
       "Food safety basics",
       "Cross-training",
       "Ongoing development",
-    ]}
-    pdfResources={[
-      { title: "Onboarding Checklist", description: "Placeholder — upload onboarding checklist.", url: "#" },
-      { title: "SOP Library", description: "Placeholder — upload your SOPs.", url: "#" },
-      { title: "Training Workbook", description: "Placeholder — upload training workbook.", url: "#" },
     ]}
   />
 );

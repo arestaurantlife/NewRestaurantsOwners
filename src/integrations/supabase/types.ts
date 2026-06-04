@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      feature_pdfs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          feature_slug: string
+          id: string
+          sort_order: number
+          storage_path: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          feature_slug: string
+          id?: string
+          sort_order?: number
+          storage_path: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          feature_slug?: string
+          id?: string
+          sort_order?: number
+          storage_path?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

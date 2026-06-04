@@ -5,13 +5,7 @@ import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import PdfResourceCard from "@/components/features/PdfResourceCard";
-
-export interface PdfResource {
-  title: string;
-  description: string;
-  url: string;
-}
+import FeaturePdfLibrary from "@/components/features/FeaturePdfLibrary";
 
 interface FeaturePageLayoutProps {
   icon: LucideIcon;
@@ -19,7 +13,8 @@ interface FeaturePageLayoutProps {
   intro: string;
   overview: ReactNode;
   topics: string[];
-  pdfResources: PdfResource[];
+  /** URL slug used to scope PDFs in storage + DB, e.g. "financial-operations" */
+  featureSlug: string;
   metaTitle?: string;
   metaDescription?: string;
 }
@@ -30,7 +25,7 @@ const FeaturePageLayout = ({
   intro,
   overview,
   topics,
-  pdfResources,
+  featureSlug,
   metaTitle,
   metaDescription,
 }: FeaturePageLayoutProps) => {
@@ -105,13 +100,9 @@ const FeaturePageLayout = ({
               PDF Resources
             </h2>
             <p className="text-muted-foreground mb-8">
-              Download the resources below to review at your own pace.
+              Open any PDF below to read it in-app, or download for offline use.
             </p>
-            <div className="grid gap-4">
-              {pdfResources.map((pdf) => (
-                <PdfResourceCard key={pdf.title} {...pdf} />
-              ))}
-            </div>
+            <FeaturePdfLibrary featureSlug={featureSlug} />
           </div>
         </section>
 

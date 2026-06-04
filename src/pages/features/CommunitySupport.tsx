@@ -3,6 +3,7 @@ import FeaturePageLayout from "./FeaturePageLayout";
 
 const CommunitySupport = () => (
   <FeaturePageLayout
+    featureSlug="community-support"
     icon={Users}
     title="Community & Support"
     intro="Connect with other restaurant owners, share experiences, and get expert advice when you need it."
@@ -19,10 +20,6 @@ const CommunitySupport = () => (
       "Peer mentoring",
       "Office hours",
       "Event calendar",
-    ]}
-    pdfResources={[
-      { title: "Community Guidelines", description: "Placeholder — upload guidelines.", url: "#" },
-      { title: "Q&A Schedule", description: "Placeholder — upload schedule.", url: "#" },
     ]}
   />
 );

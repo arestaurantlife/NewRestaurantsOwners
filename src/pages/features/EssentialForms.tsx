@@ -3,6 +3,7 @@ import FeaturePageLayout from "./FeaturePageLayout";
 
 const EssentialForms = () => (
   <FeaturePageLayout
+    featureSlug="essential-forms"
     icon={FileText}
     title="Essential Forms"
     intro="Get access to all the operational forms you need—from checklists to compliance documents."
@@ -19,11 +20,6 @@ const EssentialForms = () => (
       "Incident reports",
       "Compliance logs",
       "Vendor and PO forms",
-    ]}
-    pdfResources={[
-      { title: "Opening/Closing Checklist", description: "Placeholder — upload checklist.", url: "#" },
-      { title: "Health & Safety Pack", description: "Placeholder — upload health & safety forms.", url: "#" },
-      { title: "HR Document Pack", description: "Placeholder — upload HR forms.", url: "#" },
     ]}
   />
 );
