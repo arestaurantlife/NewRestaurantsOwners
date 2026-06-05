@@ -105,7 +105,7 @@ const FeaturePageLayout = ({
             <p className="text-muted-foreground mb-8">
               Open any PDF below to read it in-app, or download for offline use.
             </p>
-            <FeaturePdfLibrary featureSlug={featureSlug} />
+            <FeaturePdfLibrary featureSlug={featureSlug} quickLinkTags={quickLinkTags} />
           </div>
         </section>
 
