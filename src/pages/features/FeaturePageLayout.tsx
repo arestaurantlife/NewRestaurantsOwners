@@ -28,6 +28,7 @@ const FeaturePageLayout = ({
   overview,
   topics,
   featureSlug,
+  quickLinkTags,
   metaTitle,
   metaDescription,
 }: FeaturePageLayoutProps) => {
