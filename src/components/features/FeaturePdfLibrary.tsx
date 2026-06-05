@@ -22,11 +22,13 @@ export interface FeaturePdfRow {
 
 interface Props {
   featureSlug: string;
+  /** Tags to surface as prominent quick-open links above the library. */
+  quickLinkTags?: string[];
 }
 
 const BUCKET = "feature-pdfs";
 
-const FeaturePdfLibrary = ({ featureSlug }: Props) => {
+const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
   const { isAdmin } = useIsAdmin();
   const [rows, setRows] = useState<FeaturePdfRow[]>([]);
   const [urls, setUrls] = useState<Record<string, string>>({});
