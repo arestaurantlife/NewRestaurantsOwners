@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { Loader2, Search, X } from "lucide-react";
+import { Loader2, Search, X, BookOpen, Star } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import PdfResourceCard from "./PdfResourceCard";
+import PdfViewerDialog from "./PdfViewerDialog";
 import FeaturePdfManager from "./FeaturePdfManager";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
