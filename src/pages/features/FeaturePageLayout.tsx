@@ -15,6 +15,8 @@ interface FeaturePageLayoutProps {
   topics: string[];
   /** URL slug used to scope PDFs in storage + DB, e.g. "financial-operations" */
   featureSlug: string;
+  /** Tags to surface as featured quick-open PDF links above the library. */
+  quickLinkTags?: string[];
   metaTitle?: string;
   metaDescription?: string;
 }
@@ -26,6 +28,7 @@ const FeaturePageLayout = ({
   overview,
   topics,
   featureSlug,
+  quickLinkTags,
   metaTitle,
   metaDescription,
 }: FeaturePageLayoutProps) => {
@@ -102,7 +105,7 @@ const FeaturePageLayout = ({
             <p className="text-muted-foreground mb-8">
               Open any PDF below to read it in-app, or download for offline use.
             </p>
-            <FeaturePdfLibrary featureSlug={featureSlug} />
+            <FeaturePdfLibrary featureSlug={featureSlug} quickLinkTags={quickLinkTags} />
           </div>
         </section>
 

@@ -4,6 +4,7 @@ import FeaturePageLayout from "./FeaturePageLayout";
 const FinancialOperations = () => (
   <FeaturePageLayout
     featureSlug="financial-operations"
+    quickLinkTags={["prime cost control"]}
     icon={DollarSign}
     title="Financial Operations"
     intro="Master your P&L statements, cash flow management, and financial forecasting to keep your restaurant profitable."
