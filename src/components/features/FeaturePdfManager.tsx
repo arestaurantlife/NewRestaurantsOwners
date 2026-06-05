@@ -22,13 +22,21 @@ const FeaturePdfManager = ({ featureSlug, onUploaded }: Props) => {
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const parsedTags = parseTagsInput(tagsInput);
+
+  const removeTag = (tag: string) => {
+    setTagsInput(parsedTags.filter((t) => t !== tag).join(", "));
+  };
+
   const reset = () => {
     setTitle("");
     setDescription("");
+    setTagsInput("");
     setFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -67,13 +75,13 @@ const FeaturePdfManager = ({ featureSlug, onUploaded }: Props) => {
       title: title.trim(),
       description: description.trim() || null,
       storage_path: path,
+      tags: parsedTags,
       created_by: user.id,
     });
 
     setUploading(false);
 
     if (insertErr) {
-      // Roll back file
       await supabase.storage.from(BUCKET).remove([path]);
       toast.error(`Save failed: ${insertErr.message}`);
       return;
@@ -83,6 +91,7 @@ const FeaturePdfManager = ({ featureSlug, onUploaded }: Props) => {
     reset();
     onUploaded();
   };
+
 
   return (
     <form
@@ -131,7 +140,36 @@ const FeaturePdfManager = ({ featureSlug, onUploaded }: Props) => {
         />
       </div>
 
+      <div className="space-y-1">
+        <Label htmlFor="pdf-tags">Tags (optional)</Label>
+        <Input
+          id="pdf-tags"
+          value={tagsInput}
+          onChange={(e) => setTagsInput(e.target.value)}
+          placeholder="Comma-separated, e.g. budgeting, p&l, template"
+          maxLength={300}
+        />
+        {parsedTags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {parsedTags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="gap-1">
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => removeTag(tag)}
+                  className="hover:text-destructive"
+                  aria-label={`Remove ${tag}`}
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </Badge>
+            ))}
+          </div>
+        )}
+      </div>
+
       <div className="flex justify-end">
+
         <Button type="submit" disabled={uploading}>
           {uploading ? (
             <>
