@@ -15,6 +15,8 @@ interface FeaturePageLayoutProps {
   topics: string[];
   /** URL slug used to scope PDFs in storage + DB, e.g. "financial-operations" */
   featureSlug: string;
+  /** Tags to surface as featured quick-open PDF links above the library. */
+  quickLinkTags?: string[];
   metaTitle?: string;
   metaDescription?: string;
 }
