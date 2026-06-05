@@ -23,6 +23,7 @@ export type Database = {
           id: string
           sort_order: number
           storage_path: string
+          tags: string[]
           title: string
           updated_at: string
         }
@@ -34,6 +35,7 @@ export type Database = {
           id?: string
           sort_order?: number
           storage_path: string
+          tags?: string[]
           title: string
           updated_at?: string
         }
@@ -45,6 +47,7 @@ export type Database = {
           id?: string
           sort_order?: number
           storage_path?: string
+          tags?: string[]
           title?: string
           updated_at?: string
         }

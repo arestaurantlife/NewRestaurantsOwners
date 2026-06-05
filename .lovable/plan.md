@@ -1,68 +1,33 @@
-# Activate all 6 Feature cards with gated detail pages
+## Goal
+Let subscribers narrow PDFs by tags/categories in addition to title/keyword search. Admins assign tags at upload (and can edit them later).
 
-Make every card in the **Features** section a clickable link to its own detail page. Detail pages are **gated** — only logged-in users with an active subscription can view them. Each page is scaffolded with placeholder sections and a **PDF resources** area where you'll drop in real PDFs later.
+## Schema changes (single migration)
+- Add `tags text[] not null default '{}'` to `public.feature_pdfs`.
+- Add GIN index on `tags` for fast filtering.
+- No new tables — keeping it simple. Tags are free-form strings, normalized to lowercase on save. Per-feature-slug, the UI derives the available tag list from existing rows.
 
-## What we'll build
+## Uploader (`FeaturePdfManager.tsx`)
+- Add a "Tags" input below Description.
+- Comma-separated entry (e.g. `budgeting, p&l, template`), trimmed + lowercased + deduped before insert.
+- Show entered tags as removable chips beneath the input for clarity.
+- Persist into `feature_pdfs.tags`.
 
-### 1. Six new detail pages (one per feature)
-Routes:
-- `/features/financial-operations`
-- `/features/labor-cost-management`
-- `/features/food-cost-control`
-- `/features/employee-training`
-- `/features/essential-forms`
-- `/features/community-support`
+## Library (`FeaturePdfLibrary.tsx`)
+- Extend `FeaturePdfRow` with `tags: string[]`.
+- Derive `availableTags` from current `rows` (unique, sorted, with counts).
+- Render a horizontal chip row of tags above results (next to search). Clicking toggles selection; supports multi-select.
+- Filter logic: a PDF passes if it matches the search query AND contains every selected tag (AND semantics — narrows down). Switch easily to OR later if needed.
+- Add an "All" reset chip and include selected tags in the "no matches" empty state with a "Clear filters" action that resets both search and tags.
+- Hide the tag row entirely when no PDFs have tags yet.
 
-Each page reuses the existing `Header` + `Footer` and includes:
-- **Hero section** — icon, title, intro paragraph (placeholder copy)
-- **Overview section** — placeholder for your written content
-- **Key topics covered** — bulleted list (placeholder)
-- **PDF Resources** — a list of PDF cards (title + description + download button). Starts with 2–3 placeholder entries you can replace.
-- **CTA block** — back to dashboard / explore other features
+## Card display (`PdfResourceCard.tsx`)
+- Show tags as small muted badges under the description (read-only). Clicking a badge filters the library by that tag (passes an optional `onTagClick` from the library).
 
-### 2. Shared building blocks (DRY)
-- `src/pages/features/FeaturePageLayout.tsx` — the page shell so all 6 pages stay consistent; you only edit content, not layout.
-- `src/components/features/PdfResourceCard.tsx` — reusable card for each downloadable PDF (icon, title, description, download link). Wired to accept a URL — initially placeholder `#`, swap to real file URLs later.
+## Out of scope
+- No tag management page, no rename/merge tools, no per-tag color theming. Admins manage tags by editing each PDF's tag string (future: inline edit).
+- No changes to gating — open access remains as currently configured.
 
-### 3. Gating (subscription-only access)
-- New `src/components/SubscriberRoute.tsx` wrapper that:
-  - Redirects to `/auth` if not logged in
-  - Redirects to `/#pricing` (with a toast: "Subscribe to access this content") if logged in but `subscription.subscribed === false`
-  - Shows a loader while `loading` or `subscriptionLoading` is true
-  - Otherwise renders children
-- All 6 routes wrapped in `<SubscriberRoute>` in `src/App.tsx`.
-
-### 4. Make the Features cards clickable
-- Update `src/components/Features.tsx`:
-  - Add `href` to each of the 6 feature objects.
-  - Wrap each card in a React Router `<Link>` so the whole card is clickable.
-  - Keep current hover lift/shadow; add subtle "View details →" affordance at the bottom of each card.
-
-### 5. PDF storage approach (for later)
-Two options for when you upload PDFs — we don't need to decide today, but plan-wise:
-- **Simple**: drop PDFs into `public/pdfs/...` and reference by URL.
-- **Recommended for gated content**: upload to a private Lovable Cloud Storage bucket with RLS so non-subscribers can't grab the file URL directly. We'd add this when you're ready to upload.
-
-For now, `PdfResourceCard` accepts any URL string, so swapping later is one-line per PDF.
-
-## File changes summary
-
-**New:**
-- `src/components/SubscriberRoute.tsx`
-- `src/components/features/PdfResourceCard.tsx`
-- `src/pages/features/FeaturePageLayout.tsx`
-- `src/pages/features/FinancialOperations.tsx`
-- `src/pages/features/LaborCostManagement.tsx`
-- `src/pages/features/FoodCostControl.tsx`
-- `src/pages/features/EmployeeTraining.tsx`
-- `src/pages/features/EssentialForms.tsx`
-- `src/pages/features/CommunitySupport.tsx`
-
-**Modified:**
-- `src/App.tsx` — add 6 gated routes above the catch-all
-- `src/components/Features.tsx` — add `href` per card, wrap in `<Link>`
-
-## What you'll do after I build
-
-1. Open each `src/pages/features/*.tsx` and replace placeholder copy with your real text (or send it to me).
-2. Upload PDFs and replace placeholder URLs in each page's `pdfResources` array.
+## Technical notes
+- All filtering is client-side over the already-fetched `rows` (small set per feature). Keeps it instant and avoids extra queries.
+- Tag normalization helper lives in `FeaturePdfLibrary.tsx` (or a small `lib/tags.ts`) and is reused by the uploader.
+- Uses existing shadcn `Badge` + `Button` components; no new deps.
