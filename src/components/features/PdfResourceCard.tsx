@@ -1,16 +1,29 @@
 import { FileText, Download, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import PdfViewerDialog from "./PdfViewerDialog";
 
 interface PdfResourceCardProps {
   title: string;
   description: string;
   url: string;
+  tags?: string[];
+  selectedTags?: string[];
+  onTagClick?: (tag: string) => void;
   onDelete?: () => void;
   deleting?: boolean;
 }
 
-const PdfResourceCard = ({ title, description, url, onDelete, deleting }: PdfResourceCardProps) => {
+const PdfResourceCard = ({
+  title,
+  description,
+  url,
+  tags,
+  selectedTags,
+  onTagClick,
+  onDelete,
+  deleting,
+}: PdfResourceCardProps) => {
   const isPlaceholder = !url || url === "#";
 
   return (
@@ -22,6 +35,27 @@ const PdfResourceCard = ({ title, description, url, onDelete, deleting }: PdfRes
         <h4 className="font-display font-bold text-foreground mb-1">{title}</h4>
         {description && (
           <p className="text-sm text-muted-foreground mb-3">{description}</p>
+        )}
+        {tags && tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {tags.map((tag) => {
+              const active = selectedTags?.includes(tag);
+              return (
+                <Badge
+                  key={tag}
+                  variant={active ? "default" : "secondary"}
+                  className={
+                    onTagClick
+                      ? "cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+                      : ""
+                  }
+                  onClick={onTagClick ? () => onTagClick(tag) : undefined}
+                >
+                  {tag}
+                </Badge>
+              );
+            })}
+          </div>
         )}
         <div className="flex flex-wrap gap-2">
           <PdfViewerDialog
