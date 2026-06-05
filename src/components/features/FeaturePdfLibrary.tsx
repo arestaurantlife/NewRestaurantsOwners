@@ -1,10 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
-import { Loader2 } from "lucide-react";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { Loader2, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import PdfResourceCard from "./PdfResourceCard";
 import FeaturePdfManager from "./FeaturePdfManager";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export interface FeaturePdfRow {
   id: string;
@@ -27,6 +29,17 @@ const FeaturePdfLibrary = ({ featureSlug }: Props) => {
   const [urls, setUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredRows = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return rows;
+    return rows.filter(
+      (r) =>
+        r.title.toLowerCase().includes(q) ||
+        (r.description ?? "").toLowerCase().includes(q)
+    );
+  }, [rows, searchQuery]);
 
   const load = useCallback(async () => {
     setLoading(true);
