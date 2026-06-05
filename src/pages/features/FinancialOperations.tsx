@@ -3,6 +3,7 @@ import FeaturePageLayout from "./FeaturePageLayout";
 
 const FinancialOperations = () => (
   <FeaturePageLayout
+    featureSlug="financial-operations"
     quickLinkTags={["prime cost control"]}
     icon={DollarSign}
     title="Financial Operations"
