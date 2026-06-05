@@ -129,11 +129,56 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
 
   const hasActiveFilters = searchQuery.trim().length > 0 || selectedTags.length > 0;
 
+  const quickLinks = useMemo(() => {
+    if (!quickLinkTags?.length) return [];
+    return quickLinkTags
+      .map((tag) => {
+        const normalized = tag.toLowerCase();
+        const row = rows.find((r) => (r.tags ?? []).includes(normalized));
+        return row ? { tag, row } : null;
+      })
+      .filter((x): x is { tag: string; row: FeaturePdfRow } => x !== null);
+  }, [quickLinkTags, rows]);
+
   return (
     <div className="space-y-6">
       {isAdmin && (
         <FeaturePdfManager featureSlug={featureSlug} onUploaded={load} />
       )}
+
+      {/* Quick links */}
+      {quickLinks.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {quickLinks.map(({ tag, row }) => (
+            <PdfViewerDialog
+              key={row.id}
+              title={row.title}
+              url={urls[row.id] ?? "#"}
+              trigger={
+                <button
+                  type="button"
+                  className="group text-left bg-gradient-hero text-primary-foreground rounded-2xl p-5 shadow-soft hover:shadow-elevated transition-all flex items-start gap-4"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-primary-foreground/15 flex items-center justify-center flex-shrink-0">
+                    <Star className="w-5 h-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs uppercase tracking-wide opacity-80 mb-1">
+                      {tag}
+                    </p>
+                    <p className="font-display font-bold truncate">{row.title}</p>
+                    <span className="inline-flex items-center gap-1 text-sm mt-2 opacity-90 group-hover:opacity-100">
+                      <BookOpen className="w-4 h-4" />
+                      Open PDF
+                    </span>
+                  </div>
+                </button>
+              }
+            />
+          ))}
+        </div>
+      )}
+
 
       {/* Search */}
       <div className="relative">
