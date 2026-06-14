@@ -28,7 +28,7 @@ const features = [
   {
     icon: UtensilsCrossed,
     title: "Food Cost Control",
-    description: "Learn proven strategies to manage inventory, reduce waste, and maintain an efficient food cost percentages.",
+    description: "Learn proven strategies to manage inventory, reduce waste, maintain an efficient food cost percentages.",
     benefits: ["Inventory Systems", "Waste Tracking", "Menu Pricing"],
     href: "/features/food-cost-control"
   },

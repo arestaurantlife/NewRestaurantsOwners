@@ -28,7 +28,7 @@ const Hero = () => {
 
           <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-2xl animate-fade-up" style={{
           animationDelay: "0.3s"
-        }}>Get expert guidance on financial operations, labor & food costs, new hire training, and essential operational forms. Everything you need to run a profitable restaurant—all in one membership.</p>
+        }}>Get expert guidance on financial operations, labor & food costs, new hire training, and essential operational forms. Everything you need to run a profitable restaurant — all in one membership.</p>
 
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{
           animationDelay: "0.4s"
