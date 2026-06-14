@@ -65,8 +65,9 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
               community they need to build profitable businesses.
             </p>
             <div className="space-y-3">
-              <a href="mailto:support@newrestaurantowners.com" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">support@newrestaurantsowners.com<Mail className="w-5 h-5" />
-                support@newrestaurantowners.com
+              <a href="mailto:support@newrestaurantowners.com" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
+                <Mail className="w-5 h-5" />
+                support@newrestaurantsowners.com
               </a>
               <a href="tel:+17207559008" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
                 <Phone className="w-5 h-5" />
