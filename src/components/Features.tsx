@@ -64,7 +64,7 @@ const Features = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-4">
             Everything You Need
           </span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 tracking-tight">
             Your Complete Restaurant{" "}
             <span className="text-primary">Success Toolkit</span>
           </h2>
@@ -80,31 +80,40 @@ const Features = () => {
             <Link
               to={feature.href}
               key={feature.title}
-              className="group bg-card rounded-2xl p-6 lg:p-8 shadow-soft hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 border border-border flex flex-col"
+              className="group relative bg-card rounded-2xl p-6 lg:p-8 shadow-soft hover:shadow-wine transition-all duration-300 hover:-translate-y-1 border border-primary/10 hover:border-primary/30 flex flex-col overflow-hidden"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="w-14 h-14 rounded-xl bg-gradient-hero flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              {/* Index number */}
+              <span className="absolute top-5 right-5 font-display text-2xl text-gold/30 group-hover:text-gold/60 transition-colors">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              {/* Icon badge */}
+              <div className="w-14 h-14 rounded-full bg-gradient-hero ring-2 ring-gold/40 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:ring-gold transition-all duration-300 shadow-wine">
                 <feature.icon className="w-7 h-7 text-primary-foreground" />
               </div>
               
-              <h3 className="font-display text-xl font-bold text-foreground mb-3">
+              <h3 className="font-display text-xl font-bold text-foreground mb-2 tracking-tight">
                 {feature.title}
               </h3>
+
+              {/* Gold accent underline */}
+              <span className="block h-0.5 w-8 bg-gold mb-4 group-hover:w-16 transition-all duration-300" />
               
-              <p className="text-muted-foreground mb-5">
+              <p className="text-muted-foreground mb-5 leading-relaxed">
                 {feature.description}
               </p>
               
               <ul className="space-y-2 mb-5">
                 {feature.benefits.map((benefit) => (
-                  <li key={benefit} className="flex items-center gap-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-gold" />
-                    <span className="text-foreground">{benefit}</span>
+                  <li key={benefit} className="flex items-center gap-2 text-sm group/item">
+                    <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
+                    <span className="text-foreground group-hover/item:text-primary transition-colors">{benefit}</span>
                   </li>
                 ))}
               </ul>
 
-              <span className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
+              <span className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-3 transition-all">
                 View details <ArrowRight className="w-4 h-4" />
               </span>
             </Link>
