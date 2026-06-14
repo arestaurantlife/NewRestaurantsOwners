@@ -88,29 +88,33 @@ const Pricing = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
           {plans.map(plan => {
           const isCurrent = isCurrentPlan(plan.key);
           const isLoading = loadingPlan === plan.key;
-          return <div key={plan.name} className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 ${plan.popular ? "bg-gradient-hero text-primary-foreground shadow-wine scale-105" : "bg-card border border-border shadow-soft"} ${isCurrent ? "ring-2 ring-gold" : ""}`}>
-                {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-gold text-charcoal text-sm font-semibold shadow-gold">
-                      <Sparkles className="w-4 h-4" />
-                      Most Popular
-                    </span>
-                  </div>}
+          return <div key={plan.name} className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 flex flex-col overflow-hidden ${plan.popular ? "bg-gradient-hero text-primary-foreground shadow-wine ring-2 ring-gold md:scale-105" : "bg-card border border-primary/10 hover:border-primary/30 shadow-soft hover:shadow-wine"} ${isCurrent ? "ring-2 ring-gold" : ""}`}>
+                {plan.popular && <>
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                      <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-gold text-charcoal text-sm font-semibold shadow-gold">
+                        <Sparkles className="w-4 h-4" />
+                        Most Popular
+                      </span>
+                    </div>
+                  </>}
 
-                {isCurrent && <div className="absolute -top-4 right-4">
+                {isCurrent && <div className="absolute -top-4 right-4 z-10">
                     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500 text-white text-xs font-semibold">
                       <Check className="w-3 h-3" />
                       Your Plan
                     </span>
                   </div>}
 
-                <div className="mb-6">
-                  <h3 className={`font-display text-2xl font-bold mb-2 ${plan.popular ? "text-primary-foreground" : "text-foreground"}`}>
+                <div className="mb-4">
+                  <h3 className={`font-display text-2xl font-bold mb-2 tracking-tight ${plan.popular ? "text-primary-foreground" : "text-foreground"}`}>
                     {plan.name}
                   </h3>
+                  <span className={`block h-0.5 w-8 mb-3 ${plan.popular ? "bg-gold" : "bg-gold"}`} />
                   <p className={`text-sm ${plan.popular ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                     {plan.description}
                   </p>
@@ -125,16 +129,16 @@ const Pricing = () => {
                   </span>
                 </div>
 
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map(feature => <li key={feature} className="flex items-start gap-3">
-                      <Check className={`w-5 h-5 mt-0.5 ${plan.popular ? "text-gold" : "text-primary"}`} />
+                      <Check className="w-5 h-5 mt-0.5 text-gold flex-shrink-0" />
                       <span className={`text-sm ${plan.popular ? "text-primary-foreground/90" : "text-foreground"}`}>
                         {feature}
                       </span>
                     </li>)}
                 </ul>
 
-                <Button variant={plan.popular ? "hero" : "default"} size="lg" className="w-full" onClick={() => handleSubscribe(plan.key)} disabled={isLoading || isCurrent}>
+                <Button variant={plan.popular ? "hero" : "default"} size="lg" className="w-full mt-auto" onClick={() => handleSubscribe(plan.key)} disabled={isLoading || isCurrent}>
                   {isLoading ? <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Processing...
@@ -143,6 +147,7 @@ const Pricing = () => {
               </div>;
         })}
         </div>
+
 
         {/* Money-back guarantee */}
         <p className="text-center text-muted-foreground mt-10">

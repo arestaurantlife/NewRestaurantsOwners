@@ -43,8 +43,9 @@ const HowItWorks = () => {
             <span className="text-gold font-semibold tracking-wider uppercase text-sm">
               See It In Action
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-4 mb-6">How NewRestaurantsOwners.com Works</h2>
-            <p className="text-lg text-white/70 mb-8">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-4 mb-3 tracking-tight">How NewRestaurantsOwners.com Works</h2>
+            <span className="block h-0.5 w-12 bg-gold mb-6" />
+            <p className="text-lg text-white/70 mb-8 leading-relaxed">
               Watch this quick video to see how our platform helps you build a profitable, 
               well-managed restaurant from the very beginning. No guesswork, no expensive 
               consultants—just proven systems that work.
@@ -56,6 +57,7 @@ const HowItWorks = () => {
                   <span className="text-white/90">{benefit}</span>
                 </li>)}
             </ul>
+
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="hero" size="lg">
