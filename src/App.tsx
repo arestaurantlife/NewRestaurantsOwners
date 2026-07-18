@@ -18,9 +18,6 @@ import FoodCostControl from "./pages/features/FoodCostControl";
 import EmployeeTraining from "./pages/features/EmployeeTraining";
 import EssentialForms from "./pages/features/EssentialForms";
 import CommunitySupport from "./pages/features/CommunitySupport";
-import EmployeeTraining from "./pages/features/EmployeeTraining";
-import EssentialForms from "./pages/features/EssentialForms";
-import CommunitySupport from "./pages/features/CommunitySupport";
 
 const queryClient = new QueryClient();
 
