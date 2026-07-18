@@ -9,11 +9,15 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import OAuthConsent from "./pages/OAuthConsent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SubscriberRoute from "./components/SubscriberRoute";
 import FinancialOperations from "./pages/features/FinancialOperations";
 import LaborCostManagement from "./pages/features/LaborCostManagement";
 import FoodCostControl from "./pages/features/FoodCostControl";
+import EmployeeTraining from "./pages/features/EmployeeTraining";
+import EssentialForms from "./pages/features/EssentialForms";
+import CommunitySupport from "./pages/features/CommunitySupport";
 import EmployeeTraining from "./pages/features/EmployeeTraining";
 import EssentialForms from "./pages/features/EssentialForms";
 import CommunitySupport from "./pages/features/CommunitySupport";
@@ -38,6 +42,7 @@ const App = () => (
               <Route path="/features/employee-training" element={<SubscriberRoute><EmployeeTraining /></SubscriberRoute>} />
               <Route path="/features/essential-forms" element={<SubscriberRoute><EssentialForms /></SubscriberRoute>} />
               <Route path="/features/community-support" element={<SubscriberRoute><CommunitySupport /></SubscriberRoute>} />
+              <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

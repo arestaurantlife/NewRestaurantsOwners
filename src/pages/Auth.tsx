@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,13 +34,18 @@ const Auth = () => {
 
   const { signIn, signUp, user, loading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
+
+  // Same-origin relative path only.
+  const rawNext = searchParams.get("next") ?? "";
+  const nextPath = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/dashboard";
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/dashboard");
+      navigate(nextPath);
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, navigate, nextPath]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +57,7 @@ const Auth = () => {
         const result = loginSchema.safeParse({ email, password });
         if (!result.success) {
           const fieldErrors: Record<string, string> = {};
-          result.error.errors.forEach((err) => {
+          result.error.issues.forEach((err) => {
             if (err.path[0]) {
               fieldErrors[err.path[0] as string] = err.message;
             }
@@ -82,13 +87,13 @@ const Auth = () => {
             title: "Welcome back!",
             description: "You have successfully logged in.",
           });
-          navigate("/dashboard");
+          navigate(nextPath);
         }
       } else {
         const result = signupSchema.safeParse({ email, password, confirmPassword, fullName });
         if (!result.success) {
           const fieldErrors: Record<string, string> = {};
-          result.error.errors.forEach((err) => {
+          result.error.issues.forEach((err) => {
             if (err.path[0]) {
               fieldErrors[err.path[0] as string] = err.message;
             }
@@ -118,7 +123,7 @@ const Auth = () => {
             title: "Welcome to NewRestaurantOwners!",
             description: "Your account has been created successfully.",
           });
-          navigate("/dashboard");
+          navigate(nextPath);
         }
       }
     } catch (error) {
