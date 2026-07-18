@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "sdk_version": "0.23.0",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://spqtbqftibwuyulyegub.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "newrestaurantsowners-mcp",
+      "version": "0.1.0",
+      "title": "NewRestaurantsOwners MCP"
+    },
+    "tools": [
+      {
+        "name": "get_my_profile",
+        "title": "Get my profile",
+        "description": "Return the signed-in user's NewRestaurantsOwners profile (email, full name, restaurant name, phone).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_pdf_resources",
+        "title": "List PDF resources",
+        "description": "List PDF resources for a feature area of NewRestaurantsOwners. Optionally filter by a tag or search text in the title/description.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "feature_slug": {
+              "type": "string",
+              "enum": [
+                "financial-operations",
+                "labor-cost-management",
+                "food-cost-control",
+                "employee-training",
+                "essential-forms",
+                "community-support"
+              ],
+              "description": "Which feature area to list PDFs for."
+            },
+            "search": {
+              "description": "Optional text to match against the PDF title or description.",
+              "type": "string",
+              "maxLength": 100
+            },
+            "tag": {
+              "description": "Optional single tag to filter by (case-insensitive).",
+              "type": "string",
+              "maxLength": 50
+            },
+            "limit": {
+              "default": 20,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          "required": [
+            "feature_slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_subscription_status",
+        "title": "Get subscription status",
+        "description": "Return the signed-in user's NewRestaurantsOwners subscription status: whether they are subscribed, the tier (Starter/Professional/Enterprise), and the current period end date.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
