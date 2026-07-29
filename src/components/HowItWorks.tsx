@@ -1,7 +1,28 @@
 import { Play, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-const benefits = ["Step-by-step guidance from day one", "Financial templates and calculators", "Weekly live Q&A sessions with experts", "Private community of restaurant owners", "Personalized action plans"];
-const HowItWorks = () => {
+import { merge } from "@/pagebuilder/types";
+
+export const howItWorksDefaults = {
+  eyebrow: "See It In Action",
+  title: "How NewRestaurantsOwners.com Works",
+  description:
+    "Watch this quick video to see how our platform helps you build a profitable, well-managed restaurant from the very beginning. No guesswork, no expensive consultants—just proven systems that work.",
+  imageUrl:
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=500&fit=crop",
+  durationBadge: "Watch: 3:45 min",
+  benefits: [
+    { text: "Step-by-step guidance from day one" },
+    { text: "Financial templates and calculators" },
+    { text: "Weekly live Q&A sessions with experts" },
+    { text: "Private community of restaurant owners" },
+    { text: "Personalized action plans" },
+  ],
+  primaryCta: "Start Your Free Trial",
+  secondaryCta: "Schedule a Demo",
+};
+
+const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
+  const c = merge(howItWorksDefaults, content);
   return <section className="py-20 bg-charcoal relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -15,9 +36,9 @@ const HowItWorks = () => {
           {/* Video Section */}
           <div className="relative group">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=500&fit=crop" alt="Restaurant interior" className="w-full h-auto" />
+              <img src={c.imageUrl} alt="Restaurant interior" className="w-full h-auto" />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-transparent" />
-              
+
               {/* Play Button */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <button className="w-24 h-24 bg-gold rounded-full flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform duration-300">
@@ -28,7 +49,7 @@ const HowItWorks = () => {
               {/* Video Duration Badge */}
               <div className="absolute bottom-6 left-6">
                 <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
-                  Watch: 3:45 min
+                  {c.durationBadge}
                 </span>
               </div>
             </div>
@@ -41,30 +62,25 @@ const HowItWorks = () => {
           {/* Content Section */}
           <div className="lg:pl-8">
             <span className="text-gold font-semibold tracking-wider uppercase text-sm">
-              See It In Action
+              {c.eyebrow}
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-4 mb-3 tracking-tight">How NewRestaurantsOwners.com Works</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-4 mb-3 tracking-tight">{c.title}</h2>
             <span className="block h-0.5 w-12 bg-gold mb-6" />
-            <p className="text-lg text-white/70 mb-8 leading-relaxed">
-              Watch this quick video to see how our platform helps you build a profitable, 
-              well-managed restaurant from the very beginning. No guesswork, no expensive 
-              consultants—just proven systems that work.
-            </p>
+            <p className="text-lg text-white/70 mb-8 leading-relaxed">{c.description}</p>
 
             <ul className="space-y-4 mb-10">
-              {benefits.map((benefit, index) => <li key={index} className="flex items-center gap-3">
+              {c.benefits.map((benefit, index) => <li key={index} className="flex items-center gap-3">
                   <CheckCircle className="w-6 h-6 text-gold flex-shrink-0" />
-                  <span className="text-white/90">{benefit}</span>
+                  <span className="text-white/90">{benefit.text}</span>
                 </li>)}
             </ul>
 
-
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="hero" size="lg">
-                Start Your Free Trial
+                {c.primaryCta}
               </Button>
               <Button variant="heroOutline" size="lg">
-                Schedule a Demo
+                {c.secondaryCta}
               </Button>
             </div>
           </div>
