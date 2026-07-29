@@ -1,72 +1,80 @@
-import { Play, Headphones, Video, Calendar, Star, Clock } from "lucide-react";
+import { Play, Headphones, Video, Star, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { merge } from "@/pagebuilder/types";
 
-const podcasts = [
-  {
-    title: "From Dishwasher to Owner: My 20-Year Journey",
-    host: "Marcus Chen",
-    role: "Owner, The Golden Dragon (3 locations)",
-    duration: "45 min",
-    rating: 4.9,
-  },
-  {
-    title: "Mastering Labor Costs Without Sacrificing Quality",
-    host: "Sarah Mitchell",
-    role: "GM, Oceanview Restaurant Group",
-    duration: "38 min",
-    rating: 4.8,
-  },
-  {
-    title: "Building a Kitchen Team That Stays",
-    host: "Roberto Vasquez",
-    role: "Executive Chef & Owner, Casa Bella",
-    duration: "52 min",
-    rating: 4.9,
-  },
-];
+export const podcastsCoursesDefaults = {
+  eyebrow: "Learn From The Best",
+  title: "Weekly Podcasts & Video Courses",
+  subtitle:
+    "Get insider knowledge from successful restaurant general managers and owners who've built thriving businesses from the ground up.",
+  podcastsHeading: "Featured Podcasts",
+  podcastsBadge: "New Episodes Weekly",
+  coursesHeading: "Premium Video Courses",
+  coursesCta: "Browse All Courses",
+  podcasts: [
+    {
+      title: "From Dishwasher to Owner: My 20-Year Journey",
+      host: "Marcus Chen",
+      role: "Owner, The Golden Dragon (3 locations)",
+      duration: "45 min",
+      rating: "4.9",
+    },
+    {
+      title: "Mastering Labor Costs Without Sacrificing Quality",
+      host: "Sarah Mitchell",
+      role: "GM, Oceanview Restaurant Group",
+      duration: "38 min",
+      rating: "4.8",
+    },
+    {
+      title: "Building a Kitchen Team That Stays",
+      host: "Roberto Vasquez",
+      role: "Executive Chef & Owner, Casa Bella",
+      duration: "52 min",
+      rating: "4.9",
+    },
+  ],
+  courses: [
+    {
+      title: "Restaurant Financial Mastery",
+      instructor: "David Thompson",
+      lessons: "24",
+      hours: "8",
+      level: "Beginner",
+      image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop",
+    },
+    {
+      title: "Staff Training & Retention Strategies",
+      instructor: "Angela Rodriguez",
+      lessons: "18",
+      hours: "6",
+      level: "Intermediate",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop",
+    },
+    {
+      title: "Menu Engineering for Maximum Profit",
+      instructor: "Chef Michael Torres",
+      lessons: "15",
+      hours: "5",
+      level: "Advanced",
+      image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=250&fit=crop",
+    },
+  ],
+};
 
-const courses = [
-  {
-    title: "Restaurant Financial Mastery",
-    instructor: "David Thompson",
-    lessons: 24,
-    hours: 8,
-    level: "Beginner",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop",
-  },
-  {
-    title: "Staff Training & Retention Strategies",
-    instructor: "Angela Rodriguez",
-    lessons: 18,
-    hours: 6,
-    level: "Intermediate",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop",
-  },
-  {
-    title: "Menu Engineering for Maximum Profit",
-    instructor: "Chef Michael Torres",
-    lessons: 15,
-    hours: 5,
-    level: "Advanced",
-    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=250&fit=crop",
-  },
-];
-
-const PodcastsCourses = () => {
+const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => {
+  const c = merge(podcastsCoursesDefaults, content);
   return (
     <section className="py-20 bg-cream">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-gold font-semibold tracking-wider uppercase text-sm">
-            Learn From The Best
+            {c.eyebrow}
           </span>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-charcoal mt-4 mb-6">
-            Weekly Podcasts & Video Courses
+            {c.title}
           </h2>
-          <p className="text-lg text-charcoal/70 max-w-3xl mx-auto">
-            Get insider knowledge from successful restaurant general managers and owners 
-            who've built thriving businesses from the ground up.
-          </p>
+          <p className="text-lg text-charcoal/70 max-w-3xl mx-auto">{c.subtitle}</p>
         </div>
 
         {/* Podcasts Section */}
@@ -74,15 +82,15 @@ const PodcastsCourses = () => {
           <div className="flex items-center gap-3 mb-8">
             <Headphones className="w-8 h-8 text-wine" />
             <h3 className="text-2xl font-display font-bold text-charcoal">
-              Featured Podcasts
+              {c.podcastsHeading}
             </h3>
             <span className="bg-wine/10 text-wine px-3 py-1 rounded-full text-sm font-medium">
-              New Episodes Weekly
+              {c.podcastsBadge}
             </span>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {podcasts.map((podcast, index) => (
+            {c.podcasts.map((podcast, index) => (
               <div
                 key={index}
                 className="bg-white rounded-2xl p-6 shadow-elegant hover:shadow-xl transition-all duration-300 group cursor-pointer"
@@ -115,12 +123,12 @@ const PodcastsCourses = () => {
           <div className="flex items-center gap-3 mb-8">
             <Video className="w-8 h-8 text-wine" />
             <h3 className="text-2xl font-display font-bold text-charcoal">
-              Premium Video Courses
+              {c.coursesHeading}
             </h3>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {courses.map((course, index) => (
+            {c.courses.map((course, index) => (
               <div
                 key={index}
                 className="bg-white rounded-2xl overflow-hidden shadow-elegant hover:shadow-xl transition-all duration-300 group"
@@ -144,12 +152,8 @@ const PodcastsCourses = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h4 className="text-lg font-bold text-charcoal mb-2">
-                    {course.title}
-                  </h4>
-                  <p className="text-charcoal/60 text-sm mb-4">
-                    by {course.instructor}
-                  </p>
+                  <h4 className="text-lg font-bold text-charcoal mb-2">{course.title}</h4>
+                  <p className="text-charcoal/60 text-sm mb-4">by {course.instructor}</p>
                   <div className="flex items-center justify-between text-sm text-charcoal/50">
                     <span>{course.lessons} lessons</span>
                     <span>{course.hours} hours</span>
@@ -161,7 +165,7 @@ const PodcastsCourses = () => {
 
           <div className="text-center mt-12">
             <Button variant="hero" size="lg">
-              Browse All Courses
+              {c.coursesCta}
             </Button>
           </div>
         </div>
