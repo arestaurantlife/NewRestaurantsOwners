@@ -53,6 +53,36 @@ export type Database = {
         }
         Relationships: []
       }
+      page_layouts: {
+        Row: {
+          blocks: Json
+          created_at: string
+          id: string
+          page_slug: string
+          status: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          blocks?: Json
+          created_at?: string
+          id?: string
+          page_slug: string
+          status: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          blocks?: Json
+          created_at?: string
+          id?: string
+          page_slug?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
