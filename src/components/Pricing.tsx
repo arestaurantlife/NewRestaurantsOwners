@@ -102,7 +102,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
           {c.plans.map((plan, index) => {
           const key = tierKeys[index] ?? tierKeys[0];
-          const popular = String(plan.popular).toLowerCase() === "yes" || plan.popular === true;
+          const popular = String(plan.popular).toLowerCase() === "yes" || String(plan.popular) === "true";
           const features = String(plan.features ?? "").split("\n").map(f => f.trim()).filter(Boolean);
           const isCurrent = isCurrentPlan(key);
           const isLoading = loadingPlan === key;
