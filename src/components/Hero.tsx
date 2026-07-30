@@ -27,11 +27,18 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30 mb-6 animate-fade-up" style={{
-          animationDelay: "0.1s"
-        }}>
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-gold text-sm font-medium">{c.badge}</span>
+          <div className="flex flex-wrap gap-3 mb-6 animate-fade-up" style={{
+            animationDelay: "0.1s"
+          }}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
+              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+              <span className="text-gold text-sm font-medium">{c.badge}</span>
+            </div>
+            {c.watermark ? (
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
+                <span className="text-gold text-sm font-medium">{c.watermark}</span>
+              </div>
+            ) : null}
           </div>
 
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{
