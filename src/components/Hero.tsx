@@ -81,17 +81,6 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
           </div>
         </div>
       </div>
-
-      {/* Coming Soon Watermark */}
-      {c.watermark ? (
-        <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-          <div className="absolute bottom-16 right-[-4%] md:bottom-24 md:right-[-2%] rotate-[-12deg] bg-gold/10 border border-gold/20 backdrop-blur-sm px-6 py-3 md:px-10 md:py-4 rounded-sm">
-            <p className="text-gold/60 text-xs md:text-sm font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
-              {c.watermark}
-            </p>
-          </div>
-        </div>
-      ) : null}
     </section>;
 };
 export default Hero;
