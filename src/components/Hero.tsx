@@ -27,11 +27,18 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30 mb-6 animate-fade-up" style={{
-          animationDelay: "0.1s"
-        }}>
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-gold text-sm font-medium">{c.badge}</span>
+          <div className="flex flex-wrap gap-3 mb-6 animate-fade-up" style={{
+            animationDelay: "0.1s"
+          }}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
+              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+              <span className="text-gold text-sm font-medium">{c.badge}</span>
+            </div>
+            {c.watermark ? (
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
+                <span className="text-gold text-sm font-medium">{c.watermark}</span>
+              </div>
+            ) : null}
           </div>
 
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{
@@ -74,17 +81,6 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
           </div>
         </div>
       </div>
-
-      {/* Coming Soon Watermark */}
-      {c.watermark ? (
-        <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-          <div className="absolute bottom-16 right-[-4%] md:bottom-24 md:right-[-2%] rotate-[-12deg] bg-gold/10 border border-gold/20 backdrop-blur-sm px-6 py-3 md:px-10 md:py-4 rounded-sm">
-            <p className="text-gold/60 text-xs md:text-sm font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
-              {c.watermark}
-            </p>
-          </div>
-        </div>
-      ) : null}
     </section>;
 };
 export default Hero;
