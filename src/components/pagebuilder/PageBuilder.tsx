@@ -88,13 +88,6 @@ const PageBuilder = () => {
     );
   };
 
-  if (loading && !blocks) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
 
   return (
     <>
