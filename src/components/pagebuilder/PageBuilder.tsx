@@ -13,13 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { Loader2, Pencil, Plus, RotateCcw, Save, Upload, X } from "lucide-react";
+import { Pencil, Plus, RotateCcw, Save, Upload, X } from "lucide-react";
 
 const PageBuilder = () => {
   const { isAdmin } = useIsAdmin();
   const [editing, setEditing] = useState(false);
   const status = editing ? "draft" : "published";
-  const { blocks, setBlocks, loading, reload } = usePageLayout(status);
+  const { blocks, setBlocks, reload } = usePageLayout(status);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -88,13 +88,6 @@ const PageBuilder = () => {
     );
   };
 
-  if (loading && !blocks) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
 
   return (
     <>
