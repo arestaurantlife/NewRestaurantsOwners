@@ -53,6 +53,54 @@ export type Database = {
         }
         Relationships: []
       }
+      media_assets: {
+        Row: {
+          bucket: string
+          created_at: string
+          created_by: string | null
+          height: number | null
+          id: string
+          kind: string
+          mime: string | null
+          size: number | null
+          storage_path: string
+          tags: string[]
+          title: string
+          updated_at: string
+          width: number | null
+        }
+        Insert: {
+          bucket?: string
+          created_at?: string
+          created_by?: string | null
+          height?: number | null
+          id?: string
+          kind?: string
+          mime?: string | null
+          size?: number | null
+          storage_path: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+          width?: number | null
+        }
+        Update: {
+          bucket?: string
+          created_at?: string
+          created_by?: string | null
+          height?: number | null
+          id?: string
+          kind?: string
+          mime?: string | null
+          size?: number | null
+          storage_path?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          width?: number | null
+        }
+        Relationships: []
+      }
       page_layouts: {
         Row: {
           blocks: Json
@@ -80,6 +128,45 @@ export type Database = {
           status?: string
           updated_at?: string
           updated_by?: string | null
+        }
+        Relationships: []
+      }
+      pages: {
+        Row: {
+          created_at: string
+          id: string
+          is_system: boolean
+          meta_description: string | null
+          nav_label: string | null
+          show_in_nav: boolean
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          meta_description?: string | null
+          nav_label?: string | null
+          show_in_nav?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          meta_description?: string | null
+          nav_label?: string | null
+          show_in_nav?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -116,6 +203,33 @@ export type Database = {
           restaurant_name?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      site_theme: {
+        Row: {
+          created_at: string
+          id: string
+          status: string
+          tokens: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          status: string
+          tokens?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          status?: string
+          tokens?: Json
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }
