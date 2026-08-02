@@ -36,7 +36,7 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
             </div>
             {c.watermark ? (
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
-                <span className="text-gold text-sm font-medium">{c.watermark}</span>
+              <span className="text-gold text-sm font-medium animate-flash-gold-black">{c.watermark}</span>
               </div>
             ) : null}
           </div>

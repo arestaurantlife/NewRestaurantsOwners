@@ -181,3 +181,12 @@
     transform: scale(1);
   }
 }
+
+@keyframes flashGoldBlack {
+  0%, 100% {
+    color: hsl(var(--gold));
+  }
+  50% {
+    color: hsl(var(--charcoal));
+  }
+}
