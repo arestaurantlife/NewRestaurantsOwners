@@ -44,6 +44,7 @@ const EditableText = ({
 }: Props) => {
   const { editing, setProp, setListItemProp } = useEditor();
   const ref = useRef<HTMLElement>(null);
+  const T = Tag as unknown as AnyTag;
 
   // Keep the DOM in sync when the value changes from elsewhere (inspector, undo).
   useEffect(() => {
@@ -67,15 +68,15 @@ const EditableText = ({
   if (!editing) {
     if (!value) return null;
     return hasMarkup(value) ? (
-      <Tag className={className} dangerouslySetInnerHTML={{ __html: sanitize(value) }} />
+      <T className={className} dangerouslySetInnerHTML={{ __html: sanitize(value) }} />
     ) : (
-      <Tag className={className}>{value}</Tag>
+      <T className={className}>{value}</T>
     );
   }
 
   return (
-    <Tag
-      ref={ref as never}
+    <T
+      ref={ref}
       contentEditable
       suppressContentEditableWarning
       spellCheck={false}
