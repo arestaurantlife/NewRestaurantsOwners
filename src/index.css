@@ -145,6 +145,10 @@
   .animate-scale-in {
     animation: scaleIn 0.5s ease-out forwards;
   }
+
+  .animate-flash-gold-black {
+    animation: flashGoldBlack 1.5s ease-in-out infinite;
+  }
 }
 
 @keyframes fadeUp {
@@ -175,5 +179,14 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes flashGoldBlack {
+  0%, 100% {
+    color: hsl(var(--gold));
+  }
+  50% {
+    color: hsl(var(--charcoal));
   }
 }
