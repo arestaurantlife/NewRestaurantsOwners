@@ -3,8 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Block } from "./types";
 import { defaultBlocks } from "./registry";
 
-const PAGE_SLUG = "home";
-
 const parseBlocks = (raw: unknown): Block[] | null => {
   if (!Array.isArray(raw)) return null;
   const blocks = raw.filter(
@@ -13,7 +11,12 @@ const parseBlocks = (raw: unknown): Block[] | null => {
   return blocks.length ? blocks : null;
 };
 
-export function usePageLayout(status: "draft" | "published") {
+export function usePageLayout(
+  status: "draft" | "published",
+  slug = "home",
+  fallback?: () => Block[],
+) {
+  const makeFallback = fallback ?? (() => (slug === "home" ? defaultBlocks() : []));
   const [blocks, setBlocks] = useState<Block[] | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,12 +25,15 @@ export function usePageLayout(status: "draft" | "published") {
     const { data } = await supabase
       .from("page_layouts")
       .select("blocks")
-      .eq("page_slug", PAGE_SLUG)
+      .eq("page_slug", slug)
       .eq("status", status)
       .maybeSingle();
-    setBlocks(parseBlocks(data?.blocks) ?? defaultBlocks());
+    const parsed = parseBlocks(data?.blocks);
+    // A saved-but-empty layout is a legitimate state for custom pages.
+    setBlocks(parsed ?? (data ? [] : makeFallback()));
     setLoading(false);
-  }, [status]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, slug]);
 
   useEffect(() => {
     load();
@@ -36,11 +42,15 @@ export function usePageLayout(status: "draft" | "published") {
   return { blocks, setBlocks, loading, reload: load };
 }
 
-export async function saveLayout(status: "draft" | "published", blocks: Block[]) {
+export async function saveLayout(
+  status: "draft" | "published",
+  blocks: Block[],
+  slug = "home",
+) {
   const { data: userData } = await supabase.auth.getUser();
   const { error } = await supabase.from("page_layouts").upsert(
     {
-      page_slug: PAGE_SLUG,
+      page_slug: slug,
       status,
       blocks: blocks as unknown as never,
       updated_by: userData.user?.id ?? null,
