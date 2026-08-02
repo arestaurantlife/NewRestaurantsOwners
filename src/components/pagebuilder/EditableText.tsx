@@ -25,6 +25,10 @@ interface Props {
   list?: { key: string; index: number };
 }
 
+// Rendering an arbitrary intrinsic tag with arbitrary props explodes TS's union
+// inference, so we address the dynamic tag through a loose component type.
+type AnyTag = React.ComponentType<Record<string, unknown>>;
+
 /**
  * Renders text normally for visitors. In admin edit mode the same node becomes
  * click-to-type, committing sanitized HTML back into the block props on blur.
