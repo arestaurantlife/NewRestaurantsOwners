@@ -31,20 +31,23 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/features/financial-operations" element={<SubscriberRoute><FinancialOperations /></SubscriberRoute>} />
-              <Route path="/features/labor-cost-management" element={<SubscriberRoute><LaborCostManagement /></SubscriberRoute>} />
-              <Route path="/features/food-cost-control" element={<SubscriberRoute><FoodCostControl /></SubscriberRoute>} />
-              <Route path="/features/employee-training" element={<SubscriberRoute><EmployeeTraining /></SubscriberRoute>} />
-              <Route path="/features/essential-forms" element={<SubscriberRoute><EssentialForms /></SubscriberRoute>} />
-              <Route path="/features/community-support" element={<SubscriberRoute><CommunitySupport /></SubscriberRoute>} />
-              <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <ThemeProvider>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/features/financial-operations" element={<SubscriberRoute><FinancialOperations /></SubscriberRoute>} />
+                <Route path="/features/labor-cost-management" element={<SubscriberRoute><LaborCostManagement /></SubscriberRoute>} />
+                <Route path="/features/food-cost-control" element={<SubscriberRoute><FoodCostControl /></SubscriberRoute>} />
+                <Route path="/features/employee-training" element={<SubscriberRoute><EmployeeTraining /></SubscriberRoute>} />
+                <Route path="/features/essential-forms" element={<SubscriberRoute><EssentialForms /></SubscriberRoute>} />
+                <Route path="/features/community-support" element={<SubscriberRoute><CommunitySupport /></SubscriberRoute>} />
+                <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                {/* Any other URL is resolved against CMS pages, falling back to 404 */}
+                <Route path="*" element={<DynamicPage />} />
+              </Routes>
+            </ThemeProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
