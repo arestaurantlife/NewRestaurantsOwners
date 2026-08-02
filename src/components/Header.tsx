@@ -1,19 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePages } from "@/pagebuilder/usePages";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pages } = usePages();
+
+  const onHome = location.pathname === "/";
+  const anchor = (hash: string) => (onHome ? hash : `/${hash}`);
 
   const navLinks = [
-    { label: "Features", href: "#features" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "FAQ", href: "#faq" },
+    { label: "Features", href: anchor("#features") },
+    { label: "Pricing", href: anchor("#pricing") },
+    { label: "Testimonials", href: anchor("#testimonials") },
+    { label: "FAQ", href: anchor("#faq") },
+    ...pages
+      .filter((p) => p.show_in_nav && p.slug !== "home")
+      .map((p) => ({ label: p.nav_label || p.title, href: `/${p.slug}` })),
   ];
 
   const handleSignOut = async () => {
