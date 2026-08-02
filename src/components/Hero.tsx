@@ -12,7 +12,7 @@ export const heroDefaults = {
   primaryCta: "Start Your Free Trial",
   secondaryCta: "Watch How It Works",
   ratingText: "4.9/5 reviews",
-  watermark: "Website Coming Soon — Under Construction",
+  watermark: "UNDER CONSTRUCTION - WEBSITE COMING SOON",
 };
 
 const Hero = ({ content }: { content?: Record<string, unknown> }) => {

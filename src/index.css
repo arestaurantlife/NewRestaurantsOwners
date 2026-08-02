@@ -145,6 +145,10 @@
   .animate-scale-in {
     animation: scaleIn 0.5s ease-out forwards;
   }
+
+  .animate-flash-gold-black {
+    animation: flashGoldBlack 1.5s ease-in-out infinite;
+  }
 }
 
 @keyframes fadeUp {
