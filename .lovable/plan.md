@@ -1,18 +1,53 @@
-Plan: Update the hero "Website Coming Soon" watermark banner text and add a looping attention animation.
+## Goal
 
-1. Update the banner text
-- Change `heroDefaults.watermark` in `src/components/Hero.tsx` from "Website Coming Soon — Under Construction" to "UNDER CONSTRUCTION - WEBSITE COMING SOON".
-- The banner stays in the same location (next to the "Trusted by New Restaurants Owners" badge) and keeps the same pill styling.
+Turn the current homepage-only block builder into a full live website editor: edit any page in place, create new pages, upload and manage images/videos/PDFs, edit links, and control colors globally and per section — all from the live site while signed in as admin.
 
-2. Add a looping attention animation
-- Add a new keyframe animation to `src/index.css` (e.g., `flash-gold-black`) that continuously alternates the text color between the gold token (`text-gold`) and black/charcoal (`text-charcoal` or `text-black`).
-- Use `animation: flash-gold-black 1s ease-in-out infinite alternate` so it flashes non-stop without being too aggressive.
-- Apply the animation class to the watermark banner text only, leaving the trust badge unchanged.
+## What you'll be able to do
 
-3. Alternative option (recommended if you want something more polished but still eye-catching)
-- Instead of switching the font color between gold and black, keep the text legible as black/charcoal and apply a subtle gold-to-cream background pulse/shimmer on the banner itself. This is often easier to read while still drawing the eye, and it matches the site's premium palette. If you prefer this, I can implement it instead.
+- Click "Edit page" on **any** page (home, the 6 feature pages, and any page you create) and edit it live.
+- **Type directly on the page** for headings/paragraphs, with a small floating toolbar (bold, italic, link, list). Colors, media, buttons, and section settings stay in the side panel.
+- **Create new pages** with your own URL (e.g. `/about`, `/contact`), pick a starting layout, and publish. New pages can optionally be added to the header/footer menu.
+- **Media library**: upload images, videos and PDFs once, reuse them anywhere. Video sections support uploaded files or YouTube/Vimeo links.
+- **Colors**: a global theme editor (brand wine/gold/cream, text, buttons, fonts) plus per-section overrides for background, heading, text and button colors.
+- Draft vs Publish on every page, with Discard to roll back to the last saved draft.
 
-Technical notes
-- The change is scoped to `Hero.tsx` and `index.css` only.
-- No backend or page-builder changes are required; the watermark remains editable via the page builder because the `c.watermark` default value is what drives the default text.
-- The animation will use the existing design tokens (`--gold`, `--charcoal`) so it respects the wine/gold/cream theme.
+## Build phases
+
+**1. Data + storage (backend)**
+- Extend `page_layouts` to support many pages: add a `pages` table (`slug`, `title`, `meta_description`, `nav_label`, `show_in_nav`, `sort_order`, `is_system`) so pages can be created/listed/deleted; keep `page_layouts` keyed by slug + draft/published.
+- New `media_assets` table (`kind`, `title`, `storage_path`, `mime`, `size`, `width/height`, `tags`) as the media library index.
+- New public `site-media` storage bucket for images/videos; PDFs continue in the existing private bucket. Admin-only writes, public read for site media.
+- New `site_theme` table (single row, draft + published JSON) for global colors/fonts.
+- All tables: admin-only write policies, public read of published data, with grants.
+
+**2. Multi-page routing**
+- A catch-all route renders any published page from its stored blocks; the 6 feature pages and home keep their existing components but become editable page records.
+- Admin "Pages" panel in the edit toolbar: list, create, rename, change URL, delete, reorder nav.
+
+**3. Inline editing**
+- A `RichText` renderer used by section components: read-only normally, `contentEditable` with a floating toolbar in edit mode (bold, italic, underline, link, bullet list, clear formatting). Saves as sanitized HTML into the block props.
+- Panel editing (current inspector) stays for structured fields and lists.
+
+**4. Media manager**
+- Media library dialog: upload (drag & drop), search by title/tag, preview, insert, delete.
+- New field types in the block schema: `image`, `video`, `pdf`, `link` — each opens the picker.
+- New sections: Image, Video (upload or embed URL), PDF resource list, Rich text block, Button/CTA row, Spacer/Divider.
+
+**5. Colors & theme**
+- Theme editor drawer: brand colors, text colors, heading/body font, button radius — written to CSS variables so the whole site updates live.
+- Per-section "Design" tab in the inspector: background, heading, text, accent/button color chosen from theme tokens or a custom picker, plus padding size.
+
+**6. Links**
+- Any button/link field gets a picker: internal page (from the pages list), external URL, anchor to a section, or file/PDF.
+
+## Technical notes
+
+- Blocks stay `{ id, type, visible, props, design }` JSON; adding `design` is backward compatible with existing saved layouts.
+- Theme applies by setting HSL CSS variables on `:root` at runtime from the published theme row; defaults come from `src/index.css` so first paint is never blocked.
+- Public pages render defaults immediately and hydrate the saved layout after fetch (no loading spinner regression).
+- Inline HTML is sanitized before save and on render.
+- Admin gate reuses `useIsAdmin`; all editing UI is admin-only and never shipped into the public render path.
+
+## Order of delivery
+
+I'll build it in the phases above, checking in after phase 2 (multi-page + page creation working) and again after phase 4 (media) so you can try it before the theme work lands.
