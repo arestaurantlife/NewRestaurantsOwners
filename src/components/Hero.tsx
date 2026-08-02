@@ -33,11 +33,11 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
           }}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
               <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-gold text-sm font-medium">{c.badge}</span>
+              <EditableText field="badge" value={c.badge} plain className="text-gold text-sm font-medium" />
             </div>
             {c.watermark ? (
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
-              <span className="text-gold text-sm font-medium animate-flash-gold-black">{c.watermark}</span>
+              <EditableText field="watermark" value={c.watermark} plain className="text-gold text-sm font-medium animate-flash-gold-black" />
               </div>
             ) : null}
           </div>
@@ -45,13 +45,17 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{
           animationDelay: "0.2s"
         }}>
-            {c.titleLead}{" "}
-            <span className="text-gradient-gold">{c.titleAccent}</span>
+            <EditableText field="titleLead" value={c.titleLead} plain />{" "}
+            <EditableText field="titleAccent" value={c.titleAccent} plain className="text-gradient-gold" />
           </h1>
 
-          <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-2xl animate-fade-up" style={{
-          animationDelay: "0.3s"
-        }}>{c.subtitle}</p>
+          <EditableText
+            field="subtitle"
+            value={c.subtitle}
+            as="p"
+            className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-2xl animate-fade-up"
+          />
+
 
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{
           animationDelay: "0.4s"
