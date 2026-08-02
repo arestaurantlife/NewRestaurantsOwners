@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import heroVideo from "@/assets/hero-restaurant-video.mp4";
 import { merge } from "@/pagebuilder/types";
+import EditableText from "@/components/pagebuilder/EditableText";
 
 export const heroDefaults = {
   badge: "Trusted by New Restaurants Owners",
