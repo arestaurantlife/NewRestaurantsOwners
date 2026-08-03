@@ -1,53 +1,23 @@
-## Goal
+## What's happening
 
-Turn the current homepage-only block builder into a full live website editor: edit any page in place, create new pages, upload and manage images/videos/PDFs, edit links, and control colors globally and per section — all from the live site while signed in as admin.
+Signing in works — your account `arestaurant.life@gmail.com` is authenticated. The problem is roles: I checked the `user_roles` table and **no account in the project has the `admin` role**. All three users (including yours) are set to `user`.
 
-## What you'll be able to do
+Every admin surface (the "Edit page" toolbar, Pages, Media library, Theme editor, PDF manager) is gated behind `useIsAdmin`, which looks for an `admin` row in `user_roles`. With no admin row, the buttons never render — which is exactly what you're seeing.
 
-- Click "Edit page" on **any** page (home, the 6 feature pages, and any page you create) and edit it live.
-- **Type directly on the page** for headings/paragraphs, with a small floating toolbar (bold, italic, link, list). Colors, media, buttons, and section settings stay in the side panel.
-- **Create new pages** with your own URL (e.g. `/about`, `/contact`), pick a starting layout, and publish. New pages can optionally be added to the header/footer menu.
-- **Media library**: upload images, videos and PDFs once, reuse them anywhere. Video sections support uploaded files or YouTube/Vimeo links.
-- **Colors**: a global theme editor (brand wine/gold/cream, text, buttons, fonts) plus per-section overrides for background, heading, text and button colors.
-- Draft vs Publish on every page, with Discard to roll back to the last saved draft.
+Also note: new signups are auto-assigned `user` by the signup trigger, so the first admin has to be set deliberately.
 
-## Build phases
+## The fix
 
-**1. Data + storage (backend)**
-- Extend `page_layouts` to support many pages: add a `pages` table (`slug`, `title`, `meta_description`, `nav_label`, `show_in_nav`, `sort_order`, `is_system`) so pages can be created/listed/deleted; keep `page_layouts` keyed by slug + draft/published.
-- New `media_assets` table (`kind`, `title`, `storage_path`, `mime`, `size`, `width/height`, `tags`) as the media library index.
-- New public `site-media` storage bucket for images/videos; PDFs continue in the existing private bucket. Admin-only writes, public read for site media.
-- New `site_theme` table (single row, draft + published JSON) for global colors/fonts.
-- All tables: admin-only write policies, public read of published data, with grants.
+1. Insert an `admin` role row in `user_roles` for `arestaurant.life@gmail.com` (user id `122d7fd6-…`). Your existing `user` row stays; roles are additive.
+2. You sign out and back in (or reload) so the role check re-runs.
+3. Verify: on the homepage you should see the floating **Edit page** control; opening it gives Pages / Media / Theme / Save draft / Publish.
 
-**2. Multi-page routing**
-- A catch-all route renders any published page from its stored blocks; the 6 feature pages and home keep their existing components but become editable page records.
-- Admin "Pages" panel in the edit toolbar: list, create, rename, change URL, delete, reorder nav.
+## Optional add-on
 
-**3. Inline editing**
-- A `RichText` renderer used by section components: read-only normally, `contentEditable` with a floating toolbar in edit mode (bold, italic, underline, link, bullet list, clear formatting). Saves as sanitized HTML into the block props.
-- Panel editing (current inspector) stays for structured fields and lists.
-
-**4. Media manager**
-- Media library dialog: upload (drag & drop), search by title/tag, preview, insert, delete.
-- New field types in the block schema: `image`, `video`, `pdf`, `link` — each opens the picker.
-- New sections: Image, Video (upload or embed URL), PDF resource list, Rich text block, Button/CTA row, Spacer/Divider.
-
-**5. Colors & theme**
-- Theme editor drawer: brand colors, text colors, heading/body font, button radius — written to CSS variables so the whole site updates live.
-- Per-section "Design" tab in the inspector: background, heading, text, accent/button color chosen from theme tokens or a custom picker, plus padding size.
-
-**6. Links**
-- Any button/link field gets a picker: internal page (from the pages list), external URL, anchor to a section, or file/PDF.
+If you'd like, I can add a small "Admin" entry in the dashboard header that only appears for admins, so there's an obvious way in rather than relying on the floating edit button.
 
 ## Technical notes
 
-- Blocks stay `{ id, type, visible, props, design }` JSON; adding `design` is backward compatible with existing saved layouts.
-- Theme applies by setting HSL CSS variables on `:root` at runtime from the published theme row; defaults come from `src/index.css` so first paint is never blocked.
-- Public pages render defaults immediately and hydrate the saved layout after fetch (no loading spinner regression).
-- Inline HTML is sanitized before save and on render.
-- Admin gate reuses `useIsAdmin`; all editing UI is admin-only and never shipped into the public render path.
-
-## Order of delivery
-
-I'll build it in the phases above, checking in after phase 2 (multi-page + page creation working) and again after phase 4 (media) so you can try it before the theme work lands.
+- Single migration: `INSERT INTO public.user_roles (user_id, role) VALUES ('122d7fd6-f97d-4fd7-b1c0-942631d4688e', 'admin') ON CONFLICT DO NOTHING;`
+- No schema, policy, or grant changes needed — `has_role()` and the existing RLS policies already handle admin correctly.
+- Admin status stays server-side in the database; nothing is stored client-side.
