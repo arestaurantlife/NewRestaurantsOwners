@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { embedUrl, isMediaRef, useMediaUrl } from "@/pagebuilder/media";
+import { embedUrl, useMediaUrlState } from "@/pagebuilder/media";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
