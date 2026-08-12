@@ -1,6 +1,7 @@
 import { Play, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { merge } from "@/pagebuilder/types";
+import { useMediaUrl } from "@/pagebuilder/media";
 
 export const howItWorksDefaults = {
   eyebrow: "See It In Action",
@@ -23,6 +24,7 @@ export const howItWorksDefaults = {
 
 const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(howItWorksDefaults, content);
+  const imageUrl = useMediaUrl(c.imageUrl);
   return <section className="py-20 bg-charcoal relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
