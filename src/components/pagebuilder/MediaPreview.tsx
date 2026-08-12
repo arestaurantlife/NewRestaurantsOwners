@@ -28,7 +28,7 @@ const fileNameOf = (value: string) => {
 /** Shared preview of the final, resolved media a visitor will see. */
 const MediaPreview = ({ kind, value, showUrl = true }: Props) => {
   const embed = kind === "video" ? embedUrl(value) : null;
-  const url = useMediaUrl(embed ? "" : value);
+  const { url, status } = useMediaUrlState(embed ? "" : value);
   const [failed, setFailed] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -38,7 +38,8 @@ const MediaPreview = ({ kind, value, showUrl = true }: Props) => {
 
   if (!value) return null;
 
-  const resolving = isMediaRef(value) && !url;
+  const resolving = status === "loading";
+  const errored = failed || status === "error";
   const resolved = embed || url;
 
   const frame = "w-full h-40 rounded-md border border-border overflow-hidden bg-muted";
