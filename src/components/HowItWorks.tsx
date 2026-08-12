@@ -1,6 +1,7 @@
 import { Play, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { merge } from "@/pagebuilder/types";
+import { useMediaUrl } from "@/pagebuilder/media";
 
 export const howItWorksDefaults = {
   eyebrow: "See It In Action",
@@ -23,6 +24,7 @@ export const howItWorksDefaults = {
 
 const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(howItWorksDefaults, content);
+  const imageUrl = useMediaUrl(c.imageUrl);
   return <section className="py-20 bg-charcoal relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -36,7 +38,7 @@ const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
           {/* Video Section */}
           <div className="relative group">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img src={c.imageUrl} alt="Restaurant interior" className="w-full h-auto" />
+              <img src={imageUrl} alt="Restaurant interior" className="w-full h-auto" />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-transparent" />
 
               {/* Play Button */}
