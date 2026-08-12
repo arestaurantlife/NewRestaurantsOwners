@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import MediaPreview from "./MediaPreview";
+
 import { FileText, Film, Image as ImageIcon, Loader2, Trash2, Upload } from "lucide-react";
 import {
   MediaAsset,
