@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { embedUrl, isMediaRef, useMediaUrl } from "@/pagebuilder/media";
+import { embedUrl, useMediaUrlState } from "@/pagebuilder/media";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
@@ -28,7 +28,7 @@ const fileNameOf = (value: string) => {
 /** Shared preview of the final, resolved media a visitor will see. */
 const MediaPreview = ({ kind, value, showUrl = true }: Props) => {
   const embed = kind === "video" ? embedUrl(value) : null;
-  const url = useMediaUrl(embed ? "" : value);
+  const { url, status } = useMediaUrlState(embed ? "" : value);
   const [failed, setFailed] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -38,7 +38,8 @@ const MediaPreview = ({ kind, value, showUrl = true }: Props) => {
 
   if (!value) return null;
 
-  const resolving = isMediaRef(value) && !url;
+  const resolving = status === "loading";
+  const errored = failed || status === "error";
   const resolved = embed || url;
 
   const frame = "w-full h-40 rounded-md border border-border overflow-hidden bg-muted";
@@ -50,7 +51,7 @@ const MediaPreview = ({ kind, value, showUrl = true }: Props) => {
           <Loader2 className="w-4 h-4 animate-spin" />
           <span className="text-xs">Resolving…</span>
         </div>
-      ) : failed || !resolved ? (
+      ) : errored || !resolved ? (
         <div className={`${frame} flex flex-col items-center justify-center gap-1 text-destructive`}>
           <AlertTriangle className="w-5 h-5" />
           <span className="text-xs">Couldn't load this file</span>
