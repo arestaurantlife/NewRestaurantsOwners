@@ -31,7 +31,7 @@ const parseRef = (v: string) => {
 const cache = new Map<string, string>();
 const inflight = new Map<string, Promise<string>>();
 
-/** Resolves a stored value to a usable src. External URLs pass through. */
+/** Resolves a stored value to a usable src. External URLs pass through. Rejects on failure. */
 export async function resolveMediaUrl(value?: string | null): Promise<string> {
   if (!value) return "";
   if (!isMediaRef(value)) return value;
@@ -44,45 +44,69 @@ export async function resolveMediaUrl(value?: string | null): Promise<string> {
   const promise = supabase.storage
     .from(bucket)
     .createSignedUrl(path, 60 * 60 * 24 * 7)
-    .then(({ data }) => {
+    .then(({ data, error }) => {
       const url = data?.signedUrl ?? "";
-      if (url) cache.set(value, url);
+      if (error || !url) {
+        inflight.delete(value);
+        throw error ?? new Error("Could not create signed URL");
+      }
+      cache.set(value, url);
       inflight.delete(value);
       return url;
+    })
+    .catch((err) => {
+      inflight.delete(value);
+      throw err;
     });
   inflight.set(value, promise);
   return promise;
 }
 
-/** Hook version — returns "" until resolved (external URLs resolve instantly). */
-export function useMediaUrl(value?: string | null) {
-  const [url, setUrl] = useState(() => (isMediaRef(value) ? cache.get(value!) ?? "" : value ?? ""));
+export type MediaUrlStatus = "empty" | "loading" | "ready" | "error";
+
+/** Hook returning the resolved url plus its resolution status. */
+export function useMediaUrlState(value?: string | null): {
+  url: string;
+  status: MediaUrlStatus;
+} {
+  const initial = () => {
+    if (!value) return { url: "", status: "empty" as MediaUrlStatus };
+    if (!isMediaRef(value)) return { url: value, status: "ready" as MediaUrlStatus };
+    const cached = cache.get(value);
+    return cached
+      ? { url: cached, status: "ready" as MediaUrlStatus }
+      : { url: "", status: "loading" as MediaUrlStatus };
+  };
+  const [state, setState] = useState(initial);
 
   useEffect(() => {
     let cancelled = false;
-    if (!value) {
-      setUrl("");
-      return;
-    }
-    if (!isMediaRef(value)) {
-      setUrl(value);
-      return;
-    }
-    const cached = cache.get(value);
-    if (cached) {
-      setUrl(cached);
-      return;
-    }
-    resolveMediaUrl(value).then((u) => {
-      if (!cancelled) setUrl(u);
-    });
+    const next = initial();
+    setState(next);
+    if (next.status !== "loading") return;
+
+    resolveMediaUrl(value).then(
+      (u) => {
+        if (cancelled) return;
+        setState(u ? { url: u, status: "ready" } : { url: "", status: "error" });
+      },
+      () => {
+        if (!cancelled) setState({ url: "", status: "error" });
+      },
+    );
     return () => {
       cancelled = true;
     };
   }, [value]);
 
-  return url;
+  return state;
 }
+
+/** Hook version — returns "" until resolved (external URLs resolve instantly). */
+export function useMediaUrl(value?: string | null) {
+  return useMediaUrlState(value).url;
+}
+
 
 const kindFor = (file: File) => {
   if (file.type.startsWith("image/")) return "image";
