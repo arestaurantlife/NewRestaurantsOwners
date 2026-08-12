@@ -146,11 +146,7 @@ const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => 
                 className="bg-white rounded-2xl overflow-hidden shadow-elegant hover:shadow-xl transition-all duration-300 group"
               >
                 <div className="relative overflow-hidden">
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                  <CourseImage src={course.image} alt={course.title} />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-gold text-charcoal px-3 py-1 rounded-full text-xs font-bold">
