@@ -214,7 +214,11 @@ const MediaLibraryDialog = ({ open, onOpenChange, kind, onSelect }: Props) => {
                 Use
               </Button>
             </div>
+            {urlValue.trim() ? (
+              <MediaPreview kind={kind ?? "image"} value={urlValue.trim()} />
+            ) : null}
           </TabsContent>
+
         </Tabs>
       </DialogContent>
     </Dialog>
