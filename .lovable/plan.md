@@ -1,23 +1,24 @@
-## What's happening
+# Live preview of selected media in the editor
 
-Signing in works — your account `arestaurant.life@gmail.com` is authenticated. The problem is roles: I checked the `user_roles` table and **no account in the project has the `admin` role**. All three users (including yours) are set to `user`.
+Make the side-panel media picker show exactly what visitors will see: the fully resolved (signed) URL for anything chosen from the library, for images, videos and PDFs alike.
 
-Every admin surface (the "Edit page" toolbar, Pages, Media library, Theme editor, PDF manager) is gated behind `useIsAdmin`, which looks for an `admin` row in `user_roles`. With no admin row, the buttons never render — which is exactly what you're seeing.
+## What changes
 
-Also note: new signups are auto-assigned `user` by the signup trigger, so the first admin has to be set deliberately.
+**Media field (used by every section field of type image / video / pdf)**
+- Always resolve the stored value through the signed-URL resolver, not just for images.
+- Image: show the resolved thumbnail (as today) plus a "resolving…" placeholder while the signed URL is being fetched, and a clear "couldn't load this file" state if it fails.
+- Video: show a small inline player for uploaded videos, and a YouTube/Vimeo embed preview for pasted links.
+- PDF: show a compact preview card with the file name and an "Open" link that uses the resolved URL.
+- Show the resolved destination underneath (truncated, with a copy button) so it is obvious the value points at a real file rather than an unresolved `media:` reference.
 
-## The fix
+**Media library dialog**
+- The "Use a URL" tab gets the same live preview before confirming.
 
-1. Insert an `admin` role row in `user_roles` for `arestaurant.life@gmail.com` (user id `122d7fd6-…`). Your existing `user` row stays; roles are additive.
-2. You sign out and back in (or reload) so the role check re-runs.
-3. Verify: on the homepage you should see the floating **Edit page** control; opening it gives Pages / Media / Theme / Save draft / Publish.
-
-## Optional add-on
-
-If you'd like, I can add a small "Admin" entry in the dashboard header that only appears for admins, so there's an obvious way in rather than relying on the floating edit button.
+**Section safety check**
+- Verify every section that renders media resolves it through the same helper, so a picked file never renders as a raw `media:` string. Sections audited: Hero, How It Works, Podcasts & Courses, Image, Page Hero, Video, PDF list, and any list items with image fields.
 
 ## Technical notes
 
-- Single migration: `INSERT INTO public.user_roles (user_id, role) VALUES ('122d7fd6-f97d-4fd7-b1c0-942631d4688e', 'admin') ON CONFLICT DO NOTHING;`
-- No schema, policy, or grant changes needed — `has_role()` and the existing RLS policies already handle admin correctly.
-- Admin status stays server-side in the database; nothing is stored client-side.
+- Extend `src/components/pagebuilder/MediaField.tsx` to call `useMediaUrl` for all kinds and add loading/error/preview states; reuse `embedUrl()` from `src/pagebuilder/media.ts` for YouTube/Vimeo.
+- Add a small shared `MediaPreview` component so the field and the library's URL tab render identical previews.
+- No database, storage or RLS changes; presentation only.
