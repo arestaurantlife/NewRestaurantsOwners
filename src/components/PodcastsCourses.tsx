@@ -1,6 +1,18 @@
 import { Play, Headphones, Video, Star, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { merge } from "@/pagebuilder/types";
+import { useMediaUrl } from "@/pagebuilder/media";
+
+const CourseImage = ({ src, alt }: { src: string; alt: string }) => {
+  const url = useMediaUrl(src);
+  return (
+    <img
+      src={url}
+      alt={alt}
+      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+    />
+  );
+};
 
 export const podcastsCoursesDefaults = {
   eyebrow: "Learn From The Best",
