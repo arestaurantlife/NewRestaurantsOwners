@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import MediaLibraryDialog from "./MediaLibraryDialog";
-import { useMediaUrl } from "@/pagebuilder/media";
+import MediaPreview from "./MediaPreview";
 import { FileText, Film, Image as ImageIcon, X } from "lucide-react";
 
 interface Props {
@@ -19,18 +19,12 @@ const ICON = { image: ImageIcon, video: Film, pdf: FileText } as const;
 const MediaField = ({ kind, value, onChange, allowUrl = true }: Props) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState(value);
-  const url = useMediaUrl(kind === "image" ? value : "");
   const Icon = ICON[kind];
 
   return (
     <div className="space-y-2">
-      {kind === "image" && url ? (
-        <img
-          src={url}
-          alt="Selected"
-          className="w-full h-28 object-cover rounded-md border border-border"
-        />
-      ) : null}
+      {value ? <MediaPreview kind={kind} value={value} /> : null}
+
 
       <div className="flex gap-2">
         <Button
