@@ -48,13 +48,14 @@ Deno.serve(async (req) => {
     if (!allowed) return json({ allowed: false, reason: "subscribe" });
 
     const { data: rows } = await admin
-      .from("feature_pdfs").select("id, storage_path").eq("feature_slug", featureSlug);
+      .from("feature_pdfs").select("id, feature_slug, title, description, storage_path, sort_order, tags, created_at").eq("feature_slug", featureSlug)
+      .order("sort_order", { ascending: true }).order("created_at", { ascending: true });
     const urls: Record<string, string> = {};
     await Promise.all((rows ?? []).map(async (r) => {
       const { data } = await admin.storage.from("feature-pdfs").createSignedUrl(r.storage_path, 3600);
       if (data?.signedUrl) urls[r.id] = data.signedUrl;
     }));
-    return json({ allowed: true, urls });
+    return json({ allowed: true, urls, rows: rows ?? [] });
   } catch (e) {
     console.error("[GET-PDF-URLS]", e);
     return json({ error: "Could not load documents" }, 500);

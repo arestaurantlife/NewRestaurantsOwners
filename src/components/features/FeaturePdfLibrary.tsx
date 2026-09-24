@@ -74,35 +74,23 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("feature_pdfs")
-      .select("*")
-      .eq("feature_slug", featureSlug)
-      .order("sort_order", { ascending: true })
-      .order("created_at", { ascending: true });
-
-    if (error) {
-      toast.error("Failed to load PDFs");
-      setLoading(false);
-      return;
-    }
-
-    const list = ((data ?? []) as any[]).map((r) => ({
-      ...r,
-      tags: Array.isArray(r.tags) ? r.tags : [],
-    })) as FeaturePdfRow[];
-    setRows(list);
-
     const { data: access, error: accessErr } = await supabase.functions.invoke("get-pdf-urls", {
       body: { featureSlug },
     });
     if (accessErr || !access?.allowed) {
       setLocked(access?.reason === "signin" ? "signin" : "subscribe");
+      setRows([]);
       setUrls({});
-    } else {
-      setLocked(null);
-      setUrls(access.urls ?? {});
+      setLoading(false);
+      return;
     }
+    const list = ((access.rows ?? []) as any[]).map((r) => ({
+      ...r,
+      tags: Array.isArray(r.tags) ? r.tags : [],
+    })) as FeaturePdfRow[];
+    setLocked(null);
+    setRows(list);
+    setUrls(access.urls ?? {});
     setLoading(false);
   }, [featureSlug]);
 
