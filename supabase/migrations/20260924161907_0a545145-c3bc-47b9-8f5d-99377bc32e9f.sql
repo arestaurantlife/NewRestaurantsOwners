@@ -1,0 +1,2 @@
+DROP POLICY IF EXISTS "Public can read feature pdfs" ON storage.objects;
+CREATE POLICY "Admins can read feature pdfs files" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'feature-pdfs' AND public.has_role(auth.uid(), 'admin'::public.app_role));
