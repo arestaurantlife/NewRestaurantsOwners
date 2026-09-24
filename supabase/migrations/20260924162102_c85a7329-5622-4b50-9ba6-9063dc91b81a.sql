@@ -1,0 +1,2 @@
+DROP POLICY IF EXISTS "Anyone can view feature pdfs" ON public.feature_pdfs;
+CREATE POLICY "Admins can view feature pdfs" ON public.feature_pdfs FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'admin'::public.app_role));
