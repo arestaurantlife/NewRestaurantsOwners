@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { Loader2, Search, X, BookOpen, Star } from "lucide-react";
+import { Loader2, Search, X, BookOpen, Star, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
@@ -36,6 +37,7 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [locked, setLocked] = useState<null | "signin" | "subscribe">(null);
 
   const availableTags = useMemo(() => {
     const counts = new Map<string, number>();
@@ -91,16 +93,16 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
     })) as FeaturePdfRow[];
     setRows(list);
 
-    const signed: Record<string, string> = {};
-    await Promise.all(
-      list.map(async (row) => {
-        const { data: s } = await supabase.storage
-          .from(BUCKET)
-          .createSignedUrl(row.storage_path, 3600);
-        if (s?.signedUrl) signed[row.id] = s.signedUrl;
-      })
-    );
-    setUrls(signed);
+    const { data: access, error: accessErr } = await supabase.functions.invoke("get-pdf-urls", {
+      body: { featureSlug },
+    });
+    if (accessErr || !access?.allowed) {
+      setLocked(access?.reason === "signin" ? "signin" : "subscribe");
+      setUrls({});
+    } else {
+      setLocked(null);
+      setUrls(access.urls ?? {});
+    }
     setLoading(false);
   }, [featureSlug]);
 
@@ -139,6 +141,25 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
       })
       .filter((x): x is { tag: string; row: FeaturePdfRow } => x !== null);
   }, [quickLinkTags, rows]);
+
+  if (!loading && locked) {
+    return (
+      <div className="text-center py-12 px-6 bg-muted/30 rounded-2xl border border-dashed border-border">
+        <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
+        <p className="font-display text-xl font-bold text-foreground mb-2">Subscribers only</p>
+        <p className="text-muted-foreground mb-4">
+          {locked === "signin"
+            ? "Sign in with a paid subscription to open and download these PDFs."
+            : "An active paid subscription is required to open and download these PDFs."}
+        </p>
+        <Button asChild>
+          <Link to={locked === "signin" ? "/auth" : "/#pricing"}>
+            {locked === "signin" ? "Sign in" : "View plans"}
+          </Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
