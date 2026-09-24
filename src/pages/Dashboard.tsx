@@ -1,17 +1,22 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  BookOpen, 
-  Headphones, 
-  FileText, 
-  Palette, 
-  MapPin, 
+import {
+  BookOpen,
+  Headphones,
+  FileText,
+  Palette,
+  MapPin,
   Loader2,
   LogOut,
-  User
+  User,
+  DollarSign,
+  Users,
+  ChefHat,
+  GraduationCap,
+  HeartHandshake,
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -42,41 +47,16 @@ const Dashboard = () => {
   }
 
   const features = [
-    {
-      icon: BookOpen,
-      title: "Courses",
-      description: "Access our library of restaurant management courses",
-      href: "/dashboard/courses",
-      available: false,
-    },
-    {
-      icon: Headphones,
-      title: "Podcasts",
-      description: "Listen to expert interviews and insights",
-      href: "/dashboard/podcasts",
-      available: false,
-    },
-    {
-      icon: FileText,
-      title: "Forms & Templates",
-      description: "Download essential restaurant forms",
-      href: "/dashboard/forms",
-      available: false,
-    },
-    {
-      icon: Palette,
-      title: "Design Services",
-      description: "Get professional menu and branding design",
-      href: "/dashboard/design",
-      available: false,
-    },
-    {
-      icon: MapPin,
-      title: "Supplier Finder",
-      description: "Find trusted suppliers in your area",
-      href: "/dashboard/suppliers",
-      available: false,
-    },
+    { icon: DollarSign, title: "Financial Operations", description: "Guides and PDFs for running profitable finances", href: "/features/financial-operations", available: true },
+    { icon: Users, title: "Labor Cost Management", description: "Scheduling and labor cost resources", href: "/features/labor-cost-management", available: true },
+    { icon: ChefHat, title: "Food Cost Control", description: "Inventory, waste and food cost resources", href: "/features/food-cost-control", available: true },
+    { icon: GraduationCap, title: "Employee Training", description: "New hire training materials", href: "/features/employee-training", available: true },
+    { icon: FileText, title: "Forms & Templates", description: "Browse and download essential restaurant forms", href: "/features/essential-forms", available: true },
+    { icon: HeartHandshake, title: "Community Support", description: "Connect with other restaurant owners", href: "/features/community-support", available: true },
+    { icon: BookOpen, title: "Courses", description: "Access our library of restaurant management courses", href: "#", available: false },
+    { icon: Headphones, title: "Podcasts", description: "Listen to expert interviews and insights", href: "#", available: false },
+    { icon: Palette, title: "Design Services", description: "Get professional menu and branding design", href: "#", available: false },
+    { icon: MapPin, title: "Supplier Finder", description: "Find trusted suppliers in your area", href: "#", available: false },
   ];
 
   return (
@@ -120,13 +100,15 @@ const Dashboard = () => {
                 <CardDescription>{feature.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  disabled={!feature.available}
-                >
-                  {feature.available ? "Access" : "Coming Soon"}
-                </Button>
+                {feature.available ? (
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to={feature.href}>Open</Link>
+                  </Button>
+                ) : (
+                  <Button variant="outline" className="w-full" disabled>
+                    Coming Soon
+                  </Button>
+                )}
               </CardContent>
               {!feature.available && (
                 <div className="absolute top-4 right-4">
