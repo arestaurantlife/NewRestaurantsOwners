@@ -3,11 +3,11 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   BookOpen,
-  Headphones,
   FileText,
   Palette,
   MapPin,
@@ -26,6 +26,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [portalLoading, setPortalLoading] = useState(false);
+  const { isAdmin } = useIsAdmin();
 
   useEffect(() => {
     if (searchParams.get("checkout") === "success" && session?.access_token) {
@@ -85,8 +86,7 @@ const Dashboard = () => {
     { icon: GraduationCap, title: "Employee Training", description: "New hire training materials", href: "/features/employee-training", available: true },
     { icon: FileText, title: "Forms & Templates", description: "Browse and download essential restaurant forms", href: "/features/essential-forms", available: true },
     { icon: HeartHandshake, title: "Community Support", description: "Connect with other restaurant owners", href: "/features/community-support", available: true },
-    { icon: BookOpen, title: "Courses", description: "Access our library of restaurant management courses", href: "#", available: false },
-    { icon: Headphones, title: "Podcasts", description: "Listen to expert interviews and insights", href: "#", available: false },
+    { icon: BookOpen, title: "Learning Library", description: "Courses, videos and podcasts from successful operators", href: "/learn", available: true },
     { icon: Palette, title: "Design Services", description: "Get professional menu and branding design", href: "#", available: false },
     { icon: MapPin, title: "Supplier Finder", description: "Find trusted suppliers in your area", href: "#", available: false },
   ];
@@ -119,6 +119,11 @@ const Dashboard = () => {
           <p className="text-muted-foreground mt-2">
             Access all your restaurant resources and tools in one place.
           </p>
+          {isAdmin && (
+            <Button variant="outline" size="sm" className="mt-4" asChild>
+              <Link to="/admin/content">Manage Content</Link>
+            </Button>
+          )}
         </div>
 
         <Card className="mb-8">

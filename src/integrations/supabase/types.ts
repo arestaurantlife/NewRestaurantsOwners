@@ -14,6 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      content_items: {
+        Row: {
+          access: string
+          created_at: string
+          description: string | null
+          duration: string | null
+          id: string
+          kind: string
+          media_url: string | null
+          min_tier: string
+          parent_id: string | null
+          published: boolean
+          slug: string
+          sort_order: number
+          storage_path: string | null
+          thumbnail: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          access?: string
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          kind: string
+          media_url?: string | null
+          min_tier?: string
+          parent_id?: string | null
+          published?: boolean
+          slug: string
+          sort_order?: number
+          storage_path?: string | null
+          thumbnail?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          access?: string
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          kind?: string
+          media_url?: string | null
+          min_tier?: string
+          parent_id?: string | null
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          storage_path?: string | null
+          thumbnail?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_items_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feature_pdfs: {
         Row: {
           created_at: string
