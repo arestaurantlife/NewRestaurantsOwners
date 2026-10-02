@@ -1,5 +1,7 @@
-import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,8 +22,38 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
-  const { user, loading, signOut } = useAuth();
+  const { user, session, loading, signOut, subscription, subscriptionLoading, checkSubscription } = useAuth();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("checkout") === "success" && session?.access_token) {
+      checkSubscription();
+      toast.success("Welcome aboard!", { description: "Your subscription is being activated." });
+      const next = new URLSearchParams(searchParams);
+      next.delete("checkout");
+      setSearchParams(next, { replace: true });
+    }
+  }, [searchParams, session?.access_token, checkSubscription, setSearchParams]);
+
+  const handleManageBilling = async () => {
+    if (!session) return;
+    setPortalLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (error || !data?.url) throw error ?? new Error("No portal URL");
+      const w = window.open(data.url, "_blank");
+      if (!w || w.closed) window.location.href = data.url;
+    } catch (err) {
+      console.error("Portal error:", err);
+      toast.error("Couldn't open billing. Please try again.");
+    } finally {
+      setPortalLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -88,6 +120,55 @@ const Dashboard = () => {
             Access all your restaurant resources and tools in one place.
           </p>
         </div>
+
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-xl">Your Plan</CardTitle>
+            <CardDescription>Your current membership and billing</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            {(() => {
+              const tierName = subscription.tier
+                ? subscription.tier.charAt(0).toUpperCase() + subscription.tier.slice(1)
+                : "None";
+              const statusLabel = !subscription.subscribed
+                ? "None"
+                : subscription.status === "trialing" ? "Trial" : "Active";
+              const date = subscription.status === "trialing" ? subscription.trialEnd : subscription.subscriptionEnd;
+              const dateLabel = subscription.status === "trialing" ? "Trial ends" : "Renews";
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <p className="text-muted-foreground">Plan</p>
+                    <p className="font-semibold text-foreground">{subscriptionLoading && !subscription.subscribed ? "Checking..." : tierName}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Status</p>
+                    <p className="font-semibold text-foreground">{statusLabel}</p>
+                  </div>
+                  {subscription.subscribed && date && (
+                    <div>
+                      <p className="text-muted-foreground">{dateLabel}</p>
+                      <p className="font-semibold text-foreground">{new Date(date).toLocaleDateString()}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+            <div className="flex gap-2">
+              {subscription.subscribed ? (
+                <Button onClick={handleManageBilling} disabled={portalLoading}>
+                  {portalLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  Manage Billing
+                </Button>
+              ) : (
+                <Button asChild>
+                  <Link to="/#pricing">View Plans</Link>
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (

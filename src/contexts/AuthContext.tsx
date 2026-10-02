@@ -6,6 +6,8 @@ interface SubscriptionStatus {
   subscribed: boolean;
   tier: string | null;
   subscriptionEnd: string | null;
+  status: string | null;
+  trialEnd: string | null;
 }
 
 interface AuthContextType {
@@ -38,12 +40,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     subscribed: false,
     tier: null,
     subscriptionEnd: null,
+    status: null,
+    trialEnd: null,
   });
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
 
   const checkSubscription = useCallback(async () => {
     if (!session?.access_token) {
-      setSubscription({ subscribed: false, tier: null, subscriptionEnd: null });
+      setSubscription({ subscribed: false, tier: null, subscriptionEnd: null, status: null, trialEnd: null });
       return;
     }
 
@@ -57,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (error) {
         console.error("Error checking subscription:", error);
-        setSubscription({ subscribed: false, tier: null, subscriptionEnd: null });
+        setSubscription({ subscribed: false, tier: null, subscriptionEnd: null, status: null, trialEnd: null });
         return;
       }
 
@@ -65,10 +69,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         subscribed: data.subscribed ?? false,
         tier: data.tier ?? null,
         subscriptionEnd: data.subscription_end ?? null,
+        status: data.status ?? null,
+        trialEnd: data.trial_end ?? null,
       });
     } catch (err) {
       console.error("Failed to check subscription:", err);
-      setSubscription({ subscribed: false, tier: null, subscriptionEnd: null });
+      setSubscription({ subscribed: false, tier: null, subscriptionEnd: null, status: null, trialEnd: null });
     } finally {
       setSubscriptionLoading(false);
     }
@@ -99,19 +105,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (session?.access_token) {
       checkSubscription();
     } else {
-      setSubscription({ subscribed: false, tier: null, subscriptionEnd: null });
+      setSubscription({ subscribed: false, tier: null, subscriptionEnd: null, status: null, trialEnd: null });
     }
   }, [session?.access_token, checkSubscription]);
 
-  // Refresh subscription status every 60 seconds when logged in
+  // Refresh subscription status when the window regains focus
   useEffect(() => {
     if (!session?.access_token) return;
+    const onFocus = () => checkSubscription();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [session?.access_token, checkSubscription]);
 
-    const interval = setInterval(() => {
+  // Refresh after returning from checkout
+  useEffect(() => {
+    if (!session?.access_token) return;
+    if (new URLSearchParams(window.location.search).get("checkout") === "success") {
       checkSubscription();
-    }, 60000);
-
-    return () => clearInterval(interval);
+    }
   }, [session?.access_token, checkSubscription]);
 
   const signUp = async (email: string, password: string, fullName?: string) => {
@@ -140,7 +151,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    setSubscription({ subscribed: false, tier: null, subscriptionEnd: null });
+    setSubscription({ subscribed: false, tier: null, subscriptionEnd: null, status: null, trialEnd: null });
   };
 
   return (

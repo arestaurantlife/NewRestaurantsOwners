@@ -60,23 +60,31 @@ serve(async (req) => {
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     let customerId: string | undefined;
     
+    let hasEverSubscribed = false;
+
     if (customers.data.length > 0) {
       customerId = customers.data[0].id;
       logStep("Existing customer found", { customerId });
-      
-      // Check for active subscription
-      const subscriptions = await stripe.subscriptions.list({
+
+      const allSubs = await stripe.subscriptions.list({
         customer: customerId,
-        status: "active",
-        limit: 1,
+        status: "all",
+        limit: 100,
       });
-      
-      if (subscriptions.data.length > 0) {
+      hasEverSubscribed = allSubs.data.length > 0;
+
+      if (allSubs.data.some((s) => s.status === "active" || s.status === "trialing")) {
         throw new Error("You already have an active subscription. Please manage it from your dashboard.");
       }
     }
 
+    const STARTER_PRICE_ID = "price_1SnFjL7hlrnyTBF1Yy2TWm9C";
+    const giveTrial = priceId === STARTER_PRICE_ID && !hasEverSubscribed;
+    logStep("Trial eligibility", { giveTrial, hasEverSubscribed });
+
     const ALLOWED_ORIGINS = new Set([
+      "https://newrestaurantsowners.com",
+      "https://www.newrestaurantsowners.com",
       "https://newrestaurantsowners.lovable.app",
       "http://localhost:5173",
       "http://localhost:8080",
@@ -84,7 +92,7 @@ serve(async (req) => {
     const requestOrigin = req.headers.get("origin") ?? "";
     const origin = ALLOWED_ORIGINS.has(requestOrigin)
       ? requestOrigin
-      : "https://newrestaurantsowners.lovable.app";
+      : "https://newrestaurantsowners.com";
     
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -94,6 +102,9 @@ serve(async (req) => {
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/?checkout=cancelled`,
       allow_promotion_codes: true,
+      ...(giveTrial
+        ? { subscription_data: { trial_period_days: 7 }, payment_method_collection: "always" as const }
+        : {}),
     });
 
     logStep("Checkout session created", { sessionId: session.id, url: session.url });

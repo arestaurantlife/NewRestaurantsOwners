@@ -15,7 +15,7 @@ export const pricingDefaults = {
   titleLead: "Invest in Your",
   titleAccent: "Restaurant's Success",
   subtitle:
-    "Choose the plan that fits your needs. All plans include a 7-day free trial—credit card required.",
+    "Starter includes a 7-day free trial. Credit card required. You won't be charged until day 8; cancel anytime before then.",
   guarantee: "💰 14-day money-back guarantee.",
   plans: [
     {
@@ -156,8 +156,11 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                   {isLoading ? <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Processing...
-                    </> : isCurrent ? "Current Plan" : "Start Free Trial"}
+                    </> : isCurrent ? "Current Plan" : key === "starter" ? "Start 7-Day Free Trial" : "Subscribe"}
                 </Button>
+                {key === "starter" && <p className={`text-xs text-center mt-2 ${popular ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                    Card required. Billed $47/month after 7 days unless cancelled.
+                  </p>}
               </div>;
         })}
         </div>

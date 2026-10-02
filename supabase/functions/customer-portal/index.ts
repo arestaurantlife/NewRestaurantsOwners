@@ -51,6 +51,8 @@ serve(async (req) => {
     logStep("Found Stripe customer", { customerId });
 
     const ALLOWED_ORIGINS = new Set([
+      "https://newrestaurantsowners.com",
+      "https://www.newrestaurantsowners.com",
       "https://newrestaurantsowners.lovable.app",
       "http://localhost:5173",
       "http://localhost:8080",
@@ -58,7 +60,7 @@ serve(async (req) => {
     const requestOrigin = req.headers.get("origin") ?? "";
     const origin = ALLOWED_ORIGINS.has(requestOrigin)
       ? requestOrigin
-      : "https://newrestaurantsowners.lovable.app";
+      : "https://newrestaurantsowners.com";
     
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
