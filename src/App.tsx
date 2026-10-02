@@ -12,12 +12,6 @@ import NotFound from "./pages/NotFound";
 import OAuthConsent from "./pages/OAuthConsent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SubscriberRoute from "./components/SubscriberRoute";
-import FinancialOperations from "./pages/features/FinancialOperations";
-import LaborCostManagement from "./pages/features/LaborCostManagement";
-import FoodCostControl from "./pages/features/FoodCostControl";
-import EmployeeTraining from "./pages/features/EmployeeTraining";
-import EssentialForms from "./pages/features/EssentialForms";
-import CommunitySupport from "./pages/features/CommunitySupport";
 import ResetPassword from "./pages/ResetPassword";
 import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
@@ -40,12 +34,6 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/features/financial-operations" element={<SubscriberRoute><FinancialOperations /></SubscriberRoute>} />
-                <Route path="/features/labor-cost-management" element={<SubscriberRoute><LaborCostManagement /></SubscriberRoute>} />
-                <Route path="/features/food-cost-control" element={<SubscriberRoute><FoodCostControl /></SubscriberRoute>} />
-                <Route path="/features/employee-training" element={<SubscriberRoute><EmployeeTraining /></SubscriberRoute>} />
-                <Route path="/features/essential-forms" element={<SubscriberRoute><EssentialForms /></SubscriberRoute>} />
-                <Route path="/features/community-support" element={<SubscriberRoute><CommunitySupport /></SubscriberRoute>} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 {/* Any other URL is resolved against CMS pages, falling back to 404 */}

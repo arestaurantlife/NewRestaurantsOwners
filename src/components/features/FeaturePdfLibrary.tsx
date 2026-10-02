@@ -142,7 +142,7 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
         </p>
         <Button asChild>
           <Link to={locked === "signin" ? "/auth" : "/#pricing"}>
-            {locked === "signin" ? "Sign in" : "View plans"}
+            {locked === "signin" ? "Sign in" : "Start your free trial"}
           </Link>
         </Button>
       </div>
