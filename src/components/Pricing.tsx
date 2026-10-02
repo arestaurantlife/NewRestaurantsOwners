@@ -156,8 +156,11 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                   {isLoading ? <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Processing...
-                    </> : isCurrent ? "Current Plan" : "Start Free Trial"}
+                    </> : isCurrent ? "Current Plan" : key === "starter" ? "Start 7-Day Free Trial" : "Subscribe"}
                 </Button>
+                {key === "starter" && <p className={`text-xs text-center mt-2 ${popular ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                    Card required. Billed $47/month after 7 days unless cancelled.
+                  </p>}
               </div>;
         })}
         </div>
