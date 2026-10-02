@@ -1,7 +1,10 @@
 import { Play, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { merge } from "@/pagebuilder/types";
-import { useMediaUrl } from "@/pagebuilder/media";
+import { useState } from "react";
+import { useMediaUrl, embedUrl } from "@/pagebuilder/media";
+import { useGo } from "@/lib/navigate";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 export const howItWorksDefaults = {
   eyebrow: "See It In Action",
@@ -20,12 +23,19 @@ export const howItWorksDefaults = {
   ],
   primaryCta: "Start Your Free Trial",
   secondaryCta: "Schedule a Demo",
+  primaryHref: "#pricing",
+  secondaryHref: "/contact",
+  videoUrl: "",
 };
 
 const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(howItWorksDefaults, content);
   const imageUrl = useMediaUrl(c.imageUrl);
-  return <section className="py-20 bg-charcoal relative overflow-hidden">
+  const go = useGo();
+  const [open, setOpen] = useState(false);
+  const embed = embedUrl(c.videoUrl);
+  const fileUrl = useMediaUrl(embed ? "" : c.videoUrl);
+  return <section id="how-it-works" className="py-20 bg-charcoal relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -42,8 +52,8 @@ const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-transparent" />
 
               {/* Play Button */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <button className="w-24 h-24 bg-gold rounded-full flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform duration-300">
+              {c.videoUrl ? <><div className="absolute inset-0 flex items-center justify-center">
+                <button type="button" aria-label="Play video" onClick={() => setOpen(true)} className="w-24 h-24 bg-gold rounded-full flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform duration-300">
                   <Play className="w-10 h-10 text-charcoal ml-2" />
                 </button>
               </div>
@@ -53,7 +63,7 @@ const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
                 <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
                   {c.durationBadge}
                 </span>
-              </div>
+              </div></> : null}
             </div>
 
             {/* Decorative Elements */}
@@ -78,16 +88,27 @@ const HowItWorks = ({ content }: { content?: Record<string, unknown> }) => {
             </ul>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="hero" size="lg">
+              <Button variant="hero" size="lg" onClick={() => go(c.primaryHref)}>
                 {c.primaryCta}
               </Button>
-              <Button variant="heroOutline" size="lg">
+              <Button variant="heroOutline" size="lg" onClick={() => go(c.secondaryHref)}>
                 {c.secondaryCta}
               </Button>
             </div>
           </div>
         </div>
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-4xl p-0 overflow-hidden">
+          <DialogTitle className="sr-only">{c.title}</DialogTitle>
+          {open ? (embed ? (
+            <iframe src={embed} title={c.title} className="w-full aspect-video" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
+          ) : (
+            <video src={fileUrl} controls autoPlay className="w-full aspect-video bg-charcoal" />
+          )) : null}
+        </DialogContent>
+      </Dialog>
     </section>;
 };
 export default HowItWorks;

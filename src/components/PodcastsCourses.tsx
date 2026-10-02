@@ -2,6 +2,7 @@ import { Play, Headphones, Video, Star, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { merge } from "@/pagebuilder/types";
 import { useMediaUrl } from "@/pagebuilder/media";
+import { useGo } from "@/lib/navigate";
 
 const CourseImage = ({ src, alt }: { src: string; alt: string }) => {
   const url = useMediaUrl(src);
@@ -23,6 +24,7 @@ export const podcastsCoursesDefaults = {
   podcastsBadge: "New Episodes Weekly",
   coursesHeading: "Premium Video Courses",
   coursesCta: "Browse All Courses",
+  coursesHref: "/dashboard",
   podcasts: [
     {
       title: "From Dishwasher to Owner: My 20-Year Journey",
@@ -76,6 +78,7 @@ export const podcastsCoursesDefaults = {
 
 const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(podcastsCoursesDefaults, content);
+  const go = useGo();
   return (
     <section className="py-20 bg-cream">
       <div className="container mx-auto px-4">
@@ -102,10 +105,14 @@ const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => 
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {c.podcasts.map((podcast, index) => (
+            {c.podcasts.map((podcast, index) => {
+              const href = (podcast as { href?: string }).href;
+              return (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-6 shadow-elegant hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                onClick={href ? () => go(href) : undefined}
+                role={href ? "link" : undefined}
+                className={`bg-white rounded-2xl p-6 shadow-elegant hover:shadow-xl transition-all duration-300 group${href ? " cursor-pointer" : ""}`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-14 h-14 bg-gradient-to-br from-wine to-wine/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -126,7 +133,8 @@ const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => 
                   <span>{podcast.duration}</span>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -140,10 +148,14 @@ const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => 
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {c.courses.map((course, index) => (
+            {c.courses.map((course, index) => {
+              const href = (course as { href?: string }).href;
+              return (
               <div
                 key={index}
-                className="bg-white rounded-2xl overflow-hidden shadow-elegant hover:shadow-xl transition-all duration-300 group"
+                onClick={href ? () => go(href) : undefined}
+                role={href ? "link" : undefined}
+                className={`bg-white rounded-2xl overflow-hidden shadow-elegant hover:shadow-xl transition-all duration-300 group${href ? " cursor-pointer" : ""}`}
               >
                 <div className="relative overflow-hidden">
                   <CourseImage src={course.image} alt={course.title} />
@@ -153,11 +165,13 @@ const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => 
                       {course.level}
                     </span>
                   </div>
+                  {href ? (
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
                       <Play className="w-8 h-8 text-wine ml-1" />
                     </div>
                   </div>
+                  ) : null}
                 </div>
                 <div className="p-6">
                   <h4 className="text-lg font-bold text-charcoal mb-2">{course.title}</h4>
@@ -168,11 +182,12 @@ const PodcastsCourses = ({ content }: { content?: Record<string, unknown> }) => 
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="text-center mt-12">
-            <Button variant="hero" size="lg">
+            <Button variant="hero" size="lg" onClick={() => go(c.coursesHref)}>
               {c.coursesCta}
             </Button>
           </div>
