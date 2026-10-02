@@ -75,7 +75,10 @@ var list_pdf_resources_default = defineTool2({
     const supabase = supabaseForUser2(ctx);
     let query = supabase.from("feature_pdfs").select("id, title, description, tags, sort_order, created_at").eq("feature_slug", feature_slug).order("sort_order", { ascending: true }).order("created_at", { ascending: false }).limit(limit);
     if (search) {
-      query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
+      const safe = search.replace(/[^\p{L}\p{N} \-'.]/gu, " ").replace(/\s+/g, " ").trim();
+      if (safe) {
+        query = query.or(`title.ilike."%${safe}%",description.ilike."%${safe}%"`);
+      }
     }
     if (tag) {
       query = query.contains("tags", [tag.toLowerCase()]);

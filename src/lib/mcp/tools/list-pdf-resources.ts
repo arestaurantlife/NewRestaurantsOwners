@@ -58,7 +58,10 @@ export default defineTool({
       .limit(limit);
 
     if (search) {
-      query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
+      const safe = search.replace(/[^\p{L}\p{N} \-'.]/gu, " ").replace(/\s+/g, " ").trim();
+      if (safe) {
+        query = query.or(`title.ilike."%${safe}%",description.ilike."%${safe}%"`);
+      }
     }
     if (tag) {
       query = query.contains("tags", [tag.toLowerCase()]);
