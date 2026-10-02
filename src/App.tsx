@@ -19,6 +19,7 @@ import EmployeeTraining from "./pages/features/EmployeeTraining";
 import EssentialForms from "./pages/features/EssentialForms";
 import CommunitySupport from "./pages/features/CommunitySupport";
 import DynamicPage from "./pages/DynamicPage";
+import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToHash />
           <AuthProvider>
             <ThemeProvider>
               <Routes>

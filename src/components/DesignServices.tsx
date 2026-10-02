@@ -1,6 +1,7 @@
 import { Utensils, Wine, ChefHat, Ruler, Lightbulb, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { merge } from "@/pagebuilder/types";
+import { useGo } from "@/lib/navigate";
 
 const icons = [Utensils, Wine, ChefHat];
 
@@ -16,6 +17,7 @@ export const designServicesDefaults = {
         "Create the perfect ambiance with optimized seating layouts, traffic flow, and aesthetic design that maximizes covers while ensuring guest comfort.",
       features:
         "Seating capacity optimization\nTraffic flow analysis\nLighting & ambiance planning\nADA compliance guidance",
+      href: "/contact",
     },
     {
       title: "Bar Layout & Design",
@@ -23,6 +25,7 @@ export const designServicesDefaults = {
         "Design a bar that drives revenue with efficient service stations, optimal bottle placement, and an atmosphere that keeps guests ordering.",
       features:
         "Service station efficiency\nBeverage program integration\nPOS placement strategy\nBack bar organization",
+      href: "/contact",
     },
     {
       title: "Kitchen Planning",
@@ -30,16 +33,19 @@ export const designServicesDefaults = {
         "Build a kitchen that flows seamlessly from prep to plate with equipment placement that maximizes efficiency and minimizes staff fatigue.",
       features:
         "Workflow optimization\nEquipment selection guidance\nVentilation planning\nHealth code compliance",
+      href: "/contact",
     },
   ],
   bannerTitle: "Ready to Design Your Dream Restaurant?",
   bannerText:
     "Schedule a free consultation with our design experts and get a personalized plan for your restaurant's layout and design.",
   bannerCta: "Book Free Consultation",
+  bannerHref: "/contact",
 };
 
 const DesignServices = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(designServicesDefaults, content);
+  const go = useGo();
   return (
     <section className="py-20 bg-gradient-to-b from-white to-cream">
       <div className="container mx-auto px-4">
@@ -87,7 +93,7 @@ const DesignServices = ({ content }: { content?: Record<string, unknown> }) => {
                     ))}
                   </ul>
 
-                  <Button variant="ghost" className="text-wine hover:text-wine/80 hover:bg-wine/5 p-0 group/btn">
+                  <Button variant="ghost" className="text-wine hover:text-wine/80 hover:bg-wine/5 p-0 group/btn" onClick={() => go((service as { href?: string }).href || "/contact")}>
                     Learn More
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
@@ -114,7 +120,7 @@ const DesignServices = ({ content }: { content?: Record<string, unknown> }) => {
               {c.bannerTitle}
             </h3>
             <p className="text-white/80 mb-8 max-w-2xl mx-auto">{c.bannerText}</p>
-            <Button size="lg" className="bg-gold text-charcoal hover:bg-gold/90 font-semibold">
+            <Button size="lg" className="bg-gold text-charcoal hover:bg-gold/90 font-semibold" onClick={() => go(c.bannerHref)}>
               {c.bannerCta}
             </Button>
           </div>

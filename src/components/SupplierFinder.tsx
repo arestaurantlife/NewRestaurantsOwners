@@ -3,6 +3,7 @@ import { MapPin, Search, Truck, Package, Building, Phone, Star, ChevronRight } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { merge } from "@/pagebuilder/types";
+import { useGo } from "@/lib/navigate";
 
 const categoryIcons = [Truck, Package, Building, Phone];
 
@@ -41,6 +42,8 @@ export const supplierFinderDefaults = {
     },
   ],
   browseAll: "Browse All Suppliers",
+  browseAllHref: "/contact",
+  showSearch: "no",
   stat1Value: "4,000+",
   stat1Label: "Verified Suppliers",
   stat2Value: "50",
@@ -52,6 +55,7 @@ export const supplierFinderDefaults = {
 const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(supplierFinderDefaults, content);
   const [zipCode, setZipCode] = useState("");
+  const go = useGo();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +77,7 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
             <p className="text-lg text-charcoal/70 mb-8">{c.subtitle}</p>
 
             {/* Search Form */}
-            <form onSubmit={handleSearch} className="flex gap-3 mb-10">
+            {c.showSearch === "yes" ? <form onSubmit={handleSearch} className="flex gap-3 mb-10">
               <div className="relative flex-1">
                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-charcoal/40" />
                 <Input
@@ -88,7 +92,7 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
                 <Search className="w-5 h-5 mr-2" />
                 {c.searchButton}
               </Button>
-            </form>
+            </form> : null}
 
             {/* Categories */}
             <div className="grid grid-cols-2 gap-4">
@@ -121,10 +125,14 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
             </h3>
 
             <div className="space-y-4">
-              {c.suppliers.map((supplier, index) => (
+              {c.suppliers.map((supplier, index) => {
+                const href = (supplier as { href?: string }).href;
+                return (
                 <div
                   key={index}
-                  className="border border-warm-gray/20 rounded-xl p-5 hover:border-wine/30 hover:shadow-md transition-all duration-300 cursor-pointer group"
+                  onClick={href ? () => go(href) : undefined}
+                  role={href ? "link" : undefined}
+                  className={`border border-warm-gray/20 rounded-xl p-5 hover:border-wine/30 hover:shadow-md transition-all duration-300 group${href ? " cursor-pointer" : ""}`}
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -142,11 +150,12 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
                     <ChevronRight className="w-4 h-4 ml-1" />
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="mt-6 pt-6 border-t border-warm-gray/20">
-              <Button variant="ghost" className="w-full text-wine hover:text-wine/80 hover:bg-wine/5">
+              <Button variant="ghost" className="w-full text-wine hover:text-wine/80 hover:bg-wine/5" onClick={() => go(c.browseAllHref)}>
                 {c.browseAll}
                 <ChevronRight className="w-4 h-4 ml-2" />
               </Button>

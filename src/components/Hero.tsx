@@ -3,6 +3,7 @@ import { ArrowRight, Play } from "lucide-react";
 import heroVideo from "@/assets/hero-restaurant-video.mp4";
 import { merge } from "@/pagebuilder/types";
 import EditableText from "@/components/pagebuilder/EditableText";
+import { useGo } from "@/lib/navigate";
 
 export const heroDefaults = {
   badge: "Trusted by New Restaurants Owners",
@@ -12,12 +13,15 @@ export const heroDefaults = {
     "Get expert guidance on financial operations, labor & food costs, new hire training, and essential operational forms. Everything you need to run a profitable restaurant — all in one membership.",
   primaryCta: "Start Your Free Trial",
   secondaryCta: "Watch How It Works",
+  primaryHref: "#pricing",
+  secondaryHref: "#how-it-works",
   ratingText: "4.9/5 reviews",
   watermark: "UNDER CONSTRUCTION - WEBSITE COMING SOON",
 };
 
 const Hero = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(heroDefaults, content);
+  const go = useGo();
   return <section className="relative min-h-screen flex items-center pt-20">
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
@@ -60,19 +64,17 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{
           animationDelay: "0.4s"
         }}>
-            <Button variant="hero" size="xl" onClick={() => document.getElementById('pricing')?.scrollIntoView({
-            behavior: 'smooth'
-          })}>
+            <Button variant="hero" size="xl" onClick={() => go(c.primaryHref)}>
               {c.primaryCta}
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Button variant="heroOutline" size="xl">
+            <Button variant="heroOutline" size="xl" onClick={() => go(c.secondaryHref)}>
               <Play className="w-5 h-5" />
               {c.secondaryCta}
             </Button>
           </div>
 
-          <div className="flex items-center gap-8 mt-10 animate-fade-up" style={{
+          {c.ratingText ? <div className="flex items-center gap-8 mt-10 animate-fade-up" style={{
           animationDelay: "0.5s"
         }}>
             <div className="text-primary-foreground/80">
@@ -83,7 +85,7 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
               </div>
               <p className="text-sm mt-1">{c.ratingText}</p>
             </div>
-          </div>
+          </div> : null}
         </div>
       </div>
     </section>;

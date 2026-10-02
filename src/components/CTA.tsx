@@ -1,17 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { merge } from "@/pagebuilder/types";
+import { useGo } from "@/lib/navigate";
 
 export const ctaDefaults = {
   title: "Ready to Transform Your Restaurant?",
   subtitle:
     "Join thousands of restaurant owners who have taken control of their finances, reduced costs, and built thriving businesses.",
   buttonLabel: "Start Your 7-Day Free Trial",
+  buttonHref: "#pricing",
   footnote: "Credit card required • Cancel anytime • 14-day money-back guarantee",
 };
 
 const CTA = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(ctaDefaults, content);
+  const go = useGo();
   return <section className="py-20 md:py-32 bg-gradient-hero relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-gold/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
@@ -27,7 +30,7 @@ const CTA = ({ content }: { content?: Record<string, unknown> }) => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="xl">
+            <Button variant="hero" size="xl" onClick={() => go(c.buttonHref)}>
               {c.buttonLabel}
               <ArrowRight className="w-5 h-5" />
             </Button>
