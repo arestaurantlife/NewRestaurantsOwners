@@ -18,6 +18,7 @@ import FoodCostControl from "./pages/features/FoodCostControl";
 import EmployeeTraining from "./pages/features/EmployeeTraining";
 import EssentialForms from "./pages/features/EssentialForms";
 import CommunitySupport from "./pages/features/CommunitySupport";
+import ResetPassword from "./pages/ResetPassword";
 import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
@@ -37,6 +38,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/features/financial-operations" element={<SubscriberRoute><FinancialOperations /></SubscriberRoute>} />
                 <Route path="/features/labor-cost-management" element={<SubscriberRoute><LaborCostManagement /></SubscriberRoute>} />

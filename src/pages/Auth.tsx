@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const loginSchema = z.object({
@@ -34,6 +35,22 @@ const Auth = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { signIn, signUp, user, loading } = useAuth();
+
+  const handleForgotPassword = async () => {
+    const parsed = z.string().email().safeParse(email.trim());
+    if (!parsed.success) {
+      toast({ title: "Enter your email", description: "Type your email above, then click \"Forgot password?\" again.", variant: "destructive" });
+      return;
+    }
+    setIsLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(parsed.data, { redirectTo: window.location.origin + "/reset-password" });
+    setIsLoading(false);
+    if (error) {
+      toast({ title: "Couldn't send reset email", description: "Please try again in a moment.", variant: "destructive" });
+    } else {
+      toast({ title: "Check your email", description: "We sent you a link to reset your password." });
+    }
+  };
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -120,7 +137,7 @@ const Auth = () => {
           }
         } else {
           toast({
-            title: "Welcome to NewRestaurantOwners!",
+            title: "Welcome to NewRestaurantsOwners!",
             description: "Your account has been created successfully.",
           });
           navigate(nextPath);
@@ -220,6 +237,13 @@ const Auth = () => {
                 </div>
                 {errors.password && (
                   <p className="text-sm text-destructive">{errors.password}</p>
+                )}
+                {isLogin && (
+                  <div className="text-right">
+                    <button type="button" onClick={handleForgotPassword} disabled={isLoading} className="text-sm text-primary hover:underline">
+                      Forgot password?
+                    </button>
+                  </div>
                 )}
               </div>
 

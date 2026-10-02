@@ -35,7 +35,7 @@ const FeaturePageLayout = ({
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>{metaTitle || `${title} | Corporate Shield Hospitality`}</title>
+        <title>{metaTitle || `${title} | NewRestaurantsOwners.com`}</title>
         <meta name="description" content={metaDescription || intro.slice(0, 155)} />
       </Helmet>
 
