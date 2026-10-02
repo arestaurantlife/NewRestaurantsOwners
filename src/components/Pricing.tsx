@@ -15,7 +15,7 @@ export const pricingDefaults = {
   titleLead: "Invest in Your",
   titleAccent: "Restaurant's Success",
   subtitle:
-    "Choose the plan that fits your needs. All plans include a 7-day free trial—credit card required.",
+    "Starter includes a 7-day free trial. Credit card required. You won't be charged until day 8; cancel anytime before then.",
   guarantee: "💰 14-day money-back guarantee.",
   plans: [
     {

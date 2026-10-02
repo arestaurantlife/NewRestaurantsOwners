@@ -7,9 +7,9 @@ export const ctaDefaults = {
   title: "Ready to Transform Your Restaurant?",
   subtitle:
     "Join thousands of restaurant owners who have taken control of their finances, reduced costs, and built thriving businesses.",
-  buttonLabel: "Start Your 7-Day Free Trial",
+  buttonLabel: "Start Your 7-Day Free Trial (Starter)",
   buttonHref: "#pricing",
-  footnote: "Credit card required • Cancel anytime • 14-day money-back guarantee",
+  footnote: "Credit card required • Trial on Starter plan only • Cancel anytime",
 };
 
 const CTA = ({ content }: { content?: Record<string, unknown> }) => {
