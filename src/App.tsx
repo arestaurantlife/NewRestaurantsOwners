@@ -12,6 +12,9 @@ import NotFound from "./pages/NotFound";
 import OAuthConsent from "./pages/OAuthConsent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from "./pages/ResetPassword";
+import Learn from "./pages/Learn";
+import LearnItem from "./pages/LearnItem";
+import AdminContent from "./pages/AdminContent";
 import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
@@ -32,6 +35,9 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/learn" element={<Learn />} />
+                <Route path="/learn/:slug" element={<LearnItem />} />
+                <Route path="/admin/content" element={<AdminContent />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

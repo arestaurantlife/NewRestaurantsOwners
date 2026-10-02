@@ -282,7 +282,7 @@ const AdminContent = () => {
                 </div>
               </div>
 
-              {draft.kind !== "course" || true ? (
+              {(
                 <div className="space-y-2">
                   <Label>Media</Label>
                   {draft.storage_path ? (
@@ -303,7 +303,7 @@ const AdminContent = () => {
                   </Button>
                   {draft.kind === "course" && <p className="text-xs text-muted-foreground">Optional for courses (e.g. a trailer). Lessons are added as separate items.</p>}
                 </div>
-              ) : null}
+              )}
 
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
