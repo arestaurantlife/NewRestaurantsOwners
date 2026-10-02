@@ -11,7 +11,6 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import OAuthConsent from "./pages/OAuthConsent";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SubscriberRoute from "./components/SubscriberRoute";
 import ResetPassword from "./pages/ResetPassword";
 import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
