@@ -190,3 +190,7 @@
     color: hsl(var(--charcoal));
   }
 }
+
+[id] {
+  scroll-margin-top: 6rem;
+}

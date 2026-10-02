@@ -72,7 +72,7 @@ const Header = () => {
                 <Button variant="ghost" onClick={() => navigate("/auth")}>
                   Log In
                 </Button>
-                <Button variant="default" onClick={() => navigate("/auth")}>
+                <Button variant="default" onClick={() => navigate("/auth?mode=signup")}>
                   Start Free Trial
                 </Button>
               </>
@@ -145,7 +145,7 @@ const Header = () => {
                     <Button
                       variant="default"
                       onClick={() => {
-                        navigate("/auth");
+                        navigate("/auth?mode=signup");
                         setIsMenuOpen(false);
                       }}
                     >
