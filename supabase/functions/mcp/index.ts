@@ -73,21 +73,36 @@ var list_pdf_resources_default = defineTool2({
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     }
     const supabase = supabaseForUser2(ctx);
-    let query = supabase.from("feature_pdfs").select("id, title, description, tags, sort_order, created_at").eq("feature_slug", feature_slug).order("sort_order", { ascending: true }).order("created_at", { ascending: false }).limit(limit);
+    const { data: access, error: accessErr } = await supabase.functions.invoke("get-pdf-urls", {
+      body: { featureSlug: feature_slug }
+    });
+    if (accessErr) {
+      return { content: [{ type: "text", text: accessErr.message }], isError: true };
+    }
+    if (!access?.allowed) {
+      const reason = access?.reason === "signin" ? "sign in" : "an active subscription";
+      return {
+        content: [{ type: "text", text: `Listing PDF resources requires ${reason}.` }],
+        isError: true
+      };
+    }
+    let rows = (access.rows ?? []).map((r) => ({
+      ...r,
+      tags: Array.isArray(r.tags) ? r.tags : []
+    }));
     if (search) {
-      const safe = search.replace(/[^\p{L}\p{N} \-'.]/gu, " ").replace(/\s+/g, " ").trim();
+      const safe = search.replace(/[^\p{L}\p{N} \-'.]/gu, " ").replace(/\s+/g, " ").trim().toLowerCase();
       if (safe) {
-        query = query.or(`title.ilike."%${safe}%",description.ilike."%${safe}%"`);
+        rows = rows.filter(
+          (r) => (r.title ?? "").toLowerCase().includes(safe) || (r.description ?? "").toLowerCase().includes(safe)
+        );
       }
     }
     if (tag) {
-      query = query.contains("tags", [tag.toLowerCase()]);
+      const t = tag.toLowerCase();
+      rows = rows.filter((r) => r.tags.includes(t));
     }
-    const { data, error } = await query;
-    if (error) {
-      return { content: [{ type: "text", text: error.message }], isError: true };
-    }
-    const rows = data ?? [];
+    rows = rows.slice(0, limit);
     return {
       content: [
         {
