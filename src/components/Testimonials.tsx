@@ -1,56 +1,51 @@
 import { merge } from "@/pagebuilder/types";
 
 export const testimonialsDefaults = {
-  eyebrow: "Success Stories",
-  titleLead: "Restaurant Owners",
-  titleAccent: "Love Our Platform",
+  eyebrow: "Possible Scenarios",
+  titleLead: "What Could Change",
+  titleAccent: "in Your Restaurant",
   subtitle:
-    "Join hundreds of restaurant owners who have transformed their businesses with our proven systems.",
+    "NRO launches December 15, 2026. These are illustrative scenarios, not customer results. They show what putting these systems to work could look like.",
   items: [
     {
-      quote:
-        "This platform saved my restaurant. Within 3 months of implementing their food cost strategies, I reduced waste by 22% and increased my margins significantly.",
-      author: "Maria Gonzalez",
-      role: "Owner, Casa Bella Trattoria",
+      title: "Food cost",
+      body: "You count inventory weekly with the food cost calculator and compare what you should have used against what you actually used. Possible outcome: you see over-portioning and waste in dollars every week, instead of finding out at month-end.",
+      tool: "Labor & Food Cost Systems · Professional",
     },
     {
-      quote:
-        "The training modules for my staff have been incredible. My team is more efficient and my labor costs have dropped while customer satisfaction has increased.",
-      author: "James Chen",
-      role: "Owner, Golden Dragon Bistro",
+      title: "Staff training",
+      body: "Every new hire learns the same standards from the same modules, not from whoever is on shift. Possible outcome: fewer hours spent re-training and more consistent service from one shift to the next.",
+      tool: "Complete Training Library · Professional",
     },
     {
-      quote:
-        "I was completely lost with the financial side of running a restaurant. The P&L templates and cash flow tools finally made everything click for me.",
-      author: "Sarah Mitchell",
-      role: "Owner, The Copper Kettle",
+      title: "Financials",
+      body: "You've never read a P&L line by line. You work through the P&L Mastery System with your own numbers. Possible outcome: you know which cost line moved last month before your accountant tells you.",
+      tool: "Restaurant P&L Mastery System · Professional",
     },
     {
-      quote:
-        "The community aspect is what sets this apart. Being able to ask questions and get advice from experienced owners has been invaluable.",
-      author: "David Thompson",
-      role: "Owner, Riverside Grill",
+      title: "Community",
+      body: "Friday night goes sideways. You bring the problem to the weekly live Q&A and the private community. Possible outcome: you get an answer from operators who have already lived it, not a forum full of guesses.",
+      tool: "Weekly Live Q&A + Private Community · Professional",
     },
     {
-      quote:
-        "Every form I needed was right there—health inspection checklists, employee handbooks, inventory sheets. Saved me hundreds of hours.",
-      author: "Jennifer Park",
-      role: "Owner, Seoul Kitchen",
+      title: "Forms",
+      body: "You need a checklist, a log, or a sheet, and you need it before tomorrow's shift. Possible outcome: you stop building forms from scratch at midnight and start using ones built by an operator.",
+      tool: "10+ forms in Starter · 50+ in Professional",
     },
     {
-      quote:
-        "Best investment I've made for my business. The ROI on the membership paid for itself in the first month through better cost management.",
-      author: "Michael Roberts",
-      role: "Owner, The Smokehouse BBQ",
+      title: "Return on the membership",
+      body: "You don't take our word that it pays for itself. You track your food cost, labor, and comps against the monthly fee. Possible outcome: you have your own numbers that show whether the membership is earning its keep.",
+      tool: "Any tier",
     },
-  ],
+  ] as { title?: string; body?: string; tool?: string }[],
+  disclaimer:
+    "Illustrative scenarios only. Results depend on your restaurant, your market, and how consistently the systems are used. No outcome is guaranteed.",
 };
 
 const Testimonials = ({ content }: { content?: Record<string, unknown> }) => {
   const c = merge(testimonialsDefaults, content);
   return <section id="testimonials" className="py-20 md:py-32 bg-cream-dark">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-4">
             {c.eyebrow}
@@ -61,33 +56,17 @@ const Testimonials = ({ content }: { content?: Record<string, unknown> }) => {
           <p className="text-lg text-muted-foreground">{c.subtitle}</p>
         </div>
 
-        {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {c.items.map((testimonial, index) => <div key={index} className="bg-card rounded-2xl p-6 lg:p-8 shadow-soft border border-border hover:shadow-elevated transition-all duration-300">
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array(5).fill(0).map((_, i) => <svg key={i} className="w-5 h-5 text-gold fill-current" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>)}
-              </div>
-
-              {/* Quote */}
-              <blockquote className="text-foreground mb-6 leading-relaxed">
-                "{testimonial.quote}"
-              </blockquote>
-
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-hero flex items-center justify-center text-primary-foreground font-bold">
-                  {testimonial.author.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </div>
+          {c.items.map((item, index) => <div key={index} className="flex flex-col bg-card rounded-2xl p-6 lg:p-8 shadow-soft border border-border hover:shadow-elevated transition-all duration-300">
+              <h3 className="font-display text-xl font-bold text-foreground mb-3">{item.title}</h3>
+              <p className="text-foreground mb-6 leading-relaxed flex-1">{item.body}</p>
+              {item.tool && <span className="self-start inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                  {item.tool}
+                </span>}
             </div>)}
         </div>
+
+        {c.disclaimer && <p className="text-center text-sm text-muted-foreground mt-10 max-w-3xl mx-auto">{c.disclaimer}</p>}
       </div>
     </section>;
 };

@@ -313,7 +313,7 @@ export const SECTIONS: Record<string, SectionSchema> = {
   },
   testimonials: {
     type: "testimonials",
-    label: "Testimonials",
+    label: "Possible Scenarios",
     group: "Marketing",
     Component: Testimonials,
     defaults: testimonialsDefaults,
@@ -322,11 +322,12 @@ export const SECTIONS: Record<string, SectionSchema> = {
       t("titleLead", "Heading (first part)"),
       t("titleAccent", "Heading (accent)"),
       ta("subtitle", "Subheading"),
-      list("items", "Testimonials", [
-        { key: "quote", label: "Quote", type: "textarea" },
-        { key: "author", label: "Author", type: "text" },
-        { key: "role", label: "Role", type: "text" },
+      list("items", "Scenarios", [
+        { key: "title", label: "Title", type: "text" },
+        { key: "body", label: "Body", type: "textarea" },
+        { key: "tool", label: "Tool / tier label", type: "text" },
       ]),
+      ta("disclaimer", "Disclaimer"),
     ],
   },
   faq: {
