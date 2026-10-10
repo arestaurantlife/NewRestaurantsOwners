@@ -18,7 +18,7 @@ const Header = () => {
   const navLinks = [
     { label: "Features", href: anchor("#features") },
     { label: "Pricing", href: anchor("#pricing") },
-    { label: "Testimonials", href: anchor("#testimonials") },
+    { label: "Scenarios", href: anchor("#testimonials") },
     { label: "FAQ", href: anchor("#faq") },
     ...pages
       .filter((p) => p.show_in_nav && p.slug !== "home")
