@@ -18,8 +18,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
               <span className="font-display text-2xl font-bold text-primary-foreground">NewRestaurantsOwners.com</span>
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-sm">
-              Empowering new restaurant owners with the tools, training, and 
-              community they need to build profitable businesses.
+              Empowering new restaurant owners and new managers with the tools, training, knowledge and community they need to build profitable businesses.
             </p>
             <div className="space-y-3">
               <a href={`mailto:${SITE.email}`} className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
@@ -74,7 +73,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
         <div className="border-t border-primary-foreground/10 mt-12 pt-8">
           <div className="flex flex-col items-center gap-4 mb-6">
             <p className="text-primary-foreground/40 text-sm">
-              A platform by
+              A platform powered by
             </p>
             <p className="font-display text-lg font-semibold text-gold">
               Corporate Shield Hospitality Solutions LLC

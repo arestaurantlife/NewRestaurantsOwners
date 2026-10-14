@@ -5,11 +5,11 @@ export const testimonialsDefaults = {
   titleLead: "What Could Change",
   titleAccent: "in Your Restaurant",
   subtitle:
-    "NRO launches December 15, 2026. These are illustrative scenarios, not customer results. They show what putting these systems to work could look like.",
+    "These are real illustrative scenarios, not customer results. They show what putting these systems to work could look like.",
   items: [
     {
       title: "Food cost",
-      body: "You count inventory weekly with the food cost calculator and compare what you should have used against what you actually used. Possible outcome: you see over-portioning and waste in dollars every week, instead of finding out at month-end.",
+      body: "You count inventory weekly, Byweekly or monthly with the food cost calculator and compare what you should have used against what you actually used. Possible outcome: you see over-portioning and waste in dollars every week, instead of finding out at month-end.",
       tool: "Labor & Food Cost Systems · Professional",
     },
     {

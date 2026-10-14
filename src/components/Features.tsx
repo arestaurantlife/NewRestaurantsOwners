@@ -18,7 +18,7 @@ export const featuresDefaults = {
   titleLead: "Your Complete Restaurant",
   titleAccent: "Success Toolkit",
   subtitle:
-    "Stop piecing together advice from random sources. Get a comprehensive system designed specifically for new restaurant owners.",
+    "Stop piecing together advice from random sources. Get a comprehensive system designed specifically for new restaurant owners and new managers.",
   items: [
     {
       title: "Financial Operations",

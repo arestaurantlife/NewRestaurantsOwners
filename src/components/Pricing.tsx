@@ -16,7 +16,7 @@ export const pricingDefaults = {
   titleAccent: "Restaurant's Success",
   subtitle:
     "Starter includes a 7-day free trial. Credit card required. You won't be charged until day 8; cancel anytime before then.",
-  guarantee: "💰 14-day money-back guarantee.",
+  guarantee: "\n",
   plans: [
     {
       name: "Starter",
