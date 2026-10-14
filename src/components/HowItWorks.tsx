@@ -10,7 +10,7 @@ export const howItWorksDefaults = {
   eyebrow: "See It In Action",
   title: "How NewRestaurantsOwners.com Works",
   description:
-    "Watch this quick video to see how our platform helps you build a profitable, well-managed restaurant from the very beginning. No guesswork, no expensive consultants—just proven systems that work.",
+    "Our platform helps you build a profitable, well-managed restaurant from the very beginning. No guesswork, no expensive consultants—just proven systems that work.",
   imageUrl:
     "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=500&fit=crop",
   durationBadge: "Watch: 3:45 min",

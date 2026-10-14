@@ -15,7 +15,7 @@ export const heroDefaults = {
   secondaryCta: "Watch How It Works",
   primaryHref: "#pricing",
   secondaryHref: "#how-it-works",
-  ratingText: "4.9/5 reviews",
+  ratingText: "\n",
   watermark: "UNDER CONSTRUCTION - WEBSITE COMING SOON",
 };
 
