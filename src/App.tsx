@@ -15,6 +15,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Learn from "./pages/Learn";
 import LearnItem from "./pages/LearnItem";
 import AdminContent from "./pages/AdminContent";
+import Contact from "./pages/Contact";
 import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
@@ -38,6 +39,7 @@ const App = () => (
                 <Route path="/learn" element={<Learn />} />
                 <Route path="/learn/:slug" element={<LearnItem />} />
                 <Route path="/admin/content" element={<AdminContent />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
