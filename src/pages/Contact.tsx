@@ -41,12 +41,14 @@ const Contact = () => {
     }
     setErrors({});
     setSending(true);
-    const { error } = await supabase.from("contact_submissions" as never).insert({
-      name: parsed.data.name,
-      email: parsed.data.email,
-      subject: parsed.data.subject || null,
-      message: parsed.data.message,
-    } as never);
+    const { error } = await supabase.functions.invoke("submit-contact", {
+      body: {
+        name: parsed.data.name,
+        email: parsed.data.email,
+        subject: parsed.data.subject || null,
+        message: parsed.data.message,
+      },
+    });
     setSending(false);
     if (error) {
       toast({ title: "Couldn't send your message", description: "Please try again or email us directly.", variant: "destructive" });
