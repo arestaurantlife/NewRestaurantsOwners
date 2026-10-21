@@ -230,6 +230,16 @@ const Library = () => {
   const [covers, setCovers] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Partial<Ebook> | null>(null);
+  const { user } = useAuth();
+  const [bundleBusy, setBundleBusy] = useState(false);
+  const buyBundle = async () => {
+    if (!user) return (window.location.href = "/auth?mode=signup");
+    setBundleBusy(true);
+    const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { bundle: true } });
+    setBundleBusy(false);
+    if (error || !data?.url) return toast({ title: data?.error ?? "Couldn't start checkout", variant: "destructive" });
+    openUrl(data.url);
+  };
 
   const load = async () => {
     const { data } = await supabase.from("ebooks").select("*").order("sort_order").order("created_at");
@@ -256,7 +266,7 @@ const Library = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-gold/10 text-gold font-medium text-sm mb-4">Library</span>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">eBook Library</h1>
           <p className="text-lg text-muted-foreground">
-            Members download free based on their plan. Not a member? Buy any eBook individually, or{" "}
+            Every member, starting with the Starter plan, can read and download the whole library. Not a member? Get the 3-eBook combo for $29.99, or{" "}
             <Link to="/#pricing" className="text-primary underline">start your free trial</Link>.
           </p>
           {isAdmin && (
@@ -265,6 +275,16 @@ const Library = () => {
             </Button>
           )}
         </div>
+        <div className="max-w-3xl mx-auto mb-12 rounded-2xl border border-gold/30 bg-gold/5 p-6 flex flex-col md:flex-row items-center gap-4 justify-between">
+          <div className="text-center md:text-left">
+            <p className="font-display text-xl font-bold text-foreground">3-eBook Combo — $29.99</p>
+            <p className="text-sm text-muted-foreground">The Psychology of Restaurant Theft, Service Vs Hospitality and The Science of Restaurant Budget.</p>
+          </div>
+          <Button onClick={buyBundle} disabled={bundleBusy}>
+            {bundleBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
+            Buy the combo
+          </Button>
+        </div>
         {loading ? (
           <div className="flex justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
         ) : books.length === 0 ? (
@@ -272,7 +292,7 @@ const Library = () => {
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {books.map((b) => (
-              <EbookCard key={b.id} book={b} cover={covers[b.id]} isAdmin={isAdmin} onEdit={() => setEditing(b)} />
+              <EbookCard key={b.id} book={b} cover={covers[b.id]} isAdmin={isAdmin} onEdit={() => setEditing(b)} onUploaded={load} />
             ))}
           </div>
         )}
