@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { BookOpen, Download, Loader2, Lock, Pencil, Plus, ShoppingCart } from "lucide-react";
+import { BookOpen, Download, Loader2, Lock, Pencil, Plus, ShoppingCart, Upload } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -39,11 +39,27 @@ const openUrl = (url: string) => {
   if (!w) window.location.href = url;
 };
 
-const EbookCard = ({ book, cover, isAdmin, onEdit }: { book: Ebook; cover?: string; isAdmin: boolean; onEdit: () => void }) => {
+export const BUNDLE_SLUGS = ["psychology-of-restaurant-theft", "service-vs-hospitality", "science-of-restaurant-budget"];
+
+const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; cover?: string; isAdmin: boolean; onEdit: () => void; onUploaded: () => void }) => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [busy, setBusy] = useState<"" | "dl" | "buy">("");
+  const [busy, setBusy] = useState<"" | "dl" | "buy" | "up">("");
   const [locked, setLocked] = useState(false);
+  const inBundle = BUNDLE_SLUGS.includes(book.slug);
+
+  const uploadFile = async (f: File | undefined) => {
+    if (!f) return;
+    setBusy("up");
+    const path = `${book.slug}/book-${Date.now()}.${f.name.split(".").pop()}`;
+    const { error } = await supabase.storage.from("ebooks").upload(path, f, { upsert: true });
+    const { error: e2 } = error ? { error } : await supabase.from("ebooks").update({ storage_path: path }).eq("id", book.id);
+    setBusy("");
+    if (error || e2) return toast({ title: "Upload failed", description: (error || e2)!.message, variant: "destructive" });
+    toast({ title: "eBook uploaded" });
+    onUploaded();
+  };
+
 
   const download = async () => {
     if (!user) return (window.location.href = "/auth");
@@ -97,13 +113,24 @@ const EbookCard = ({ book, cover, isAdmin, onEdit }: { book: Ebook; cover?: stri
             {busy === "dl" ? <Loader2 className="w-4 h-4 animate-spin" /> : locked ? <Lock className="w-4 h-4" /> : <Download className="w-4 h-4" />}
             Download (members)
           </Button>
-          {price ? (
+          {inBundle ? (
+            <p className="text-center text-xs text-muted-foreground">Included in the 3-eBook combo — $29.99</p>
+          ) : price ? (
             <Button variant="outline" className="w-full" onClick={buy} disabled={!!busy}>
               {busy === "buy" ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
               Buy for {price}
             </Button>
           ) : (
             <p className="text-center text-xs text-muted-foreground">Individual purchase coming soon</p>
+          )}
+          {isAdmin && (
+            <label className="block">
+              <input type="file" accept="application/pdf,.epub" className="hidden" onChange={(e) => uploadFile(e.target.files?.[0])} disabled={!!busy} />
+              <span className="flex items-center justify-center gap-2 w-full rounded-md border border-dashed border-primary/40 py-2 text-sm text-primary cursor-pointer hover:bg-primary/5">
+                {busy === "up" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                {book.storage_path ? "Replace eBook file" : "Upload eBook file"}
+              </span>
+            </label>
           )}
         </div>
       </div>
