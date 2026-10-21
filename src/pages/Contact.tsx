@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/siteConfig";
 import { useToast } from "@/hooks/use-toast";
+import PrivacyNotice from "@/components/PrivacyNotice";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Please enter your name").max(100),
@@ -124,6 +125,7 @@ const Contact = () => {
                       {sending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                       Send Message
                     </Button>
+                    <PrivacyNotice className="text-left" />
                   </form>
                 )}
               </div>

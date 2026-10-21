@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import PrivacyNotice from "@/components/PrivacyNotice";
 
 const loginSchema = z.object({
   email: z.string().trim().email("Please enter a valid email address"),
@@ -274,6 +275,7 @@ const Auth = () => {
                   isLogin ? "Sign In" : "Create Account"
                 )}
               </Button>
+              {!isLogin && <PrivacyNotice />}
             </form>
 
             <div className="mt-6 text-center">
