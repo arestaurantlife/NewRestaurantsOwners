@@ -106,6 +106,54 @@ export type Database = {
           },
         ]
       }
+      ebooks: {
+        Row: {
+          cover_path: string | null
+          created_at: string
+          description: string | null
+          id: string
+          min_tier: string
+          price_cents: number | null
+          published: boolean
+          slug: string
+          sort_order: number
+          storage_path: string | null
+          stripe_price_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          cover_path?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          min_tier?: string
+          price_cents?: number | null
+          published?: boolean
+          slug: string
+          sort_order?: number
+          storage_path?: string | null
+          stripe_price_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          cover_path?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          min_tier?: string
+          price_cents?: number | null
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          storage_path?: string | null
+          stripe_price_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feature_pdfs: {
         Row: {
           created_at: string
