@@ -70,7 +70,7 @@ const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; 
     if (!data.allowed) {
       if (data.reason === "signin") return (window.location.href = "/auth");
       setLocked(true);
-      return toast({ title: `Included with ${TIER_LABEL[book.min_tier]} plan or above`, description: "Upgrade your plan or buy this eBook." });
+      return toast({ title: `Included with a paid ${TIER_LABEL[book.min_tier]} plan or above`, description: "eBooks unlock after your free trial ends, or buy the combo now." });
     }
     if (!data.url) return toast({ title: "File coming soon", description: "This eBook hasn't been uploaded yet." });
     openUrl(data.url);
@@ -266,8 +266,8 @@ const Library = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-gold/10 text-gold font-medium text-sm mb-4">Library</span>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">eBook Library</h1>
           <p className="text-lg text-muted-foreground">
-            Every member, starting with the Starter plan, can read and download the whole library. Not a member? Get the 3-eBook combo for $29.99, or{" "}
-            <Link to="/#pricing" className="text-primary underline">start your free trial</Link>.
+            Paid members on any plan, starting with Starter, can read and download the whole library once their free trial ends. Not a member? Get the 3-eBook combo for $29.99, or{" "}
+            <Link to="/#pricing" className="text-primary underline">see our plans</Link>.
           </p>
           {isAdmin && (
             <Button className="mt-6" variant="outline" onClick={() => setEditing({ published: false, min_tier: "starter" })}>

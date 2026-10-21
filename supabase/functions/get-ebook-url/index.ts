@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
         const subs = await stripe.subscriptions.list({ customer: cid, status: "all", limit: 100 });
         let best = 0;
         for (const s of subs.data) {
-          if (s.status !== "active" && s.status !== "trialing") continue;
+          if (s.status !== "active") continue; // eBooks: paid members only, not during free trial
           best = Math.max(best, TIER_RANK[PRODUCT_TIERS[s.items.data[0]?.price.product as string]] ?? 0);
         }
         if (best >= (TIER_RANK[book.min_tier] ?? 1)) allowed = true;
