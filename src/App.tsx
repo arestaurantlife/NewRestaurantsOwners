@@ -21,6 +21,7 @@ import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
 import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const App = () => (
                 <Route path="/admin/content" element={<AdminContent />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
                 <Route path="/library" element={<Library />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
