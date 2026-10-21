@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { BookOpen, Download, Loader2, Lock, Pencil, Plus, ShoppingCart } from "lucide-react";
+import { BookOpen, Download, Loader2, Lock, Pencil, Plus, ShoppingCart, Upload } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -39,11 +39,27 @@ const openUrl = (url: string) => {
   if (!w) window.location.href = url;
 };
 
-const EbookCard = ({ book, cover, isAdmin, onEdit }: { book: Ebook; cover?: string; isAdmin: boolean; onEdit: () => void }) => {
+export const BUNDLE_SLUGS = ["psychology-of-restaurant-theft", "service-vs-hospitality", "science-of-restaurant-budget"];
+
+const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; cover?: string; isAdmin: boolean; onEdit: () => void; onUploaded: () => void }) => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [busy, setBusy] = useState<"" | "dl" | "buy">("");
+  const [busy, setBusy] = useState<"" | "dl" | "buy" | "up">("");
   const [locked, setLocked] = useState(false);
+  const inBundle = BUNDLE_SLUGS.includes(book.slug);
+
+  const uploadFile = async (f: File | undefined) => {
+    if (!f) return;
+    setBusy("up");
+    const path = `${book.slug}/book-${Date.now()}.${f.name.split(".").pop()}`;
+    const { error } = await supabase.storage.from("ebooks").upload(path, f, { upsert: true });
+    const { error: e2 } = error ? { error } : await supabase.from("ebooks").update({ storage_path: path }).eq("id", book.id);
+    setBusy("");
+    if (error || e2) return toast({ title: "Upload failed", description: (error || e2)!.message, variant: "destructive" });
+    toast({ title: "eBook uploaded" });
+    onUploaded();
+  };
+
 
   const download = async () => {
     if (!user) return (window.location.href = "/auth");
@@ -97,13 +113,24 @@ const EbookCard = ({ book, cover, isAdmin, onEdit }: { book: Ebook; cover?: stri
             {busy === "dl" ? <Loader2 className="w-4 h-4 animate-spin" /> : locked ? <Lock className="w-4 h-4" /> : <Download className="w-4 h-4" />}
             Download (members)
           </Button>
-          {price ? (
+          {inBundle ? (
+            <p className="text-center text-xs text-muted-foreground">Included in the 3-eBook combo — $29.99</p>
+          ) : price ? (
             <Button variant="outline" className="w-full" onClick={buy} disabled={!!busy}>
               {busy === "buy" ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
               Buy for {price}
             </Button>
           ) : (
             <p className="text-center text-xs text-muted-foreground">Individual purchase coming soon</p>
+          )}
+          {isAdmin && (
+            <label className="block">
+              <input type="file" accept="application/pdf,.epub" className="hidden" onChange={(e) => uploadFile(e.target.files?.[0])} disabled={!!busy} />
+              <span className="flex items-center justify-center gap-2 w-full rounded-md border border-dashed border-primary/40 py-2 text-sm text-primary cursor-pointer hover:bg-primary/5">
+                {busy === "up" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                {book.storage_path ? "Replace eBook file" : "Upload eBook file"}
+              </span>
+            </label>
           )}
         </div>
       </div>
@@ -203,6 +230,16 @@ const Library = () => {
   const [covers, setCovers] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Partial<Ebook> | null>(null);
+  const { user } = useAuth();
+  const [bundleBusy, setBundleBusy] = useState(false);
+  const buyBundle = async () => {
+    if (!user) return (window.location.href = "/auth?mode=signup");
+    setBundleBusy(true);
+    const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { bundle: true } });
+    setBundleBusy(false);
+    if (error || !data?.url) return toast({ title: data?.error ?? "Couldn't start checkout", variant: "destructive" });
+    openUrl(data.url);
+  };
 
   const load = async () => {
     const { data } = await supabase.from("ebooks").select("*").order("sort_order").order("created_at");
@@ -229,7 +266,7 @@ const Library = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-gold/10 text-gold font-medium text-sm mb-4">Library</span>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">eBook Library</h1>
           <p className="text-lg text-muted-foreground">
-            Members download free based on their plan. Not a member? Buy any eBook individually, or{" "}
+            Every member, starting with the Starter plan, can read and download the whole library. Not a member? Get the 3-eBook combo for $29.99, or{" "}
             <Link to="/#pricing" className="text-primary underline">start your free trial</Link>.
           </p>
           {isAdmin && (
@@ -238,6 +275,16 @@ const Library = () => {
             </Button>
           )}
         </div>
+        <div className="max-w-3xl mx-auto mb-12 rounded-2xl border border-gold/30 bg-gold/5 p-6 flex flex-col md:flex-row items-center gap-4 justify-between">
+          <div className="text-center md:text-left">
+            <p className="font-display text-xl font-bold text-foreground">3-eBook Combo — $29.99</p>
+            <p className="text-sm text-muted-foreground">The Psychology of Restaurant Theft, Service Vs Hospitality and The Science of Restaurant Budget.</p>
+          </div>
+          <Button onClick={buyBundle} disabled={bundleBusy}>
+            {bundleBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
+            Buy the combo
+          </Button>
+        </div>
         {loading ? (
           <div className="flex justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
         ) : books.length === 0 ? (
@@ -245,7 +292,7 @@ const Library = () => {
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {books.map((b) => (
-              <EbookCard key={b.id} book={b} cover={covers[b.id]} isAdmin={isAdmin} onEdit={() => setEditing(b)} />
+              <EbookCard key={b.id} book={b} cover={covers[b.id]} isAdmin={isAdmin} onEdit={() => setEditing(b)} onUploaded={load} />
             ))}
           </div>
         )}
