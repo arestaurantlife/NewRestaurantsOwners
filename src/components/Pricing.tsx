@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { PRICING_TIERS, TierKey } from "@/lib/stripe";
 import { merge } from "@/pagebuilder/types";
+import PrivacyNotice from "@/components/PrivacyNotice";
 
 const tierKeys: TierKey[] = ["starter", "professional", "enterprise"];
 
@@ -158,6 +159,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                       Processing...
                     </> : isCurrent ? "Current Plan" : key === "starter" ? "Start 7-Day Free Trial" : "Subscribe"}
                 </Button>
+                <PrivacyNotice purchasing className={`mt-2 ${popular ? "text-primary-foreground/70" : ""}`} />
                 {key === "starter" && <p className={`text-xs text-center mt-2 ${popular ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                     Card required. Billed $47/month after 7 days unless cancelled.
                   </p>}

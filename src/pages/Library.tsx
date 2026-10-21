@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useToast } from "@/hooks/use-toast";
+import PrivacyNotice from "@/components/PrivacyNotice";
 
 interface Ebook {
   id: string;
@@ -116,10 +117,13 @@ const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; 
           {inBundle ? (
             <p className="text-center text-xs text-muted-foreground">Included in the 3-eBook combo — $29.99</p>
           ) : price ? (
+            <>
             <Button variant="outline" className="w-full" onClick={buy} disabled={!!busy}>
               {busy === "buy" ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
               Buy for {price}
             </Button>
+            <PrivacyNotice purchasing />
+            </>
           ) : (
             <p className="text-center text-xs text-muted-foreground">Individual purchase coming soon</p>
           )}
@@ -280,10 +284,13 @@ const Library = () => {
             <p className="font-display text-xl font-bold text-foreground">3-eBook Combo — $29.99</p>
             <p className="text-sm text-muted-foreground">The Psychology of Restaurant Theft, Service Vs Hospitality and The Science of Restaurant Budget.</p>
           </div>
+          <div className="shrink-0 md:max-w-[220px] space-y-2 text-center">
           <Button onClick={buyBundle} disabled={bundleBusy}>
             {bundleBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
             Buy the combo
           </Button>
+          <PrivacyNotice purchasing />
+          </div>
         </div>
         {loading ? (
           <div className="flex justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>

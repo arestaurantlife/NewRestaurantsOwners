@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
@@ -20,8 +20,16 @@ import Library from "./pages/Library";
 import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
+import Privacy from "./pages/Privacy";
+import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
+
+// Other pages already render the shared footer themselves.
+const SupplementalFooter = () => {
+  const { pathname } = useLocation();
+  return ["/auth", "/reset-password", "/dashboard", "/.lovable/oauth/consent"].includes(pathname) ? <Footer /> : null;
+};
 
 const App = () => (
   <HelmetProvider>
@@ -41,6 +49,7 @@ const App = () => (
                 <Route path="/learn/:slug" element={<LearnItem />} />
                 <Route path="/admin/content" element={<AdminContent />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route path="/library" element={<Library />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
@@ -48,6 +57,7 @@ const App = () => (
                 {/* Any other URL is resolved against CMS pages, falling back to 404 */}
                 <Route path="*" element={<DynamicPage />} />
               </Routes>
+              <SupplementalFooter />
             </ThemeProvider>
           </AuthProvider>
         </BrowserRouter>
