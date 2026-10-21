@@ -7,11 +7,12 @@ import {
   BarChart3,
   CheckCircle2,
   ArrowRight,
+  Library,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { merge } from "@/pagebuilder/types";
 
-const icons = [DollarSign, BarChart3, UtensilsCrossed, GraduationCap, FileText, Users];
+const icons = [DollarSign, BarChart3, UtensilsCrossed, GraduationCap, FileText, Users, Library];
 
 export const featuresDefaults = {
   eyebrow: "Everything You Need",
@@ -61,6 +62,13 @@ export const featuresDefaults = {
         "Connect with other restaurant owners, share experiences, and get expert advice when you need it.",
       benefits: "Private Forum\nMonthly Q&A\nExpert Network",
       href: "/features/community-support",
+    },
+    {
+      title: "Library",
+      description:
+        "Practical eBooks for owners and managers — free to download with your plan, or available to buy individually.",
+      benefits: "Restaurant Theft\nService vs Hospitality\nRestaurant Budgeting",
+      href: "/library",
     },
   ],
 };

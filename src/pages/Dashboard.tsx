@@ -86,6 +86,7 @@ const Dashboard = () => {
     { icon: GraduationCap, title: "Employee Training", description: "New hire training materials", href: "/features/employee-training", available: true },
     { icon: FileText, title: "Forms & Templates", description: "Browse and download essential restaurant forms", href: "/features/essential-forms", available: true },
     { icon: HeartHandshake, title: "Community Support", description: "Connect with other restaurant owners", href: "/features/community-support", available: true },
+    { icon: BookOpen, title: "eBook Library", description: "Download eBooks included with your plan", href: "/library", available: true },
     { icon: BookOpen, title: "Learning Library", description: "Courses, videos and podcasts from successful operators", href: "/learn", available: true },
     { icon: Palette, title: "Design Services", description: "Get professional menu and branding design", href: "#", available: false },
     { icon: MapPin, title: "Supplier Finder", description: "Find trusted suppliers in your area", href: "#", available: false },
