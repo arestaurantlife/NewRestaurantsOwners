@@ -14,6 +14,7 @@ const PRODUCT_TIERS: Record<string, string> = {
   prod_TklGmoEjtrJEhN: "professional",
   prod_TklGsn7x8cQTbx: "enterprise",
 };
+const BUNDLE_SLUGS = ["psychology-of-restaurant-theft", "service-vs-hospitality", "science-of-restaurant-budget"];
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -46,7 +47,7 @@ Deno.serve(async (req) => {
     const { data: roleRow } = await admin.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
     const isAdmin = !!roleRow;
 
-    const { data: book } = await admin.from("ebooks").select("id, min_tier, storage_path, published").eq("id", id).maybeSingle();
+    const { data: book } = await admin.from("ebooks").select("id, slug, min_tier, storage_path, published").eq("id", id).maybeSingle();
     if (!book || (!book.published && !isAdmin)) return json({ error: "Not found" }, 404);
 
     let allowed = isAdmin;
@@ -64,8 +65,10 @@ Deno.serve(async (req) => {
         if (best >= (TIER_RANK[book.min_tier] ?? 1)) allowed = true;
         if (!allowed) {
           const sessions = await stripe.checkout.sessions.list({ customer: cid, limit: 100 });
+          const inBundle = BUNDLE_SLUGS.includes(book.slug);
           allowed = sessions.data.some(
-            (s) => s.mode === "payment" && s.payment_status === "paid" && s.metadata?.ebook_id === book.id,
+            (s) => s.mode === "payment" && s.payment_status === "paid" &&
+              (s.metadata?.ebook_id === book.id || (inBundle && s.metadata?.ebook_bundle === "core-3")),
           );
         }
       }
