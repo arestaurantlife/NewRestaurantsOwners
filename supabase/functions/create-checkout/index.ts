@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { consentMetadata, recordConsent } from "../_shared/audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -100,6 +101,9 @@ serve(async (req) => {
       ? requestOrigin
       : "https://newrestaurantsowners.com";
     
+    const acceptedAt = new Date().toISOString();
+    const planName = { "price_1SnFjL7hlrnyTBF1Yy2TWm9C": "starter", "price_1SnFjg7hlrnyTBF1ZJ5this6": "professional", "price_1SnFkL7hlrnyTBF1VP2iYmm3": "enterprise" }[priceId as string] ?? priceId;
+    const meta = { ...consentMetadata(acceptedAt), plan: planName, user_id: user.id };
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
@@ -108,12 +112,17 @@ serve(async (req) => {
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/?checkout=cancelled`,
       allow_promotion_codes: true,
-      ...(giveTrial
-        ? { subscription_data: { trial_period_days: 7 }, payment_method_collection: "always" as const }
-        : {}),
+      metadata: meta,
+      subscription_data: { metadata: meta, ...(giveTrial ? { trial_period_days: 7 } : {}) },
+      ...(giveTrial ? { payment_method_collection: "always" as const } : {}),
     });
 
     logStep("Checkout session created", { sessionId: session.id, url: session.url });
+
+    const serviceClient = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "", { auth: { persistSession: false } });
+    await recordConsent(serviceClient, req, {
+      user_id: user.id, email: user.email, product: `plan:${planName}`, stripe_session_id: session.id, accepted_at: acceptedAt,
+    });
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
