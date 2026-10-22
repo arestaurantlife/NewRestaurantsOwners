@@ -38,6 +38,9 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [locked, setLocked] = useState<null | "signin" | "subscribe">(null);
+  const logAccess = useCallback((id: string, action: "view" | "download") => {
+    supabase.functions.invoke("log-pdf-access", { body: { id, action } }).catch(() => {});
+  }, []);
 
   const availableTags = useMemo(() => {
     const counts = new Map<string, number>();
@@ -163,6 +166,7 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
               key={row.id}
               title={row.title}
               url={urls[row.id] ?? "#"}
+              onAccess={(a) => logAccess(row.id, a)}
               trigger={
                 <button
                   type="button"
@@ -270,6 +274,7 @@ const FeaturePdfLibrary = ({ featureSlug, quickLinkTags }: Props) => {
               title={row.title}
               description={row.description ?? ""}
               url={urls[row.id] ?? "#"}
+              onAccess={(a) => logAccess(row.id, a)}
               tags={row.tags}
               selectedTags={selectedTags}
               onTagClick={toggleTag}

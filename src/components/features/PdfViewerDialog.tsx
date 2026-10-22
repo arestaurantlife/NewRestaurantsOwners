@@ -14,13 +14,14 @@ interface PdfViewerDialogProps {
   title: string;
   url: string;
   trigger: ReactNode;
+  onAccess?: (action: "view" | "download") => void;
 }
 
-const PdfViewerDialog = ({ title, url, trigger }: PdfViewerDialogProps) => {
+const PdfViewerDialog = ({ title, url, trigger, onAccess }: PdfViewerDialogProps) => {
   const isPlaceholder = !url || url === "#";
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={(o) => o && !isPlaceholder && onAccess?.("view")}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-[95vw] w-[95vw] h-[90vh] p-0 flex flex-col">
         <DialogHeader className="px-6 pt-6 pb-3 border-b">
@@ -58,7 +59,7 @@ const PdfViewerDialog = ({ title, url, trigger }: PdfViewerDialogProps) => {
                 </a>
               </Button>
               <Button variant="outline" size="sm" asChild>
-                <a href={url} download>
+                <a href={url} download onClick={() => onAccess?.("download")}>
                   <Download className="w-4 h-4 mr-2" />
                   Download
                 </a>

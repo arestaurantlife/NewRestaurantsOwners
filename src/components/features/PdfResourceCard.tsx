@@ -12,6 +12,7 @@ interface PdfResourceCardProps {
   onTagClick?: (tag: string) => void;
   onDelete?: () => void;
   deleting?: boolean;
+  onAccess?: (action: "view" | "download") => void;
 }
 
 const PdfResourceCard = ({
@@ -23,6 +24,7 @@ const PdfResourceCard = ({
   onTagClick,
   onDelete,
   deleting,
+  onAccess,
 }: PdfResourceCardProps) => {
   const isPlaceholder = !url || url === "#";
 
@@ -61,6 +63,7 @@ const PdfResourceCard = ({
           <PdfViewerDialog
             title={title}
             url={url}
+            onAccess={onAccess}
             trigger={
               <Button size="sm">
                 <BookOpen className="w-4 h-4 mr-2" />
@@ -75,7 +78,7 @@ const PdfResourceCard = ({
                 Coming soon
               </span>
             ) : (
-              <a href={url} target="_blank" rel="noopener noreferrer" download>
+              <a href={url} target="_blank" rel="noopener noreferrer" download onClick={() => onAccess?.("download")}>
                 <Download className="w-4 h-4 mr-2" />
                 Download
               </a>

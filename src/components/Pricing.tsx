@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { PRICING_TIERS, TierKey } from "@/lib/stripe";
 import { merge } from "@/pagebuilder/types";
 import PrivacyNotice from "@/components/PrivacyNotice";
+import TermsConsent from "@/components/TermsConsent";
 
 const tierKeys: TierKey[] = ["starter", "professional", "enterprise"];
 
@@ -54,8 +55,10 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
   const { user, session, subscription } = useAuth();
   const navigate = useNavigate();
   const [loadingPlan, setLoadingPlan] = useState<TierKey | null>(null);
+  const [agreed, setAgreed] = useState<Partial<Record<TierKey, boolean>>>({});
 
   const handleSubscribe = async (tierKey: TierKey) => {
+    if (!agreed[tierKey]) return;
     if (!user || !session) {
       navigate("/auth");
       return;
@@ -63,7 +66,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
     setLoadingPlan(tierKey);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId: PRICING_TIERS[tierKey].price_id },
+        body: { priceId: PRICING_TIERS[tierKey].price_id, acceptedTerms: true },
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
       if (error) throw error;
@@ -153,7 +156,8 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                     </li>)}
                 </ul>
 
-                <Button variant={popular ? "hero" : "default"} size="lg" className="w-full mt-auto" onClick={() => handleSubscribe(key)} disabled={isLoading || isCurrent}>
+                {!isCurrent && <TermsConsent checked={!!agreed[key]} onChange={(v) => setAgreed((a) => ({ ...a, [key]: v }))} className={`mt-auto mb-3 ${popular ? "text-primary-foreground/90" : "text-foreground"}`} />}
+                <Button variant={popular ? "hero" : "default"} size="lg" className={`w-full ${isCurrent ? "mt-auto" : ""}`} onClick={() => handleSubscribe(key)} disabled={isLoading || isCurrent || !agreed[key]}>
                   {isLoading ? <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Processing...

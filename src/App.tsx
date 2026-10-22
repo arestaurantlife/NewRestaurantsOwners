@@ -15,6 +15,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Learn from "./pages/Learn";
 import LearnItem from "./pages/LearnItem";
 import AdminContent from "./pages/AdminContent";
+import AdminRefundCheck from "./pages/AdminRefundCheck";
 import Contact from "./pages/Contact";
 import Library from "./pages/Library";
 import DynamicPage from "./pages/DynamicPage";
@@ -50,6 +51,7 @@ const App = () => (
                 <Route path="/learn" element={<Learn />} />
                 <Route path="/learn/:slug" element={<LearnItem />} />
                 <Route path="/admin/content" element={<AdminContent />} />
+                <Route path="/admin/refund-check" element={<AdminRefundCheck />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
