@@ -7,6 +7,10 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   BookOpen,
   FileText,
   Palette,
@@ -27,6 +31,20 @@ const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [portalLoading, setPortalLoading] = useState(false);
   const { isAdmin } = useIsAdmin();
+  const [cancelling, setCancelling] = useState(false);
+  const [accessUntil, setAccessUntil] = useState<string | null>(null);
+
+  const handleCancel = async () => {
+    setCancelling(true);
+    const { data, error } = await supabase.functions.invoke("cancel-subscription");
+    setCancelling(false);
+    if (error || !data?.access_until) {
+      toast.error(data?.error ?? "Couldn't cancel. Please try again.");
+      return;
+    }
+    setAccessUntil(data.access_until);
+    checkSubscription();
+  };
 
   useEffect(() => {
     if (searchParams.get("checkout") === "success" && session?.access_token) {
@@ -121,13 +139,18 @@ const Dashboard = () => {
             Access all your restaurant resources and tools in one place.
           </p>
           {isAdmin && (
-            <Button variant="outline" size="sm" className="mt-4" asChild>
-              <Link to="/admin/content">Manage Content</Link>
-            </Button>
+            <div className="mt-4 flex gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/content">Manage Content</Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/refund-check">Refund check</Link>
+              </Button>
+            </div>
           )}
         </div>
 
-        <Card className="mb-8">
+        <Card className="mb-8" id="cancel">
           <CardHeader>
             <CardTitle className="text-xl">Your Plan</CardTitle>
             <CardDescription>Your current membership and billing</CardDescription>
@@ -161,17 +184,48 @@ const Dashboard = () => {
                 </div>
               );
             })()}
-            <div className="flex gap-2">
+            <div className="flex flex-col items-start md:items-end gap-2">
+              {accessUntil && (
+                <p className="text-sm font-medium text-foreground">
+                  Your access continues until {new Date(accessUntil).toLocaleDateString()}.
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2">
               {subscription.subscribed ? (
+                <>
                 <Button onClick={handleManageBilling} disabled={portalLoading}>
                   {portalLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   Manage Billing
                 </Button>
+                {!accessUntil && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" disabled={cancelling}>
+                        {cancelling && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                        Cancel subscription
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          You won't be charged again. You keep access until the end of your current {subscription.status === "trialing" ? "trial" : "billing period"}.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Keep subscription</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleCancel}>Yes, cancel</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+                </>
               ) : (
                 <Button asChild>
                   <Link to="/#pricing">View Plans</Link>
                 </Button>
               )}
+              </div>
             </div>
           </CardContent>
         </Card>

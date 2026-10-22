@@ -17,6 +17,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useToast } from "@/hooks/use-toast";
 import PrivacyNotice from "@/components/PrivacyNotice";
+import TermsConsent from "@/components/TermsConsent";
 
 interface Ebook {
   id: string;
@@ -47,6 +48,7 @@ const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; 
   const { toast } = useToast();
   const [busy, setBusy] = useState<"" | "dl" | "buy" | "up">("");
   const [locked, setLocked] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const inBundle = BUNDLE_SLUGS.includes(book.slug);
 
   const uploadFile = async (f: File | undefined) => {
@@ -78,9 +80,10 @@ const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; 
   };
 
   const buy = async () => {
+    if (!agreed) return;
     if (!user) return (window.location.href = "/auth?mode=signup");
     setBusy("buy");
-    const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { id: book.id } });
+    const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { id: book.id, acceptedTerms: true } });
     setBusy("");
     if (error || !data?.url) return toast({ title: data?.error ?? "Couldn't start checkout", variant: "destructive" });
     openUrl(data.url);
@@ -118,7 +121,8 @@ const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; 
             <p className="text-center text-xs text-muted-foreground">Included in the 3-eBook combo — $29.99</p>
           ) : price ? (
             <>
-            <Button variant="outline" className="w-full" onClick={buy} disabled={!!busy}>
+            <TermsConsent checked={agreed} onChange={setAgreed} className="text-foreground" />
+            <Button variant="outline" className="w-full" onClick={buy} disabled={!!busy || !agreed}>
               {busy === "buy" ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
               Buy for {price}
             </Button>
@@ -236,10 +240,12 @@ const Library = () => {
   const [editing, setEditing] = useState<Partial<Ebook> | null>(null);
   const { user } = useAuth();
   const [bundleBusy, setBundleBusy] = useState(false);
+  const [bundleAgreed, setBundleAgreed] = useState(false);
   const buyBundle = async () => {
+    if (!bundleAgreed) return;
     if (!user) return (window.location.href = "/auth?mode=signup");
     setBundleBusy(true);
-    const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { bundle: true } });
+    const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { bundle: true, acceptedTerms: true } });
     setBundleBusy(false);
     if (error || !data?.url) return toast({ title: data?.error ?? "Couldn't start checkout", variant: "destructive" });
     openUrl(data.url);
@@ -285,7 +291,8 @@ const Library = () => {
             <p className="text-sm text-muted-foreground">The Psychology of Restaurant Theft, Service Vs Hospitality and The Science of Restaurant Budget.</p>
           </div>
           <div className="shrink-0 md:max-w-[220px] space-y-2 text-center">
-          <Button onClick={buyBundle} disabled={bundleBusy}>
+          <TermsConsent checked={bundleAgreed} onChange={setBundleAgreed} className="text-foreground" />
+          <Button onClick={buyBundle} disabled={bundleBusy || !bundleAgreed}>
             {bundleBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
             Buy the combo
           </Button>

@@ -1,5 +1,6 @@
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { consentMetadata, recordConsent } from "../_shared/audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,7 +32,9 @@ Deno.serve(async (req) => {
     const user = u?.user;
     if (!user?.email) return json({ error: "Please sign in" }, 401);
 
-    const { id, bundle } = await req.json().catch(() => ({}));
+    const { id, bundle, acceptedTerms } = await req.json().catch(() => ({}));
+    if (acceptedTerms !== true) return json({ error: "You must agree to the Terms of Service and Refund Policy." }, 400);
+    const acceptedAt = new Date().toISOString();
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2023-10-16" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     const origin = req.headers.get("origin") ?? "";
@@ -51,10 +54,12 @@ Deno.serve(async (req) => {
           },
         }],
         mode: "payment",
-        metadata: { ebook_bundle: BUNDLE_KEY },
+        metadata: { ebook_bundle: BUNDLE_KEY, ...consentMetadata(acceptedAt), user_id: user.id },
+        payment_intent_data: { metadata: { ebook_bundle: BUNDLE_KEY, ...consentMetadata(acceptedAt) } },
         success_url: `${base}/library?purchased=bundle`,
         cancel_url: `${base}/library`,
       });
+      await recordConsent(admin, req, { user_id: user.id, email: user.email, product: `bundle:${BUNDLE_KEY}`, stripe_session_id: session.id, accepted_at: acceptedAt });
       return json({ url: session.url });
     }
 
@@ -78,10 +83,12 @@ Deno.serve(async (req) => {
       customer_creation: customers.data[0] ? undefined : "always",
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "payment",
-      metadata: { ebook_id: book.id },
+      metadata: { ebook_id: book.id, ...consentMetadata(acceptedAt), user_id: user.id },
+      payment_intent_data: { metadata: { ebook_id: book.id, ...consentMetadata(acceptedAt) } },
       success_url: `${base}/library?purchased=${book.id}`,
       cancel_url: `${base}/library`,
     });
+    await recordConsent(admin, req, { user_id: user.id, email: user.email, product: `ebook:${book.slug}`, stripe_session_id: session.id, accepted_at: acceptedAt });
     return json({ url: session.url });
   } catch (e) {
     console.error("[EBOOK-CHECKOUT]", e);
