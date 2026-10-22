@@ -22,6 +22,7 @@ import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Refunds from "./pages/Refunds";
 import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
+                <Route path="/refunds" element={<Refunds />} />
                 <Route path="/library" element={<Library />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />

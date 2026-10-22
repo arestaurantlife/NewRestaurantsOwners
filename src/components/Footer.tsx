@@ -6,7 +6,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
   const footerLinks = {
     product: [{ label: "Features", href: "/#features" }, { label: "Pricing", href: "/#pricing" }, { label: "Scenarios", href: "/#testimonials" }, { label: "FAQ", href: "/#faq" }],
     company: [{ label: "About Us", href: "/about" }, { label: "Contact Us", href: "/contact" }],
-    legal: [{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms of Service", href: "/terms" }, { label: "Refund Policy", href: "/refund-policy" }]
+    legal: [{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms of Service", href: "/terms" }, { label: "Refund Policy", href: "/refunds" }]
   };
   const phoneDisplay = SITE.phone.replace(/^\+1(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
   return <footer ref={ref} className="bg-charcoal text-primary-foreground" {...props}>
