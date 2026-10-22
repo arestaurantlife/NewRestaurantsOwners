@@ -74,7 +74,7 @@ const Contact = () => {
                 Have a question about the platform or your membership? Send us a message and our team will get back to you.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-[minmax(340px,1fr)_minmax(0,2fr)] gap-8">
               <div className="space-y-4">
                 <a href={`mailto:${SITE.email}`} className="flex items-start gap-3 p-5 rounded-xl border border-border bg-card hover:border-primary transition-colors">
                   <Mail className="w-5 h-5 text-primary mt-0.5" />
@@ -91,7 +91,7 @@ const Contact = () => {
                   </div>
                 </a>
               </div>
-              <div className="md:col-span-2 p-6 md:p-8 rounded-xl border border-border bg-card">
+              <div className="p-6 md:p-8 rounded-xl border border-border bg-card">
                 {sent ? (
                   <div className="text-center py-10">
                     <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-4" />
