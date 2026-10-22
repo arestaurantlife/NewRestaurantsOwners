@@ -22,6 +22,7 @@ import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
 import Privacy from "./pages/Privacy";
+import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Refunds from "./pages/Refunds";
 import Footer from "./components/Footer";
@@ -53,6 +54,7 @@ const App = () => (
                 <Route path="/admin/content" element={<AdminContent />} />
                 <Route path="/admin/refund-check" element={<AdminRefundCheck />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/refunds" element={<Refunds />} />
