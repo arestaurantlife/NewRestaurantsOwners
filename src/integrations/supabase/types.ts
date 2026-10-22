@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      checkout_consents: {
+        Row: {
+          accepted_at: string
+          created_at: string
+          email: string
+          id: string
+          ip_address: string | null
+          product: string
+          refund_policy_version: string
+          stripe_session_id: string | null
+          terms_version: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          accepted_at?: string
+          created_at?: string
+          email: string
+          id?: string
+          ip_address?: string | null
+          product: string
+          refund_policy_version: string
+          stripe_session_id?: string | null
+          terms_version: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          accepted_at?: string
+          created_at?: string
+          email?: string
+          id?: string
+          ip_address?: string | null
+          product?: string
+          refund_policy_version?: string
+          stripe_session_id?: string | null
+          terms_version?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
@@ -38,6 +80,45 @@ export type Database = {
           message?: string
           name?: string
           subject?: string | null
+        }
+        Relationships: []
+      }
+      content_access_log: {
+        Row: {
+          accessed_at: string
+          action: string
+          content_id: string
+          content_title: string
+          content_type: string
+          email: string | null
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          accessed_at?: string
+          action: string
+          content_id: string
+          content_title: string
+          content_type: string
+          email?: string | null
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          accessed_at?: string
+          action?: string
+          content_id?: string
+          content_title?: string
+          content_type?: string
+          email?: string | null
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id?: string
         }
         Relationships: []
       }

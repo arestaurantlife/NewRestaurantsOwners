@@ -8,6 +8,13 @@
       "when": 1792618161956,
       "tag": "0000_create_ebooks",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792628174066,
+      "tag": "0001_refund_protection_logs",
+      "breakpoints": true
     }
   ]
 }
