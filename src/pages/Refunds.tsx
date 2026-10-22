@@ -4,22 +4,15 @@ import Footer from "@/components/Footer";
 import policy from "@/content/refund-policy.html?raw";
 
 const sections = [
-  "Agreement to these Terms",
-  "Eligibility and accounts",
-  "Subscriptions, free trials, and purchases",
-  "Your license to use our content",
-  "Staff training platform",
-  "Educational content, not professional advice",
-  "Community, webinars, and live sessions",
-  "Our intellectual property",
-  "Disclaimers",
-  "Limitation of liability",
-  "Indemnity",
-  "Suspension and termination",
-  "Governing law and disputes",
-  "Changes to the Services and these Terms",
-  "General terms",
-  "Contact us",
+  { id: "at-a-glance", title: "At a glance" },
+  { id: "section-1", title: "1. Subscriptions and the free trial" },
+  { id: "section-2", title: "2. eBooks, guides, bundles, and other digital products" },
+  { id: "section-3", title: "3. Staff training platform" },
+  { id: "section-4", title: "4. How to request a refund" },
+  { id: "section-5", title: "5. Chargebacks and payment disputes" },
+  { id: "section-6", title: "6. Abuse and fraud" },
+  { id: "section-7", title: "7. Exceptions and the law" },
+  { id: "section-8", title: "8. Contact us" },
 ];
 
 export default function Refunds() {
@@ -38,11 +31,11 @@ export default function Refunds() {
         <h1 className="font-display text-4xl font-bold text-primary mb-6">Refund Policy</h1>
         <nav aria-label="Refund Policy table of contents" className="border-y border-border py-5 mb-8">
           <h2 className="font-display font-semibold text-lg mb-3">Table of contents</h2>
-          <ol className="list-decimal pl-5 space-y-1 text-sm leading-relaxed">
-            {sections.map((title, index) => (
-              <li key={title}><a href={`#section-${index + 1}`} className="text-primary underline underline-offset-2 hover:text-foreground">{title}</a></li>
+          <ul className="space-y-1 text-sm leading-relaxed">
+            {sections.map(({ id, title }) => (
+              <li key={id}><a href={`#${id}`} className="text-primary underline underline-offset-2 hover:text-foreground">{title}</a></li>
             ))}
-          </ol>
+          </ul>
         </nav>
         <article className="privacy-policy" dangerouslySetInnerHTML={{ __html: policy.replace("<h1>Refund Policy</h1>\n", "") }} />
       </main>
