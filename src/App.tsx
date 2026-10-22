@@ -22,6 +22,7 @@ import DynamicPage from "./pages/DynamicPage";
 import ScrollToHash from "./components/ScrollToHash";
 import ThemeProvider from "./components/pagebuilder/ThemeProvider";
 import Privacy from "./pages/Privacy";
+import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Refunds from "./pages/Refunds";
 import Footer from "./components/Footer";

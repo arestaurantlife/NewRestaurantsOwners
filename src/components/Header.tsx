@@ -20,6 +20,7 @@ const Header = () => {
     { label: "Pricing", href: anchor("#pricing") },
     { label: "Scenarios", href: anchor("#testimonials") },
     { label: "FAQ", href: anchor("#faq") },
+    { label: "About", href: "/about" },
     ...pages
       .filter((p) => p.show_in_nav && p.slug !== "home")
       .map((p) => ({ label: p.nav_label || p.title, href: `/${p.slug}` })),
