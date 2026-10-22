@@ -110,10 +110,10 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
           const features = String(plan.features ?? "").split("\n").map(f => f.trim()).filter(Boolean);
           const isCurrent = isCurrentPlan(key);
           const isLoading = loadingPlan === key;
-          return <div key={`${plan.name}-${index}`} className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 flex flex-col overflow-hidden ${popular ? "bg-gradient-hero text-primary-foreground shadow-wine ring-2 ring-gold md:scale-105" : "bg-card border border-primary/10 hover:border-primary/30 shadow-soft hover:shadow-wine"} ${isCurrent ? "ring-2 ring-gold" : ""}`}>
+          return <div key={`${plan.name}-${index}`} className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 flex flex-col overflow-hidden ${popular ? "pt-16 bg-gradient-hero text-primary-foreground shadow-wine ring-2 ring-gold md:scale-105" : "bg-card border border-primary/10 hover:border-primary/30 shadow-soft hover:shadow-wine"} ${isCurrent ? "ring-2 ring-gold" : ""}`}>
                 {popular && <>
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
                       <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-gold text-charcoal text-sm font-semibold shadow-gold">
                         <Sparkles className="w-4 h-4" />
                         Most Popular
