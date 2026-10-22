@@ -1,5 +1,6 @@
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { logAccess } from "../_shared/audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -47,7 +48,7 @@ Deno.serve(async (req) => {
     const { data: roleRow } = await admin.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
     const isAdmin = !!roleRow;
 
-    const { data: book } = await admin.from("ebooks").select("id, slug, min_tier, storage_path, published").eq("id", id).maybeSingle();
+    const { data: book } = await admin.from("ebooks").select("id, slug, title, min_tier, storage_path, published").eq("id", id).maybeSingle();
     if (!book || (!book.published && !isAdmin)) return json({ error: "Not found" }, 404);
 
     let allowed = isAdmin;
@@ -77,6 +78,9 @@ Deno.serve(async (req) => {
     if (!book.storage_path) return json({ allowed: true, url: null });
 
     const { data } = await admin.storage.from("ebooks").createSignedUrl(book.storage_path, 3600, { download: true });
+    if (data?.signedUrl) {
+      await logAccess(admin, req, { user_id: user.id, email: user.email, content_id: `ebook:${book.id}`, content_title: book.title, content_type: "ebook", action: "download" });
+    }
     return json({ allowed: true, url: data?.signedUrl ?? null });
   } catch (e) {
     console.error("[GET-EBOOK-URL]", e);

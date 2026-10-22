@@ -1,5 +1,6 @@
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { logAccess } from "../_shared/audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -69,7 +70,7 @@ Deno.serve(async (req) => {
 
     const { data: item } = await admin
       .from("content_items")
-      .select("id, slug, access, min_tier, media_url, storage_path, published")
+      .select("id, slug, title, kind, access, min_tier, media_url, storage_path, published")
       .eq("slug", slug)
       .maybeSingle();
     if (!item || (!item.published && !isAdmin)) return json({ error: "Not found" }, 404);
@@ -101,6 +102,9 @@ Deno.serve(async (req) => {
     } else if (item.media_url) {
       url = item.media_url;
       type = "embed";
+    }
+    if (user && url) {
+      await logAccess(admin, req, { user_id: user.id, email: user.email, content_id: `content:${item.id}`, content_title: item.title, content_type: item.kind === "podcast" ? "podcast" : "video", action: "view" });
     }
     return json({ allowed: true, url, type });
   } catch (e) {
