@@ -45,7 +45,13 @@ serve(async (req) => {
       "price_1SnFkL7hlrnyTBF1VP2iYmm3", // enterprise
     ]);
 
-    const { priceId } = await req.json();
+    const { priceId, acceptedTerms } = await req.json();
+    if (acceptedTerms !== true) {
+      return new Response(JSON.stringify({ error: "You must agree to the Terms of Service and Refund Policy." }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      });
+    }
     if (!priceId || !ALLOWED_PRICE_IDS.has(priceId)) {
       logStep("Invalid price ID rejected", { priceId });
       return new Response(JSON.stringify({ error: "Invalid price ID" }), {
