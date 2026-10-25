@@ -454,6 +454,36 @@ export type Database = {
         }
         Relationships: []
       }
+      training_access_codes: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          redeemed_at: string | null
+          redeemed_org_ref: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          redeemed_at?: string | null
+          redeemed_org_ref?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          redeemed_at?: string | null
+          redeemed_org_ref?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
