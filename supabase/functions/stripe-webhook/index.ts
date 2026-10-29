@@ -37,6 +37,21 @@ Deno.serve(async (req) => {
         idempotencyKey: `trial-ending-${sub.id}-${sub.trial_end}`,
       });
       console.log("[STRIPE-WEBHOOK] trial reminder", { sub: sub.id, result });
+    } else if (event.type === "invoice.payment_failed") {
+      const inv = event.data.object as Stripe.Invoice;
+      const email = inv.customer_email;
+      if (email) {
+        const amount = `$${((inv.amount_due ?? 0) / 100).toFixed(2)}`;
+        const result = await sendTemplateEmail("payment-failed", email, {
+          templateData: { name: inv.customer_name?.split(" ")[0] ?? "", amount },
+          idempotencyKey: `payment-failed-${inv.id}-${inv.attempt_count}`,
+        });
+        console.log("[STRIPE-WEBHOOK] payment failed email", { invoice: inv.id, result });
+      }
+    } else if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
+      // Access is checked live against Stripe; log only.
+      const sub = event.data.object as Stripe.Subscription;
+      console.log("[STRIPE-WEBHOOK]", event.type, { sub: sub.id, status: sub.status, cancel_at_period_end: sub.cancel_at_period_end });
     }
     return new Response(JSON.stringify({ received: true }), { headers: { "Content-Type": "application/json" } });
   } catch (e) {
