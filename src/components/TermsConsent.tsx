@@ -21,6 +21,10 @@ export default function TermsConsent({
         <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">Terms of Service</a>{" "}
         and{" "}
         <a href="/refunds" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">Refund Policy</a>.
+        <span className="block opacity-80">
+          See our{" "}
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">Privacy Policy</a>.
+        </span>
       </label>
     </div>
   );
