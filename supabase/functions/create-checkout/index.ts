@@ -109,13 +109,19 @@ serve(async (req) => {
       customer_email: customerId ? undefined : user.email,
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
+      ui_mode: "hosted",
+      billing_address_collection: "auto",
+      phone_number_collection: { enabled: false },
+      automatic_tax: { enabled: false },
+      integration_identifier: "hosted_web_0001",
+      origin_context: "web",
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/?checkout=cancelled`,
       allow_promotion_codes: true,
       metadata: meta,
       subscription_data: { metadata: meta, ...(giveTrial ? { trial_period_days: 7 } : {}) },
-      ...(giveTrial ? { payment_method_collection: "always" as const } : {}),
-    });
+      payment_method_collection: "always",
+    } as Stripe.Checkout.SessionCreateParams);
 
     logStep("Checkout session created", { sessionId: session.id, url: session.url });
 

@@ -54,11 +54,19 @@ Deno.serve(async (req) => {
           },
         }],
         mode: "payment",
+        ui_mode: "hosted",
+        billing_address_collection: "auto",
+        phone_number_collection: { enabled: false },
+        automatic_tax: { enabled: false },
+        integration_identifier: "hosted_web_0001",
+        origin_context: "web",
+        allow_promotion_codes: false,
+        submit_type: "auto",
         metadata: { ebook_bundle: BUNDLE_KEY, ...consentMetadata(acceptedAt), user_id: user.id },
         payment_intent_data: { metadata: { ebook_bundle: BUNDLE_KEY, ...consentMetadata(acceptedAt) } },
         success_url: `${base}/library?purchased=bundle`,
         cancel_url: `${base}/library`,
-      });
+      } as Stripe.Checkout.SessionCreateParams);
       await recordConsent(admin, req, { user_id: user.id, email: user.email, product: `bundle:${BUNDLE_KEY}`, stripe_session_id: session.id, accepted_at: acceptedAt });
       return json({ url: session.url });
     }
@@ -83,11 +91,19 @@ Deno.serve(async (req) => {
       customer_creation: customers.data[0] ? undefined : "always",
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "payment",
+      ui_mode: "hosted",
+      billing_address_collection: "auto",
+      phone_number_collection: { enabled: false },
+      automatic_tax: { enabled: false },
+      integration_identifier: "hosted_web_0001",
+      origin_context: "web",
+      allow_promotion_codes: false,
+      submit_type: "auto",
       metadata: { ebook_id: book.id, ...consentMetadata(acceptedAt), user_id: user.id },
       payment_intent_data: { metadata: { ebook_id: book.id, ...consentMetadata(acceptedAt) } },
       success_url: `${base}/library?purchased=${book.id}`,
       cancel_url: `${base}/library`,
-    });
+    } as Stripe.Checkout.SessionCreateParams);
     await recordConsent(admin, req, { user_id: user.id, email: user.email, product: `ebook:${book.slug}`, stripe_session_id: session.id, accepted_at: acceptedAt });
     return json({ url: session.url });
   } catch (e) {
