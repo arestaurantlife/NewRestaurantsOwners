@@ -30,7 +30,7 @@ Existing customer parameters, line items, return URLs, consent/product/user meta
 
 - `ui_mode` is `"hosted"` because the SDK is `stripe@14.21.0`. Switch to `"hosted_page"` only if the SDK is upgraded to `21.0.0+`. API version remains `"2023-10-16"`.
 - Automatic tax is disabled. Review sales-tax obligations for digital subscriptions with an accountant before launch.
-- Compatibility verification: deployment and live endpoint checks pending. `integration_identifier`, `origin_context`, and payment-only `submit_type` are configured; acceptance by Stripe is not yet confirmed. If Stripe rejects either of the first two as unknown parameters, remove only those two; remove `submit_type` only if Stripe rejects it.
+- Compatibility verification (2026-11-06): both functions deployed successfully. Authenticated requests to subscription checkout (Starter) and bundle checkout returned HTTP 200 with Stripe hosted Checkout URLs; no payment was made. Stripe accepted `integration_identifier` and `origin_context` in both exercised calls and `submit_type: "auto"` in bundle checkout; no fields were removed. Subscription logs confirm session creation without unknown-parameter errors; the eBook log query returned no entries, so its HTTP 200 response is the behavior evidence. The individual-eBook branch has identical added parameters but was not exercised: there is no published eligible single eBook with an existing Stripe Price ID, and testing must not create products/prices or change the catalog. Its runtime acceptance remains unverified.
 
 ## Setup and Next Steps
 
