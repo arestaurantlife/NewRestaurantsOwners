@@ -44,7 +44,7 @@ const TrainingAccessCard = () => {
 
   useEffect(() => {
     if (subscriptionLoading) return;
-    if (!subscription.subscribed || subscription.tier !== "professional") {
+    if (!subscription.subscribed || (subscription.tier !== "professional" && subscription.tier !== "enterprise")) {
       setState({ kind: "upgrade" });
       return;
     }

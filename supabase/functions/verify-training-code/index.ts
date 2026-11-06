@@ -99,7 +99,7 @@ serve(async (req) => {
       }
     }
 
-    const activeProfessional = subscription_status !== null && plan === "professional";
+    const activeProfessional = subscription_status !== null && (plan === "professional" || plan === "enterprise");
     const valid = !!record && record.status !== "revoked" && activeProfessional;
 
     const payload = {
