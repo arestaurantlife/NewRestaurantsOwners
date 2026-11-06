@@ -56,7 +56,7 @@ serve(async (req) => {
     // Source of truth: live Stripe subscription (same as check-subscription).
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
     const plan = await getPlanStatus(stripe, user.email);
-    const isProfessional = plan.status !== null && plan.plan === "professional";
+    const isProfessional = plan.status !== null && (plan.plan === "professional" || plan.plan === "enterprise");
     if (!isProfessional) {
       return json({ professional: false, plan: plan.plan, subscription_status: plan.status });
     }
