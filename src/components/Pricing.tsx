@@ -110,6 +110,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
           const features = String(plan.features ?? "").split("\n").map(f => f.trim()).filter(Boolean);
           const isCurrent = isCurrentPlan(key);
           const isLoading = loadingPlan === key;
+          const comingSoon = key === "enterprise" && !isCurrent;
           return <div key={`${plan.name}-${index}`} className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 flex flex-col overflow-hidden ${popular ? "pt-16 bg-gradient-hero text-primary-foreground shadow-wine ring-2 ring-gold md:scale-105" : "bg-card border border-primary/10 hover:border-primary/30 shadow-soft hover:shadow-wine"} ${isCurrent ? "ring-2 ring-gold" : ""}`}>
                 {popular && <>
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
@@ -120,6 +121,10 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                       </span>
                     </div>
                   </>}
+
+                {comingSoon && <div className="pointer-events-none absolute top-7 -right-12 z-20 w-48 rotate-45 bg-primary/70 backdrop-blur-sm py-1.5 text-center text-xs font-bold tracking-widest text-primary-foreground border-y border-gold/60 shadow-soft">
+                    COMING SOON
+                  </div>}
 
                 {isCurrent && <div className="absolute -top-4 right-4 z-10">
                     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500 text-white text-xs font-semibold">
@@ -156,6 +161,9 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                     </li>)}
                 </ul>
 
+                {comingSoon ? <Button size="lg" className="w-full mt-auto" onClick={() => navigate("/contact")}>
+                    Inquire About Enterprise
+                  </Button> : <>
                 {!isCurrent && <TermsConsent checked={!!agreed[key]} onChange={(v) => setAgreed((a) => ({ ...a, [key]: v }))} className={`mt-auto mb-3 ${popular ? "text-primary-foreground/90" : "text-foreground"}`} />}
                 <Button variant={popular ? "hero" : "default"} size="lg" className={`w-full ${isCurrent ? "mt-auto" : ""}`} onClick={() => handleSubscribe(key)} disabled={isLoading || isCurrent || !agreed[key]}>
                   {isLoading ? <>
@@ -167,6 +175,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                 {key === "starter" && <p className={`text-xs text-center mt-2 ${popular ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                     Card required. Billed $47/month after 7 days unless cancelled.
                   </p>}
+                </>}
               </div>;
         })}
         </div>
