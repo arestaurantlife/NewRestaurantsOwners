@@ -7,15 +7,17 @@ export default function TermsConsent({
   checked,
   onChange,
   className,
+  checkboxClassName,
 }: {
   checked: boolean;
   onChange: (v: boolean) => void;
   className?: string;
+  checkboxClassName?: string;
 }) {
   const id = useId();
   return (
     <div className={cn("flex items-start gap-2 text-left text-xs leading-relaxed", className)}>
-      <Checkbox id={id} checked={checked} onCheckedChange={(v) => onChange(v === true)} className="mt-0.5" aria-required="true" />
+      <Checkbox id={id} checked={checked} onCheckedChange={(v) => onChange(v === true)} className={cn("mt-0.5", checkboxClassName)} aria-required="true" />
       <label htmlFor={id} className="cursor-pointer">
         I agree to the{" "}
         <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">Terms of Service</a>{" "}

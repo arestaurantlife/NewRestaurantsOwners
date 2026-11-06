@@ -164,7 +164,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
                 {comingSoon ? <Button size="lg" className="w-full mt-auto" onClick={() => navigate("/contact")}>
                     Inquire About Enterprise
                   </Button> : <>
-                {!isCurrent && <TermsConsent checked={!!agreed[key]} onChange={(v) => setAgreed((a) => ({ ...a, [key]: v }))} className={`mt-auto mb-3 ${popular ? "text-primary-foreground/90" : "text-foreground"}`} />}
+                {!isCurrent && <TermsConsent checked={!!agreed[key]} onChange={(v) => setAgreed((a) => ({ ...a, [key]: v }))} checkboxClassName={popular ? "border-primary-foreground bg-primary-foreground data-[state=checked]:bg-primary-foreground data-[state=checked]:text-primary" : undefined} className={`mt-auto mb-3 ${popular ? "text-primary-foreground/90" : "text-foreground"}`} />}
                 <Button variant={popular ? "hero" : "default"} size="lg" className={`w-full ${isCurrent ? "mt-auto" : ""}`} onClick={() => handleSubscribe(key)} disabled={isLoading || isCurrent || !agreed[key]}>
                   {isLoading ? <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
