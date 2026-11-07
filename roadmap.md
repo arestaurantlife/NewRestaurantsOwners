@@ -12,3 +12,8 @@
 - [x] Content access log + admin Refund check
 - [x] Trial reminder email (waiting on Stripe webhook secret from owner)
 - [x] One-click cancellation
+
+# Visitor growth
+- [ ] Review existing offer, traffic, search visibility, and visitor conversion paths
+- [ ] Research the business, competitors, audience needs, and relevant outreach channels
+- [ ] Save evidence-based research and a ranked marketing plan
