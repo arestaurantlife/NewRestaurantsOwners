@@ -6,7 +6,7 @@ import { useGo } from "@/lib/navigate";
 export const ctaDefaults = {
   title: "Ready to Transform Your Restaurant?",
   subtitle:
-    "Join thousands of restaurant owners who have taken control of their finances, reduced costs, and built thriving businesses.",
+    "Join us now to take control of your finances, reduce costs, and build a thriving business in today’s hospitality industry.",
   buttonLabel: "Start Your 7-Day Free Trial (Starter)",
   buttonHref: "#pricing",
   footnote: "Credit card required • Trial on Starter plan only • Cancel anytime",
