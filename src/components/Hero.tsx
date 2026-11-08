@@ -6,7 +6,7 @@ import EditableText from "@/components/pagebuilder/EditableText";
 import { useGo } from "@/lib/navigate";
 
 export const heroDefaults = {
-  badge: "Trusted by New Restaurants Owners",
+  badge: "A must have by New Restaurants Owners",
   titleLead: "Master Your Restaurant's",
   titleAccent: "Financial Success",
   subtitle:
