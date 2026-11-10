@@ -36,7 +36,7 @@ export const featuresDefaults = {
       href: "/features/labor-cost-management",
     },
     {
-      title: "Food Cost Control",
+      title: "Food Cost & Bar Control",
       description:
         "Learn proven strategies to manage inventory, reduce waste, maintain an efficient food cost percentages.",
       benefits: "Inventory Systems\nWaste Tracking\nMenu Pricing",
