@@ -1,4 +1,5 @@
 # Architecture rules
+- Render published rich-text fields through the editor's HTML sanitizer even when they contain no tags, so saved character entities display consistently after publishing.
 - Keep owner-approved legal policies as static app-owned HTML rendered by public `/privacy`, `/terms` and `/refunds` routes; policy copy is not generated from backend capabilities.
 - Use `PrivacyNotice` for registration/email-capture and purchase agreement links so the wording and new-tab behavior stay consistent.
 - Existing pages own their shared footer; `SupplementalFooter` supplies it only on auth, password reset, dashboard and OAuth consent routes that otherwise lack one, avoiding duplicate footers.- Checkout consent and content-access audit rows are written only by Edge Functions via `supabase/functions/_shared/audit.ts` (service role); clients never insert, so the records stay tamper-proof for disputes.
