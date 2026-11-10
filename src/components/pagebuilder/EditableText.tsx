@@ -67,7 +67,9 @@ const EditableText = ({
 
   if (!editing) {
     if (!value) return null;
-    return hasMarkup(value) ? (
+    // Rich-text edits serialize ampersands as entities even without any tags.
+    // Render them through the same sanitizer used by the editor, not as literals.
+    return !plain || hasMarkup(value) ? (
       <T className={className} dangerouslySetInnerHTML={{ __html: sanitize(value) }} />
     ) : (
       <T className={className}>{value}</T>
