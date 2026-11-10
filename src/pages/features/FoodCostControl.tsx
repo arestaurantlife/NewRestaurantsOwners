@@ -5,8 +5,8 @@ const FoodCostControl = () => (
   <FeaturePageLayout
     featureSlug="food-cost-control"
     icon={UtensilsCrossed}
-    title="Food Cost Control"
-    intro="Learn proven strategies to manage inventory, reduce waste, and maintain healthy food cost percentages."
+    title="Food Cost & Bar Control"
+    intro="Learn proven strategies to manage inventory, reduce waste, and maintain healthy food and bar cost percentages."
     overview={
       <>
         <p>[Placeholder overview — replace with your real content.]</p>
