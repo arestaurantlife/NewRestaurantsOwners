@@ -36,15 +36,23 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
+    const notSignedIn = () =>
+      new Response(
+        JSON.stringify({ subscribed: false, tier: null, subscription_end: null, status: null, trial_end: null, auth_required: true }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
+      );
+
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) throw new Error("No authorization header provided");
+    if (!authHeader) return notSignedIn();
 
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
-    if (userError) throw new Error(`Authentication error: ${userError.message}`);
-    
+    // Expired/invalid sessions are a normal state, not a server failure.
+    if (userError || !userData.user?.email) {
+      logStep("Session missing or expired");
+      return notSignedIn();
+    }
     const user = userData.user;
-    if (!user?.email) throw new Error("User not authenticated or email not available");
     logStep("User authenticated", { userId: user.id });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
