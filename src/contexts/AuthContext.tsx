@@ -22,15 +22,30 @@ interface AuthContextType {
   checkSubscription: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const authenticationUnavailable = () =>
+  new Error("Authentication is temporarily unavailable. Please refresh and try again.");
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+// A signed-out fallback keeps a stale or partially loaded preview from crashing
+// the entire page. Protected routes still redirect when no user is available.
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  session: null,
+  loading: false,
+  subscription: {
+    subscribed: false,
+    tier: null,
+    subscriptionEnd: null,
+    status: null,
+    trialEnd: null,
+  },
+  subscriptionLoading: false,
+  signUp: async () => ({ error: authenticationUnavailable() }),
+  signIn: async () => ({ error: authenticationUnavailable() }),
+  signOut: async () => undefined,
+  checkSubscription: async () => undefined,
+});
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
