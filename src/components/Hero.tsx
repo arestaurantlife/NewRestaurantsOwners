@@ -31,7 +31,7 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <div className="flex flex-wrap gap-3 mb-6 animate-fade-up" style={{
             animationDelay: "0.1s"
           }}>
@@ -57,7 +57,7 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
             field="subtitle"
             value={c.subtitle}
             as="p"
-            className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-2xl animate-fade-up"
+            className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-3xl animate-fade-up"
           />
 
 
