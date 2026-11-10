@@ -68,11 +68,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     setSubscriptionLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("check-subscription", {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
+      // Let the client attach its current (auto-refreshed) token instead of a possibly stale one.
+      const { data, error } = await supabase.functions.invoke("check-subscription");
 
       if (error) {
         console.error("Error checking subscription:", error);
