@@ -57,7 +57,7 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
             field="subtitle"
             value={c.subtitle}
             as="p"
-            className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-3xl animate-fade-up"
+            className="text-base text-primary-foreground/80 mb-8 leading-relaxed max-w-3xl animate-fade-up"
           />
 
 
