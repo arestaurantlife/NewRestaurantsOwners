@@ -101,7 +101,7 @@ const Dashboard = () => {
   const features = [
     { icon: DollarSign, title: "Financial Operations", description: "Guides and PDFs for running profitable finances", href: "/features/financial-operations", available: true },
     { icon: Users, title: "Labor Cost Management", description: "Scheduling and labor cost resources", href: "/features/labor-cost-management", available: true },
-    { icon: ChefHat, title: "Food Cost & Bar Control", description: "Inventory, waste and food cost resources", href: "/features/food-cost-control", available: true },
+    { icon: ChefHat, title: "Food Cost & Bar Cost Control", description: "Inventory, waste and food cost resources", href: "/features/food-cost-control", available: true },
     { icon: GraduationCap, title: "Employee Training", description: "New hire training materials", href: "/features/employee-training", available: true },
     { icon: FileText, title: "Forms & Templates", description: "Browse and download essential restaurant forms", href: "/features/essential-forms", available: true },
     { icon: HeartHandshake, title: "Community Support", description: "Connect with other restaurant owners", href: "/features/community-support", available: true },
