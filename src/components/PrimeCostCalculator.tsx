@@ -63,7 +63,7 @@ function CostControl({ id, label, value, onChange, min, max, step, unit, hint }:
           <span className="pointer-events-none absolute right-3 top-2 text-muted-foreground">{unit}</span>
         </div>
       </div>
-      <Slider aria-label={`${label} slider`} value={[Math.min(max, value)]} min={min} max={max} step={step}
+      <Slider thumbLabel={`${label} slider`} value={[Math.min(max, value)]} min={min} max={max} step={step}
         onValueChange={([next]) => { if (next !== undefined) onChange(next); }}
         className="py-2 [&_[role=slider]]:border-gold [&_[role=slider]]:bg-gold [&_[data-orientation=horizontal]>span]:bg-gold" />
       <div className="flex justify-between text-xs text-muted-foreground tabular-nums">

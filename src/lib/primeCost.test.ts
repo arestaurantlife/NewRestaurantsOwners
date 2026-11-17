@@ -1,5 +1,8 @@
-import { describe, expect, test } from "bun:test";
+import { describe, test } from "node:test";
+import { strict as assert } from "node:assert";
 import { calculatePrimeCost, PRIME_COST_DEFAULTS, PRIME_COST_TARGET } from "./primeCost";
+
+const expect = (actual: unknown) => ({ toBe: (expected: unknown) => assert.equal(actual, expected) });
 
 describe("prime cost estimates", () => {
   test("default 65000 sales, 34% food and 35% labor produce a 7150 monthly and 85800 annual gap", () => {
