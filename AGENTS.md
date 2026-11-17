@@ -1,5 +1,5 @@
 # Architecture rules
-- Render the homepage prime-cost calculator before the first pricing block (or at the end when absent), outside saved page blocks, so existing published layouts receive the tool without rewriting owner content; keep calculations in a pure tested helper.
+- Render the shared prime-cost calculator outside saved page blocks: before pricing on the homepage, before the PDF library on Financial Operations and Food Cost pages, or at the end if the anchor block is absent, so owner content is preserved; keep calculations in a pure tested helper and feature-page membership links pointed to /#pricing.
 - Render published rich-text fields through the editor's HTML sanitizer even when they contain no tags, so saved character entities display consistently after publishing.
 - Keep owner-approved legal policies as static app-owned HTML rendered by public `/privacy`, `/terms` and `/refunds` routes; policy copy is not generated from backend capabilities.
 - Use `PrivacyNotice` for registration/email-capture and purchase agreement links so the wording and new-tab behavior stay consistent.

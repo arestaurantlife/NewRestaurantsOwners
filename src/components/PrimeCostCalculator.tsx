@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Link } from "react-router-dom";
 import { calculatePrimeCost, PRIME_COST_DEFAULTS, PRIME_COST_TARGET } from "@/lib/primeCost";
 
 const dollars = (value: number) => new Intl.NumberFormat("en-US", {
@@ -75,7 +76,7 @@ function CostControl({ id, label, value, onChange, min, max, step, unit, hint }:
   );
 }
 
-const PrimeCostCalculator = () => {
+const PrimeCostCalculator = ({ pricingHref = "#pricing" }: { pricingHref?: string }) => {
   const [values, setValues] = useState({ ...PRIME_COST_DEFAULTS });
   const result = calculatePrimeCost(values.sales, values.food, values.labor);
   const status = {
@@ -134,13 +135,14 @@ const PrimeCostCalculator = () => {
             </div>
             <p className="text-sm leading-relaxed text-primary-foreground/85">A reduction of 3–5 percentage points would free up <strong className="text-gold">{dollars(result.savingsLow)}–{dollars(result.savingsHigh)}</strong> per year at your current sales. This is a scenario, not a promised result.</p>
             <Button asChild variant="hero" className="mt-6 h-auto min-h-12 whitespace-normal px-4 py-3 text-center">
-              <a href="#pricing" onClick={(event) => {
+              <Link to={pricingHref} onClick={(event) => {
+                if (pricingHref !== "#pricing") return;
                 const pricing = document.getElementById("pricing");
                 if (!pricing) return;
                 event.preventDefault();
                 pricing.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
                 window.history.replaceState(null, "", "#pricing");
-              }}>Explore Membership &amp; Improve Your Prime Cost <ArrowRight /></a>
+              }}>Explore Membership &amp; Improve Your Prime Cost <ArrowRight /></Link>
             </Button>
           </div>
         </div>

@@ -65,6 +65,8 @@ const PageBuilder = ({ slug = "home", fallback }: Props) => {
   }, [status, slug]);
 
   const list = blocks ?? defaults();
+  const showFeatureCalculator = slug === "features/financial-operations" || slug === "features/food-cost-control";
+  const calculatorIndex = list.findIndex((block) => block.type === (slug === "home" ? "pricing" : "pdfList"));
   const activeBlock = useMemo(
     () => list.find((b) => b.id === editingId) ?? null,
     [list, editingId],
@@ -184,11 +186,15 @@ const PageBuilder = ({ slug = "home", fallback }: Props) => {
       <main className={editing ? "pt-14" : undefined}>
         {list.map((block, index) => (
           <div key={block.id}>
-            {slug === "home" && index === list.findIndex((item) => item.type === "pricing") && <PrimeCostCalculator />}
+            {(slug === "home" || showFeatureCalculator) && index === calculatorIndex && (
+              <PrimeCostCalculator pricingHref={slug === "home" ? "#pricing" : "/#pricing"} />
+            )}
             {renderBlock(block, index)}
           </div>
         ))}
-        {slug === "home" && !list.some((block) => block.type === "pricing") && <PrimeCostCalculator />}
+        {(slug === "home" || showFeatureCalculator) && calculatorIndex === -1 && (
+          <PrimeCostCalculator pricingHref={slug === "home" ? "#pricing" : "/#pricing"} />
+        )}
       </main>
 
       {isAdmin && !editing && (
