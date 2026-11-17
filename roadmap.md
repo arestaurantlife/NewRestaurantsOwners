@@ -21,4 +21,4 @@
 # Prime cost calculator
 - [x] Add a homepage calculator before pricing without changing saved content or subscription plans.
 - [x] Include adjustable sales and cost percentages, target-gap estimates, and a pricing link.
-- [ ] Verify calculation rules and desktop/mobile interactions.
+- [x] Verify calculation rules and desktop/mobile interactions.

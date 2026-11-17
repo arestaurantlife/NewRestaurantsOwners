@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { describe, test } from "node:test";
 import { strict as assert } from "node:assert";
 import { calculatePrimeCost, PRIME_COST_DEFAULTS, PRIME_COST_TARGET } from "./primeCost";
