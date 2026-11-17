@@ -66,6 +66,7 @@ export default {
         },
         charcoal: "hsl(var(--charcoal))",
         "warm-gray": "hsl(var(--warm-gray))",
+        success: "hsl(var(--success))",
       },
       borderRadius: {
         lg: "var(--radius)",

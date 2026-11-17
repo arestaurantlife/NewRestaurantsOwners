@@ -11,6 +11,7 @@ import MediaLibraryDialog from "./MediaLibraryDialog";
 import ThemeEditorDialog from "./ThemeEditorDialog";
 import PagesDialog from "./PagesDialog";
 import { Button } from "@/components/ui/button";
+import PrimeCostCalculator from "@/components/PrimeCostCalculator";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -180,7 +181,15 @@ const PageBuilder = ({ slug = "home", fallback }: Props) => {
 
   return (
     <EditorContext.Provider value={{ editing, setProp, setListItemProp }}>
-      <main className={editing ? "pt-14" : undefined}>{list.map(renderBlock)}</main>
+      <main className={editing ? "pt-14" : undefined}>
+        {list.map((block, index) => (
+          <div key={block.id}>
+            {slug === "home" && index === list.findIndex((item) => item.type === "pricing") && <PrimeCostCalculator />}
+            {renderBlock(block, index)}
+          </div>
+        ))}
+        {slug === "home" && !list.some((block) => block.type === "pricing") && <PrimeCostCalculator />}
+      </main>
 
       {isAdmin && !editing && (
         <Button
