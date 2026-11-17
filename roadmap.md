@@ -17,3 +17,8 @@
 - [ ] Review existing offer, traffic, search visibility, and visitor conversion paths
 - [ ] Research the business, competitors, audience needs, and relevant outreach channels
 - [ ] Save evidence-based research and a ranked marketing plan
+
+# Prime cost calculator
+- [x] Add a homepage calculator before pricing without changing saved content or subscription plans.
+- [x] Include adjustable sales and cost percentages, target-gap estimates, and a pricing link.
+- [ ] Verify calculation rules and desktop/mobile interactions.

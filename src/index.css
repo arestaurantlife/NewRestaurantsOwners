@@ -46,6 +46,7 @@
     --gold-light: 40 75% 60%;
     --charcoal: 20 25% 12%;
     --warm-gray: 20 10% 55%;
+    --success: 150 45% 70%;
 
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(350 65% 35%) 0%, hsl(350 70% 25%) 100%);
@@ -87,6 +88,7 @@
     --border: 20 15% 22%;
     --input: 20 15% 22%;
     --ring: 350 60% 50%;
+    --success: 150 45% 70%;
   }
 }
 
