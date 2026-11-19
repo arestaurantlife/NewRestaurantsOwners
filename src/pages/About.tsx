@@ -13,7 +13,7 @@ const pillars = [
   {
     icon: Target,
     title: "Our Mission",
-    body: "To equip restaurant owners, their managers, and independent restaurants and small groups with proven, practical systems for daily operations, financial management, loss prevention, and employee training. We deliver them through an accessible online platform built on decades of real-world leadership in hospitality.",
+    body: "To equip restaurant owners and their managers with practical systems for daily operations, financial management, loss prevention, and employee training. We deliver them through an accessible online platform built on decades of real-world leadership in hospitality.",
   },
   {
     icon: ShieldCheck,
