@@ -18,7 +18,7 @@ const pillars = [
   {
     icon: ShieldCheck,
     title: "Our Purpose",
-    body: "To protect new restaurants through their most vulnerable first year by replacing guesswork with structure. We help owners safeguard their investment, earn the profit their hard work deserves, and build teams that deliver outstanding hospitality.",
+    body: "To support and assist new restaurants through out their most vulnerable first year by replacing guesswork with structure. We help owners safeguard their investment, earn the profit their hard work deserves, and build teams that deliver outstanding hospitality.",
   },
 ];
 
