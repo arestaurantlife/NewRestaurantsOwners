@@ -4,6 +4,7 @@ import heroVideo from "@/assets/hero-restaurant-video.mp4";
 import { merge } from "@/pagebuilder/types";
 import EditableText from "@/components/pagebuilder/EditableText";
 import { useGo } from "@/lib/navigate";
+import LaunchWaitlist from "@/components/LaunchWaitlist";
 
 export const heroDefaults = {
   badge: "A must have by New Restaurants Owners",
@@ -73,6 +74,8 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
               {c.secondaryCta}
             </Button>
           </div>
+
+          <LaunchWaitlist />
 
           {String(c.ratingText ?? "").trim() ? <div className="flex items-center gap-8 mt-10 animate-fade-up" style={{
           animationDelay: "0.5s"

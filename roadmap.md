@@ -18,6 +18,12 @@
 - [ ] Research the business, competitors, audience needs, and relevant outreach channels
 - [ ] Save evidence-based research and a ranked marketing plan
 
+# Launch waiting list
+- [x] Add homepage signup link and accessible form for the December 15, 2026 launch.
+- [x] Display the owner's offer: 30% off the Professional tier for the first month only; leave existing checkout and prices unchanged.
+- [x] Store consented contacts privately and notify the owner; verify a real submission.
+- [ ] Promotional campaign setup awaits a marketing service choice; offer confirmed as 30% off Professional for the first month.
+
 # Prime cost calculator
 - [x] Add a homepage calculator before pricing without changing saved content or subscription plans.
 - [x] Include adjustable sales and cost percentages, target-gap estimates, and a pricing link.

@@ -502,6 +502,36 @@ export type Database = {
         }
         Relationships: []
       }
+      waitlist_submissions: {
+        Row: {
+          consent_text: string
+          created_at: string
+          email: string
+          id: string
+          ip_hash: string
+          marketing_consent: boolean
+          name: string
+        }
+        Insert: {
+          consent_text: string
+          created_at?: string
+          email: string
+          id?: string
+          ip_hash: string
+          marketing_consent: boolean
+          name: string
+        }
+        Update: {
+          consent_text?: string
+          created_at?: string
+          email?: string
+          id?: string
+          ip_hash?: string
+          marketing_consent?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

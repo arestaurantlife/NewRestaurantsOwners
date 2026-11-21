@@ -29,6 +29,13 @@
       "when": 1792917531087,
       "tag": "0003_training_access_codes",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795232871350,
+      "tag": "0004_launch_waitlist",
+      "breakpoints": true
     }
   ]
 }

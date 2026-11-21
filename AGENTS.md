@@ -1,4 +1,5 @@
 # Architecture rules
+- Keep launch waiting-list capture in its own dialog and validated Edge Function with server-only writes, explicit email consent, unique normalized emails, and fixed-recipient owner notifications; promotional campaigns require a dedicated marketing service rather than app emails.
 - Render the shared prime-cost calculator outside saved page blocks: before pricing on the homepage, before the PDF library on Financial Operations and Food Cost pages, or at the end if the anchor block is absent, so owner content is preserved; keep calculations in a pure tested helper and feature-page membership links pointed to /#pricing.
 - Render published rich-text fields through the editor's HTML sanitizer even when they contain no tags, so saved character entities display consistently after publishing.
 - Keep owner-approved legal policies as static app-owned HTML rendered by public `/privacy`, `/terms` and `/refunds` routes; policy copy is not generated from backend capabilities.

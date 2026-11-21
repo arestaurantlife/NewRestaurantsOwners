@@ -2,6 +2,7 @@ import type { ComponentType } from 'npm:react@18.3.1'
 import { template as contactNotification } from './contact-notification.tsx'
 import { template as trialEnding } from './trial-ending.tsx'
 import { template as paymentFailed } from './payment-failed.tsx'
+import { template as waitlistNotification } from './waitlist-notification.tsx'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -16,4 +17,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'contact-notification': contactNotification,
   'trial-ending': trialEnding,
   'payment-failed': paymentFailed,
+  'waitlist-notification': waitlistNotification,
 }
