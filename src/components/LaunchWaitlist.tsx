@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, CalendarDays, CheckCircle2, Loader2, Mail } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Crown, Loader2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,32 +38,41 @@ export default function LaunchWaitlist() {
     finally { setSending(false); }
   };
 
-  const daysLeft = Math.max(0, Math.ceil((new Date("2026-12-15T00:00:00").getTime() - Date.now()) / 86400000));
-
   return <>
     <div id="waitlist" className="mt-8 max-w-2xl animate-fade-up">
-      <button type="button" onClick={() => setOpen(true)} aria-label="Join the launch waiting list for 30% off your first month of Professional" className="group relative w-full text-left flex flex-col sm:flex-row items-stretch rounded-xl border border-gold/40 bg-charcoal/50 backdrop-blur-md shadow-2xl overflow-hidden transition-all duration-300 hover:border-gold hover:-translate-y-0.5 hover:shadow-[0_0_30px_-5px_hsl(var(--gold)/0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
-        <div className="flex items-center gap-3 px-5 py-4 sm:w-56 shrink-0">
-          <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 shrink-0">
-            <span className="absolute inset-0 rounded-full bg-gold/20 animate-ping" />
-            <CalendarDays className="relative w-5 h-5 text-gold" />
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Join the launch waiting list for 30% off your first month of Professional"
+        className="group relative isolate w-full overflow-hidden rounded-2xl border border-gold/40 bg-charcoal/45 p-5 text-left shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-gold/80 hover:shadow-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal sm:p-6"
+      >
+        <span aria-hidden="true" className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-90" />
+        <span aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-br from-gold/10 via-transparent to-wine/20 opacity-80" />
+        <span aria-hidden="true" className="absolute -inset-y-8 -left-1/2 -z-10 w-1/3 rotate-12 bg-gradient-to-r from-transparent via-gold/15 to-transparent blur-md transition-transform duration-1000 ease-out group-hover:translate-x-[450%] group-focus-visible:translate-x-[450%] motion-reduce:transition-none" />
+
+        <span className="flex items-center justify-between gap-4 border-b border-gold/20 pb-4">
+          <span className="flex items-center gap-3">
+            <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-gold/10 shadow-gold">
+              <Crown className="h-4 w-4 text-gold" aria-hidden="true" />
+            </span>
+            <span>
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.24em] text-gold sm:text-[11px]">NRO · Private launch invitation</span>
+              <span className="mt-1 block text-xs text-primary-foreground/60">An exclusive first-month offer</span>
+            </span>
           </span>
-          <div>
-            <p className="text-[11px] uppercase tracking-widest font-semibold text-gold">Dec 15, 2026</p>
-            <p className="text-primary-foreground text-sm mt-0.5">{daysLeft > 0 ? <><span className="font-display text-xl text-gold">{daysLeft}</span> days to launch</> : "Launching now"}</p>
-          </div>
-        </div>
-        <div className="relative hidden sm:block w-px my-3 border-l-2 border-dashed border-gold/40" aria-hidden="true" />
-        <div className="sm:hidden mx-5 border-t-2 border-dashed border-gold/40" aria-hidden="true" />
-        <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-widest font-semibold text-gold">Launching December 15, 2026</p>
-            <p className="text-sm text-primary-foreground/90 mt-1">Join for <span className="font-semibold text-gold">30% off</span> your first month of Professional.</p>
-          </div>
-          <span className="inline-flex items-center justify-center gap-2 rounded-full border border-gold bg-gold/10 px-4 py-2 text-sm font-semibold text-gold whitespace-nowrap transition-colors group-hover:bg-gold group-hover:text-charcoal">
-            Join the waiting list <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <span className="hidden rounded-full border border-gold/30 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:block">15 · 12 · 2026</span>
+        </span>
+
+        <span className="flex flex-col gap-5 pt-5 sm:flex-row sm:items-end sm:justify-between">
+          <span className="max-w-md">
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">Launching December 15, 2026</span>
+            <span className="mt-2 block font-display text-2xl leading-snug text-primary-foreground">Join for <span className="text-gradient-gold">30% off</span> your first month of Professional.</span>
           </span>
-        </div>
+          <span className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-gold/60 bg-gold px-5 py-2.5 text-sm font-semibold text-charcoal shadow-gold transition-all duration-300 group-hover:bg-gold-light group-focus-visible:bg-gold-light">
+            Join the waiting list
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+          </span>
+        </span>
       </button>
     </div>
     <Dialog open={open} onOpenChange={setOpen}>
