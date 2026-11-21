@@ -15,7 +15,7 @@ export const heroDefaults = {
   secondaryCta: "Watch How It Works",
   primaryHref: "#pricing",
   secondaryHref: "#how-it-works",
-  ratingText: "\n",
+  ratingText: "",
   watermark: "UNDER CONSTRUCTION - WEBSITE COMING SOON",
 };
 
@@ -74,7 +74,7 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
             </Button>
           </div>
 
-          {c.ratingText ? <div className="flex items-center gap-8 mt-10 animate-fade-up" style={{
+          {String(c.ratingText ?? "").trim() ? <div className="flex items-center gap-8 mt-10 animate-fade-up" style={{
           animationDelay: "0.5s"
         }}>
             <div className="text-primary-foreground/80">
