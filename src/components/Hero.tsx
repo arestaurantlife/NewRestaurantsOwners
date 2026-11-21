@@ -31,22 +31,26 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40" />
       </div>
 
+      {/* Emblem — top right */}
+      <img
+        src={`https://newrestaurantsowners.com${nroHeroLogo.url}`}
+        alt="New Restaurants Owners — Empowering Restaurateurs"
+        width={112}
+        height={112}
+        decoding="async"
+        className="pointer-events-none absolute top-20 right-3 z-20 h-14 w-14 rounded-full border border-gold/60 bg-cream object-cover shadow-gold animate-fade-up sm:top-24 sm:right-4 sm:h-20 sm:w-20 md:top-28 md:right-8 md:h-28 md:w-28 lg:right-12"
+        style={{
+          animationDelay: "0.15s"
+        }}
+      />
+
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl">
-          <div className="flex flex-col items-start gap-4 mb-6 animate-fade-up sm:flex-row sm:items-center sm:gap-5" style={{
+          <div className="flex flex-wrap gap-3 mb-6 pr-16 animate-fade-up sm:pr-0" style={{
             animationDelay: "0.1s"
           }}>
-            <img
-              src={`https://newrestaurantsowners.com${nroHeroLogo.url}`}
-              alt="New Restaurants Owners — Empowering Restaurateurs"
-              width={112}
-              height={112}
-              decoding="async"
-              className="h-24 w-24 shrink-0 rounded-full border border-gold/60 bg-cream object-cover shadow-gold md:h-28 md:w-28"
-            />
-            <div className="flex flex-wrap gap-3">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
                 <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
                 <EditableText field="badge" value={c.badge} plain className="text-gold text-sm font-medium" />
               </div>
@@ -56,7 +60,6 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
                 </div>
               ) : null}
             </div>
-          </div>
 
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{
           animationDelay: "0.2s"
