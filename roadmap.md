@@ -29,3 +29,8 @@
 - [x] Include adjustable sales and cost percentages, target-gap estimates, and a pricing link.
 - [x] Verify calculation rules and desktop/mobile interactions.
 - [x] Add and verify the shared calculator on Financial Operations and Food Cost & Bar Cost Control, with a working homepage pricing link.
+
+# Prelaunch claim corrections
+- [x] Replace signup caption and the two specified FAQ answers verbatim.
+- [x] Remove supplier ratings, unsupported counts and their editor fields; checked all saved supplier blocks, which contain no rating values or counts to clear.
+- [x] Verify the homepage and signup screen without touching hero, pricing, checkout or scenarios.

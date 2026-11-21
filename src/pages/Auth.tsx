@@ -180,7 +180,7 @@ const Auth = () => {
             <CardDescription>
               {isLogin
                 ? "Sign in to access your restaurant resources"
-                : "Join thousands of successful restaurant owners"}
+                : "Systems, training and tools for new restaurant owners."}
             </CardDescription>
           </CardHeader>
           <CardContent>

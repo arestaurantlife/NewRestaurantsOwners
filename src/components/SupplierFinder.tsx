@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Search, Truck, Package, Building, Phone, Star, ChevronRight } from "lucide-react";
+import { MapPin, Search, Truck, Package, Building, Phone, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { merge } from "@/pagebuilder/types";
@@ -15,41 +15,32 @@ export const supplierFinderDefaults = {
   searchPlaceholder: "Enter your zip code",
   searchButton: "Search",
   categories: [
-    { name: "Food Distributors", count: "2,400+" },
-    { name: "Kitchen Equipment", count: "850+" },
-    { name: "Furniture & Décor", count: "620+" },
-    { name: "POS Systems", count: "180+" },
+    { name: "Food Distributors" },
+    { name: "Kitchen Equipment" },
+    { name: "Furniture & Décor" },
+    { name: "POS Systems" },
   ],
   featuredHeading: "Featured National Suppliers",
   suppliers: [
     {
       name: "Sysco Corporation",
       category: "Food Distributor",
-      rating: "4.8",
       description: "Full-service food distribution with nationwide coverage",
     },
     {
       name: "WebstaurantStore",
       category: "Equipment & Supplies",
-      rating: "4.7",
       description: "Online restaurant equipment and supplies retailer",
     },
     {
       name: "US Foods",
       category: "Food Distributor",
-      rating: "4.6",
       description: "Comprehensive foodservice distribution network",
     },
   ],
   browseAll: "Browse All Suppliers",
   browseAllHref: "/contact",
   showSearch: "no",
-  stat1Value: "4,000+",
-  stat1Label: "Verified Suppliers",
-  stat2Value: "50",
-  stat2Label: "States Covered",
-  stat3Value: "15+",
-  stat3Label: "Product Categories",
 };
 
 const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
@@ -109,7 +100,6 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
                       </div>
                       <div>
                         <h4 className="font-semibold text-charcoal text-sm">{category.name}</h4>
-                        <p className="text-xs text-charcoal/50">{category.count} suppliers</p>
                       </div>
                     </div>
                   </div>
@@ -139,10 +129,6 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
                       <h4 className="font-semibold text-charcoal">{supplier.name}</h4>
                       <p className="text-xs text-charcoal/50">{supplier.category}</p>
                     </div>
-                    <div className="flex items-center gap-1 text-gold">
-                      <Star className="w-4 h-4 fill-current" />
-                      <span className="text-sm font-medium">{supplier.rating}</span>
-                    </div>
                   </div>
                   <p className="text-sm text-charcoal/70 mb-3">{supplier.description}</p>
                   <div className="flex items-center text-wine text-sm font-medium group-hover:translate-x-1 transition-transform">
@@ -163,21 +149,6 @@ const SupplierFinder = ({ content }: { content?: Record<string, unknown> }) => {
           </div>
         </div>
 
-        {/* Bottom Info */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8 text-center">
-          <div>
-            <div className="text-4xl font-display font-bold text-wine mb-2">{c.stat1Value}</div>
-            <p className="text-charcoal/70">{c.stat1Label}</p>
-          </div>
-          <div>
-            <div className="text-4xl font-display font-bold text-wine mb-2">{c.stat2Value}</div>
-            <p className="text-charcoal/70">{c.stat2Label}</p>
-          </div>
-          <div>
-            <div className="text-4xl font-display font-bold text-wine mb-2">{c.stat3Value}</div>
-            <p className="text-charcoal/70">{c.stat3Label}</p>
-          </div>
-        </div>
       </div>
     </section>
   );

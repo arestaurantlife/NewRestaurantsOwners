@@ -21,12 +21,12 @@ export const faqDefaults = {
     {
       question: "Can I cancel my subscription at any time?",
       answer:
-        "Yes, you can cancel your subscription at any time with no penalties or hidden fees. You'll continue to have access until the end of your current billing period. Plus, we offer a 14-day money-back guarantee.",
+        "Yes, you can cancel your subscription at any time with no penalties or hidden fees. You'll continue to have access until the end of your current billing period. If you're new to NRO, your first paid month is covered by a 14-day guarantee — conditions apply, and the details are in our Refund Policy.",
     },
     {
       question: "How quickly will I see results?",
       answer:
-        "Most members start seeing improvements within the first 2-4 weeks. Whether it's reduced food waste, better labor scheduling, or improved financial clarity—the impact is often immediate when you implement our proven systems.",
+        "That depends on your restaurant and which systems you put in place first. The calculators, forms and templates are built to use immediately — you can run your first prime cost review the week you join. We don't promise specific results. What we give you is the structure to measure and improve them.",
     },
     {
       question: "Do you offer support if I get stuck?",
