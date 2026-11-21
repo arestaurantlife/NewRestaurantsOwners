@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import heroVideo from "@/assets/hero-restaurant-video.mp4";
+import nroHeroLogo from "@/assets/nro-hero-logo.png.asset.json";
 import { merge } from "@/pagebuilder/types";
 import EditableText from "@/components/pagebuilder/EditableText";
 import { useGo } from "@/lib/navigate";
@@ -33,18 +34,28 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl">
-          <div className="flex flex-wrap gap-3 mb-6 animate-fade-up" style={{
+          <div className="flex flex-col items-start gap-4 mb-6 animate-fade-up sm:flex-row sm:items-center sm:gap-5" style={{
             animationDelay: "0.1s"
           }}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
-              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              <EditableText field="badge" value={c.badge} plain className="text-gold text-sm font-medium" />
-            </div>
-            {c.watermark ? (
+            <img
+              src={`https://newrestaurantsowners.com${nroHeroLogo.url}`}
+              alt="New Restaurants Owners — Empowering Restaurateurs"
+              width={112}
+              height={112}
+              decoding="async"
+              className="h-24 w-24 shrink-0 rounded-full border border-gold/60 bg-cream object-cover shadow-gold md:h-28 md:w-28"
+            />
+            <div className="flex flex-wrap gap-3">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
-              <EditableText field="watermark" value={c.watermark} plain className="text-gold text-sm font-medium animate-flash-gold-black" />
+                <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+                <EditableText field="badge" value={c.badge} plain className="text-gold text-sm font-medium" />
               </div>
-            ) : null}
+              {c.watermark ? (
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 border border-gold/30">
+                <EditableText field="watermark" value={c.watermark} plain className="text-gold text-sm font-medium animate-flash-gold-black" />
+                </div>
+              ) : null}
+            </div>
           </div>
 
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{
