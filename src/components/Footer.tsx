@@ -18,7 +18,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
               <span className="font-display text-2xl font-bold text-primary-foreground">NewRestaurantsOwners.com</span>
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-sm">
-              Empowering new restaurant owners and new managers with the tools, training, knowledge and community they need to build profitable businesses.
+              Empowering new restaurants owners and new managers with the tools, training, knowledge and community they need to build profitable businesses.
             </p>
             <div className="space-y-3">
               <a href={`mailto:${SITE.email}`} className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
