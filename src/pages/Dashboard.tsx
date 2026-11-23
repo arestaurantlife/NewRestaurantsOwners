@@ -147,6 +147,9 @@ const Dashboard = () => {
               <Button variant="outline" size="sm" asChild>
                 <Link to="/admin/refund-check">Refund check</Link>
               </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/waitlist">Waiting list</Link>
+              </Button>
             </div>
           )}
         </div>
