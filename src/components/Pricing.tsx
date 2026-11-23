@@ -65,11 +65,29 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
     }
     setLoadingPlan(tierKey);
     try {
+      // Existing members change plans in Stripe's billing page, never a second checkout.
+      if (subscription.subscribed) {
+        const { data: portal, error: portalError } = await supabase.functions.invoke("customer-portal", {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
+        if (portalError || !portal?.url) throw new Error("Couldn't open billing to change your plan. Please try again.");
+        toast.info("You already have a plan — change it on the billing page that just opened.");
+        const w = window.open(portal.url, "_blank");
+        if (!w || w.closed) window.location.href = portal.url;
+        return;
+      }
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { priceId: PRICING_TIERS[tierKey].price_id, acceptedTerms: true },
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
-      if (error) throw error;
+      if (error) {
+        let message = "Failed to start checkout";
+        try {
+          const body = await (error as { context?: Response }).context?.json();
+          if (body?.error) message = body.error;
+        } catch { /* keep default */ }
+        throw new Error(message);
+      }
       if (data?.url) {
         const newWindow = window.open(data.url, "_blank");
         if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
