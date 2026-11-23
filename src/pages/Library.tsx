@@ -1,3 +1,4 @@
+import { functionErrorMessage } from "@/lib/functionError";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -85,7 +86,7 @@ const EbookCard = ({ book, cover, isAdmin, onEdit, onUploaded }: { book: Ebook; 
     setBusy("buy");
     const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { id: book.id, acceptedTerms: true } });
     setBusy("");
-    if (error || !data?.url) return toast({ title: data?.error ?? "Couldn't start checkout", variant: "destructive" });
+    if (error || !data?.url) return toast({ title: data?.error ?? (await functionErrorMessage(error, "Couldn't start checkout")), variant: "destructive" });
     openUrl(data.url);
   };
 
@@ -247,7 +248,7 @@ const Library = () => {
     setBundleBusy(true);
     const { data, error } = await supabase.functions.invoke("ebook-checkout", { body: { bundle: true, acceptedTerms: true } });
     setBundleBusy(false);
-    if (error || !data?.url) return toast({ title: data?.error ?? "Couldn't start checkout", variant: "destructive" });
+    if (error || !data?.url) return toast({ title: data?.error ?? (await functionErrorMessage(error, "Couldn't start checkout")), variant: "destructive" });
     openUrl(data.url);
   };
 

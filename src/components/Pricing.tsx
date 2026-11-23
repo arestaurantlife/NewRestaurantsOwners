@@ -1,3 +1,4 @@
+import { functionErrorMessage } from "@/lib/functionError";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, Loader2 } from "lucide-react";
@@ -81,12 +82,7 @@ const Pricing = ({ content }: { content?: Record<string, unknown> }) => {
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
       if (error) {
-        let message = "Failed to start checkout";
-        try {
-          const body = await (error as { context?: Response }).context?.json();
-          if (body?.error) message = body.error;
-        } catch { /* keep default */ }
-        throw new Error(message);
+        throw new Error(await functionErrorMessage(error, "Failed to start checkout"));
       }
       if (data?.url) {
         const newWindow = window.open(data.url, "_blank");
