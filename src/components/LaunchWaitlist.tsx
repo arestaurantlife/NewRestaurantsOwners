@@ -60,7 +60,7 @@ export default function LaunchWaitlist() {
               <span className="mt-1 block text-xs text-primary-foreground/60">An exclusive first-month offer</span>
             </span>
           </span>
-          <span className="hidden rounded-full border border-gold/30 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:block">15 · 12 · 2026</span>
+          <span className="hidden rounded-full border border-gold/30 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:block">12 · 15 · 2026</span>
         </span>
 
         <span className="flex flex-col gap-5 pt-5 sm:flex-row sm:items-end sm:justify-between">
