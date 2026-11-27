@@ -66,7 +66,16 @@ const PageBuilder = ({ slug = "home", fallback }: Props) => {
 
   const list = blocks ?? defaults();
   const showFeatureCalculator = slug === "features/financial-operations" || slug === "features/food-cost-control";
-  const calculatorIndex = list.findIndex((block) => block.type === (slug === "home" ? "pricing" : "pdfList"));
+  // On the home page the calculator sits right after the features ("Success Toolkit")
+  // section, i.e. just before "See It In Action". Fall back to before pricing, then to the end.
+  const HOME_CALCULATOR_ANCHORS = ["howItWorks", "pricing"];
+  const calculatorIndex =
+    slug === "home"
+      ? HOME_CALCULATOR_ANCHORS.reduce(
+          (found, type) => (found !== -1 ? found : list.findIndex((block) => block.type === type)),
+          -1,
+        )
+      : list.findIndex((block) => block.type === "pdfList");
   const activeBlock = useMemo(
     () => list.find((b) => b.id === editingId) ?? null,
     [list, editingId],
