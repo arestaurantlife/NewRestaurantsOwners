@@ -217,3 +217,12 @@
 .privacy-policy table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 0.875rem; line-height: 1.6; }
 .privacy-policy th, .privacy-policy td { border: 1px solid hsl(var(--border)); padding: 0.85rem; text-align: left; vertical-align: top; }
 .privacy-policy th { background: hsl(var(--secondary)); color: hsl(var(--foreground)); font-weight: 600; }
+
+/* Hero emblem: slow 3D spin, readable on both sides, pauses on hover */
+.nro-emblem { perspective: 600px; }
+.nro-emblem-spinner { transform-style: preserve-3d; animation: nro-emblem-spin 12s linear infinite; }
+.nro-emblem:hover .nro-emblem-spinner { animation-play-state: paused; }
+.nro-emblem-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.nro-emblem-back { transform: rotateY(180deg); }
+@keyframes nro-emblem-spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+@media (prefers-reduced-motion: reduce) { .nro-emblem-spinner { animation: none; } }

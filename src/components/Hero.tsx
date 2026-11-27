@@ -32,17 +32,30 @@ const Hero = ({ content }: { content?: Record<string, unknown> }) => {
       </div>
 
       {/* Emblem — top right */}
-      <img
-        src={`https://newrestaurantsowners.com${nroHeroLogo.url}`}
-        alt="New Restaurants Owners — Empowering Restaurateurs"
-        width={112}
-        height={112}
-        decoding="async"
-        className="pointer-events-none absolute top-20 right-3 z-20 h-14 w-14 rounded-full border border-gold/60 bg-cream object-cover shadow-gold animate-fade-up sm:top-24 sm:right-4 sm:h-20 sm:w-20 md:top-28 md:right-8 md:h-28 md:w-28 lg:right-12"
-        style={{
-          animationDelay: "0.15s"
-        }}
-      />
+      <div
+        className="nro-emblem absolute top-20 right-3 z-20 h-14 w-14 animate-fade-up sm:top-24 sm:right-4 sm:h-20 sm:w-20 md:top-28 md:right-8 md:h-28 md:w-28 lg:right-12"
+        style={{ animationDelay: "0.15s" }}
+      >
+        <div className="nro-emblem-spinner relative h-full w-full">
+          <img
+            src={`https://newrestaurantsowners.com${nroHeroLogo.url}`}
+            alt="New Restaurants Owners — Empowering Restaurateurs"
+            width={112}
+            height={112}
+            decoding="async"
+            className="nro-emblem-face absolute inset-0 h-full w-full rounded-full border border-gold/60 bg-cream object-cover shadow-gold"
+          />
+          <img
+            src={`https://newrestaurantsowners.com${nroHeroLogo.url}`}
+            alt=""
+            aria-hidden="true"
+            width={112}
+            height={112}
+            decoding="async"
+            className="nro-emblem-face nro-emblem-back absolute inset-0 h-full w-full rounded-full border border-gold/60 bg-cream object-cover shadow-gold"
+          />
+        </div>
+      </div>
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
