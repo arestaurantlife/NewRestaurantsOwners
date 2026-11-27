@@ -104,9 +104,9 @@ const PrimeCostCalculator = ({ pricingHref = "#pricing" }: { pricingHref?: strin
             <CostControl id="monthly-sales" label="Monthly sales" value={values.sales} onChange={update("sales")}
               min={0} max={250000} step={1000} unit="$" hint="Net sales, excluding sales tax. Amounts above $250,000 can be entered." />
             <CostControl id="food-bar-percent" label="Food & bar cost" value={values.food} onChange={update("food")}
-              min={22} max={45} step={0.1} unit="%" hint="Food and beverage cost as a percentage of net sales." />
+              min={18} max={45} step={0.1} unit="%" hint="Food and beverage cost as a percentage of net sales." />
             <CostControl id="labor-percent" label="Total labor cost" value={values.labor} onChange={update("labor")}
-              min={22} max={45} step={0.1} unit="%" hint="Include wages, payroll taxes, and benefits." />
+              min={18} max={45} step={0.1} unit="%" hint="Include wages, payroll taxes, and benefits." />
           </div>
           <div className="flex flex-col bg-charcoal p-5 text-primary-foreground sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-3">
